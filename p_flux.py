@@ -4,14 +4,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
+
+
+csvfile = 'out_flux.csv'
+pngfile = 'out_flux.png'
+avgfile = 'avg_flux.csv'
+
+
+
 na_values = ['             NaN', '****************']
+df = pd.read_csv(csvfile, index_col=['time'], na_values=na_values)
 
-df = pd.read_csv('out_flux.csv', index_col=['time'], na_values=na_values)
 
-df.describe().to_csv('out_flux_describe.csv')
 
 plt.figure(figsize=(14, 9))
-
 a = 0
 
 for name in df.columns:
@@ -35,4 +41,9 @@ for name in df.columns:
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
 #plt.show()
-plt.savefig('out_flux.png', bbox_inches='tight')
+plt.savefig(pngfile, bbox_inches='tight')
+
+
+
+mean = df[-365:].mean()
+mean.to_csv(avgfile)

@@ -5,22 +5,17 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 
-# files
 
 csvfile = 'out_circulations.csv'
-
 pngfile = 'out_circulations.png'
+avgfile = 'avg_circulations.csv'
 
-desfile = 'out_circulations_describe.csv'
 
-
-# main
 
 na_values = ['             NaN', '****************']
-
 df = pd.read_csv(csvfile, index_col=['time'], na_values=na_values)
 
-df.describe().to_csv(desfile)
+
 
 plt.figure(figsize=(20, 15))
 
@@ -48,3 +43,8 @@ for name in df.columns:
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
 #plt.show()
 plt.savefig(pngfile, bbox_inches='tight')
+
+
+
+mean = df[-365:].mean()
+mean.to_csv(avgfile)

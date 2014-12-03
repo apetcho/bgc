@@ -4,12 +4,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
-na_values = ['             NaN', '****************']
 
-df = pd.read_csv('out.csv', index_col=['time', 'z'], na_values=na_values)
+
+csvfile = 'out.csv'
+pngfile = 'out_time.png'
+
+
+
+na_values = ['             NaN', '****************']
+df = pd.read_csv(csvfile, index_col=['time', 'z'], na_values=na_values)
+
+
 
 plt.figure(figsize=(14, 9))
-
 a = 0
 
 for name in df.columns:
@@ -34,4 +41,4 @@ for name in df.columns:
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
 #plt.show()
-plt.savefig('out_time.png', bbox_inches='tight')
+plt.savefig(pngfile, bbox_inches='tight')
