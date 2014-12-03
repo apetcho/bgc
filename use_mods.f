@@ -47,7 +47,7 @@
 !
 !  Set bgc tracer identification indices.
 !
-      integer, parameter :: NBGCPW = 9         ! Bgc variables
+      integer, parameter :: NBGCPW = 11        ! Bgc variables !Nchange9-11!
       integer, parameter :: NBGCSM = 11        ! Bgc variables
       integer, parameter :: NBGCF = 9          ! Bgc variables
 !
@@ -60,6 +60,8 @@
       integer, parameter :: iwMn_ = 7          ! Mn in pore water 
       integer, parameter :: iwFe_ = 8          ! Fe in pore water 
       integer, parameter :: iwCH4 = 9          ! CH4 in pore water
+      integer, parameter :: iwDOMf = 10        ! DOMfast in pore water !Nchange
+      integer, parameter :: iwDOMs = 11        ! DOMslow in pore water !Nchange
 !
       integer, parameter :: iPOMf = 1          ! Perticle Organic Mater fast
       integer, parameter :: iPOMs = 2          ! Perticle Organic Mater slow

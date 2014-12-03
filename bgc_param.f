@@ -23,12 +23,14 @@
       real(8), parameter :: bwMn  = 0.0d0     ! (F)(A)
       real(8), parameter :: bwFe  = 0.0d0     ! (F)(A)
       real(8), parameter :: bwCH4 = 0.0d0     ! (F)(A)
+      real(8), parameter :: bwDOMf= 300.0d0   !    (A)
+      real(8), parameter :: bwDOMs= 0.0d0     !    (A)
 !
 !  Porosity (nondimensional)
 !
-      real(8), parameter :: a_poro = 0.763d0  ! (F)0.763 (A)0.69
-      real(8), parameter :: b_poro = 0.086d0  ! (F)0.086 (A)0.21
-      real(8), parameter :: c_poro = 0.216d0  ! (F)0.216 (A)0.088
+      real(8), parameter :: a_poro = 0.69d0  ! (F)0.763 (A)0.69
+      real(8), parameter :: b_poro = 0.21d0  ! (F)0.086 (A)0.21
+      real(8), parameter :: c_poro = 0.088d0  ! (F)0.216 (A)0.088
 !
 !  Density (g cm-3)
 !
@@ -102,18 +104,19 @@
 !
 !  Ratios
 !
-      real(8), parameter :: ratio_n  = 0.08d0  ! FOMn/FOMtotal   (F)0.08 (A)0.2
-      real(8), parameter :: ratio_f  = 0.42d0  ! FOMf/FOMtotal   (F)0.42 (A)0.4
-      real(8), parameter :: ratio_FA = 1.0d0  ! FFeOOHA/FFeOOHB         (A)0.5
-      real(8), parameter :: ratio_MA = 1.0d0  ! FMnO2A/FMnO2B           (A)0.5
+      real(8), parameter :: ratio_n  = 0.2d0  ! FOMn/FOMtotal   (F)0.08 (A)0.2
+      real(8), parameter :: ratio_f  = 0.4d0  ! FOMf/FOMtotal   (F)0.42 (A)0.4
+      real(8), parameter :: ratio_FA = 0.5d0  ! FFeOOHA/FFeOOHB         (A)0.5
+      real(8), parameter :: ratio_MA = 0.5d0  ! FMnO2A/FMnO2B           (A)0.5
       real(8), parameter :: ratio_CN = 8.0d0  ! molC/molN of OM (F)10   (A)8
       real(8), parameter :: ratio_CP = 70.0d0 ! molC/molP of OM (F)80   (A)70
+      real(8), parameter :: ratio_DOMf = 0.75d0 ! molFast/molTotal      (A)0.75 !Nchange
 !
 !  External fluxes ((F)(W)nmol/cm2s, (A)mmol/m2day*1.0d6/(m2cm*m2cm*day2s))
 !
-      real(8), parameter :: FMnO2  = 3.5d-5  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
-      real(8), parameter :: FFeOOH = 2.05d-4 ! (F)2.05d-4 (W)3.2d-6 (A)1.8
-      real(8), parameter :: FPOM   = 1.0d-3  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
+      real(8), parameter :: FMnO2  = 2.0d-2*1.0d6/(m2cm*m2cm*day2s)  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
+      real(8), parameter :: FFeOOH = 1.8d-1*1.0d6/(m2cm*m2cm*day2s) ! (F)2.05d-4 (W)3.2d-6 (A)1.8
+      real(8), parameter :: FPOM   = 22.5d0*1.0d6/(m2cm*m2cm*day2s)  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
 !
 !  Limiting concentrations (uM, nmol g-1)
 !
@@ -124,29 +127,29 @@
 !
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 !
-      real(8), parameter :: KDOMf = 1.0d-3 ! s-1                  (A)1.0d-3
-      real(8), parameter :: KDOMs = 5.0d-9 ! s-1                  (A)5.0d-9
-      real(8), parameter :: KOMf = 9.6d-6  ! s-1       (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      real(8), parameter :: KOMs = 1.2d-8  ! s-1       (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
-      real(8), parameter :: K07  = 2.5d-7  ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
-      real(8), parameter :: K22  = 5.0d-14 ! s-1       (F)5.0d-11 (A)5.0d-14
-      real(8), parameter :: K14  = 1.7d-9  ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
-      real(8), parameter :: K08  = 1.5d-5  ! uM-1 s-1  (F)(A)1.5d-5  
-      real(8), parameter :: K16  = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
-      real(8), parameter :: K17  = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
-      real(8), parameter :: K09  = 5.0d-4  ! uM-1 s-1  (F)(A)5.0d-4  
-      real(8), parameter :: K15  = 3.0d-9  ! uM-1 s-1  (F)(A)3.0d-9
-      real(8), parameter :: K19  = 3.75d-5 ! uM-1 s-1  (F)7.5d-7  (A)3.75d-5
-      real(8), parameter :: K21  = 3.0d-10 ! cm3/nmols (F)3.0d-12 (A)3.0d-10
-      real(8), parameter :: K20  = 7.5d-12 ! s-1       (F)2.5d-11 (A)7.5d-12
-      real(8), parameter :: K10  = 5.0d-5  ! uM-1 s-1  (F)(A)5.0d-5
-      real(8), parameter :: K11  = 6.0d-7  ! uM-1 s-1  (F)(A)6.0d-7
-      real(8), parameter :: K12  = 3.0d-10 ! uM-1 s-1  (F)1.6d-8  (B)(A)3.0d-10
-      real(8), parameter :: K23  = 7.0d-7  ! s-1       (F)(A)7.0d-7
-      real(8), parameter :: K24  = 1.3d-9  ! s-1       (F)(A)1.3d-9
-      real(8), parameter :: K25  = 9.0d-10 ! s-1       (F)(A)9.0d-10
-     !real(8), parameter :: K13  = 3.2d-4  ! uM-1 s-1  (W)3.2d-4
-     !real(8), parameter :: K18  = 3.2d-10 ! uM-1 s-1  (W)3.2d-10
+      real(8), parameter :: KPOMf = 1.0d-3 ! s-1                  (A)1.0d-3
+      real(8), parameter :: KPOMs = 5.0d-9 ! s-1                  (A)5.0d-9
+      real(8), parameter :: KDOMf = 2.5d-6  ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
+      real(8), parameter :: KDOMs = 1.2d-10 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
+      real(8), parameter :: K06  = 2.5d-7  ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
+      real(8), parameter :: K07  = 5.0d-14 ! s-1       (F)5.0d-11 (A)5.0d-14
+      real(8), parameter :: K08  = 1.7d-9  ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
+      real(8), parameter :: K09  = 1.5d-5  ! uM-1 s-1  (F)(A)1.5d-5  
+      real(8), parameter :: K10  = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
+      real(8), parameter :: K25  = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
+      real(8), parameter :: K11  = 5.0d-4  ! uM-1 s-1  (F)(A)5.0d-4  
+      real(8), parameter :: K12  = 3.0d-9  ! uM-1 s-1  (F)(A)3.0d-9
+      real(8), parameter :: K13  = 3.75d-5 ! uM-1 s-1  (F)7.5d-7  (A)3.75d-5
+      real(8), parameter :: K14  = 3.0d-10 ! cm3/nmols (F)3.0d-12 (A)3.0d-10
+      real(8), parameter :: K15  = 7.5d-12 ! s-1       (F)2.5d-11 (A)7.5d-12
+      real(8), parameter :: K16  = 5.0d-5  ! uM-1 s-1  (F)(A)5.0d-5
+      real(8), parameter :: K17  = 6.0d-7  ! uM-1 s-1  (F)(A)6.0d-7
+      real(8), parameter :: K18  = 3.0d-10 ! uM-1 s-1  (F)1.6d-8  (B)(A)3.0d-10
+      real(8), parameter :: K19  = 7.0d-7  ! s-1       (F)(A)7.0d-7
+      real(8), parameter :: K20  = 1.3d-9  ! s-1       (F)(A)1.3d-9
+      real(8), parameter :: K21  = 9.0d-10 ! s-1       (F)(A)9.0d-10
+     !real(8), parameter :: K22  = 3.2d-4  ! uM-1 s-1  (W)3.2d-4
+     !real(8), parameter :: K23  = 3.2d-10 ! uM-1 s-1  (W)3.2d-10
 !
 !  Inhibiting concentration (uM)
 !

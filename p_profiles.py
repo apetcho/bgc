@@ -22,7 +22,7 @@ for name in df.columns[1:]:
         break
 
     a+=1
-    ax = plt.subplot(2, 10, a)
+    ax = plt.subplot(2, 11, a)
 
     for t in range(0,tmax+1,tmax/5):
         plt.plot(df[name][t], -df.z[0],
@@ -39,8 +39,8 @@ for name in df.columns[1:]:
     if not name in ['temp', 'POMs']:
        plt.tick_params(labelleft='off')
 
-    if name == 'POMf':
+    if name == 'DOMs':
     	plt.legend(loc=3)
 
-plt.show()
-#plt.savefig('bgc_out_profiles.png', bbox_inches='tight')
+#plt.show()
+plt.savefig('bgc_out_profiles.png', bbox_inches='tight')

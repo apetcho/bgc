@@ -24,7 +24,7 @@ for name in df.columns:
         break
 
     a += 1
-    ax = plt.subplot(5, 4, a)
+    ax = plt.subplot(5, 5, a)
 
     v = df[name]
 
@@ -34,5 +34,5 @@ for name in df.columns:
     plt.title(name)
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
-plt.show()
-#plt.savefig('out_flux_time.png', bbox_inches='tight')
+#plt.show()
+plt.savefig('out_flux_time.png', bbox_inches='tight')
