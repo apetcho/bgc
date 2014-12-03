@@ -8,7 +8,7 @@ na_values = ['             NaN', '****************']
 
 df = pd.read_csv('out_flux.csv', index_col=['time'], na_values=na_values)
 
-df.describe().to_csv('flux_describe.csv')
+df.describe().to_csv('out_flux_describe.csv')
 
 plt.figure(figsize=(14, 9))
 
@@ -35,4 +35,4 @@ for name in df.columns:
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
 #plt.show()
-plt.savefig('out_flux_time.png', bbox_inches='tight')
+plt.savefig('out_flux.png', bbox_inches='tight')

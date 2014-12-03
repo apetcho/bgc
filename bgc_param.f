@@ -112,11 +112,11 @@
       real(8), parameter :: ratio_CP = 70.0d0 ! molC/molP of OM (F)80   (A)70
       real(8), parameter :: ratio_DOMf = 0.75d0 ! molFast/molTotal      (A)0.75 !Nchange
 !
-!  External fluxes ((F)(W)nmol/cm2s, (A)mmol/m2day*1.0d6/(m2cm*m2cm*day2s))
+!  External fluxes ((F)(W)nmol/cm2/s, (A)mmol/m2/day)
 !
-      real(8), parameter :: FMnO2  = 2.0d-2*1.0d6/(m2cm*m2cm*day2s)  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
-      real(8), parameter :: FFeOOH = 1.8d-1*1.0d6/(m2cm*m2cm*day2s) ! (F)2.05d-4 (W)3.2d-6 (A)1.8
-      real(8), parameter :: FPOM   = 22.5d0*1.0d6/(m2cm*m2cm*day2s)  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
+      real(8), parameter :: FMnO2  = 2.0d-2  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
+      real(8), parameter :: FFeOOH = 1.8d-1  ! (F)2.05d-4 (W)3.2d-6 (A)1.8
+      real(8), parameter :: FPOM   = 22.5d0  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
 !
 !  Limiting concentrations (uM, nmol g-1)
 !

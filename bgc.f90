@@ -292,6 +292,12 @@
           END DO
         END DO
 !
+        DO i=Istr,Iend
+          DO itrc=1,NBGCPW
+            pw(i,0,itrc)=bw(i,itrc)/poro(0)
+          END DO
+        END DO
+!
 !-----------------------------------------------------------------------
 !  Diffusion parameters (cm2 s-1)
 !-----------------------------------------------------------------------
@@ -433,8 +439,10 @@
 !           smflux(i,k,iPOMf)=FPOM*ratio_f
 !           smflux(i,k,iPOMs)=FPOM*(1.0d0-ratio_n-ratio_f)
 !           smflux(i,k,iPOMn)=FPOM*ratio_n
-
-!  - sediment flux (cm/s * nmol/cm3) (Okada)
+!
+!  - sediment flux (nmol/cm2/s = cm/s * nmol/cm3) (Okada)
+!
+!         m/day -> cm/s
 !
           cff=m2cm/day2s*1.05d0**(tsm(i,1)-20.0d0)
           cff1=cff*wLDet*Bio_bottom(i,iLDeC)
@@ -442,12 +450,15 @@
           smflux(i,k,iPOMf)=(cff1+cff2)*ratio_f
           smflux(i,k,iPOMs)=(cff1+cff2)*(1.0d0-ratio_n-ratio_f)
           smflux(i,k,iPOMn)=(cff1+cff2)*ratio_n
-
-          smflux(i,k,iFeOA)=FFeOOH*ratio_FA
-          smflux(i,k,iFeOB)=FFeOOH*(1.0d0-ratio_FA)
+!
+!         mmol/m2/day -> nmol/cm2/s
+!         
+          cff=1.0d6/(m2cm*m2cm*day2s)
+          smflux(i,k,iFeOA)=cff*FFeOOH*ratio_FA
+          smflux(i,k,iFeOB)=cff*FFeOOH*(1.0d0-ratio_FA)
           smflux(i,k,iFeOP)=0.0d0
-          smflux(i,k,iMnOA)=FMnO2*ratio_MA
-          smflux(i,k,iMnOB)=FMnO2*(1.0d0-ratio_MA)
+          smflux(i,k,iMnOA)=cff*FMnO2*ratio_MA
+          smflux(i,k,iMnOB)=cff*FMnO2*(1.0d0-ratio_MA)
           smflux(i,k,iS0__)=0.0d0
           smflux(i,k,iFeS_)=0.0d0
           smflux(i,k,iFes2)=0.0d0
@@ -535,13 +546,9 @@
      &                   Thomas_d,                                      &
      &                   pw)
 
-            cff=(pw(i,0,itrc)-bw(i,itrc))*dz(i,0)
+            cff=(poro(0)*pw(i,0,itrc)-bw(i,itrc))*dz(i,0)/dtBgc
             pwflux(i,0,itrc)=pwflux(i,0,itrc)+cff
 
-          END DO
-!
-          DO itrc=1,NBGCPW
-            pw(i,0,itrc)=bw(i,itrc)
           END DO
 !
 !  Sediment Mud

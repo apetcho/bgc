@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 
 na_values = ['             NaN', '****************']
 
-df = pd.read_csv('bgc_out.csv', index_col=['time'], na_values=na_values)
+df = pd.read_csv('out.csv', index_col=['time'], na_values=na_values)
 
 tmax = int(max(df.index)/150)*150
 
@@ -43,4 +43,4 @@ for name in df.columns[1:]:
     	plt.legend(loc=3)
 
 #plt.show()
-plt.savefig('bgc_out_profiles.png', bbox_inches='tight')
+plt.savefig('out_profiles.png', bbox_inches='tight')

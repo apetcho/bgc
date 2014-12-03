@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 
 na_values = ['             NaN', '****************']
 
-df = pd.read_csv('bgc_out.csv', index_col=['time', 'z'], na_values=na_values)
+df = pd.read_csv('out.csv', index_col=['time', 'z'], na_values=na_values)
 
 plt.figure(figsize=(14, 9))
 
@@ -34,4 +34,4 @@ for name in df.columns:
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
 #plt.show()
-plt.savefig('bgc_out_time.png', bbox_inches='tight')
+plt.savefig('out_time.png', bbox_inches='tight')

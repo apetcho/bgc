@@ -22,8 +22,8 @@
 !
 !  USE mod_biology
 !
-      integer, parameter :: wLDet = 1.0d0      ! m/s
-      integer, parameter :: wSDet = 0.1d0      ! m/s
+      integer, parameter :: wLDet = 1.0d0      ! m/day
+      integer, parameter :: wSDet = 0.1d0      ! m/day
 !
 !  Set biological tracer identification indices.
 !
