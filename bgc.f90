@@ -728,7 +728,7 @@
 !
             cff1=(1.0d0-poro(k))*dens
 !
-!  - Re-oxydations using O2
+!  - Re-oxydations of 
 !
            !R(6)=K06*poro(k)*pw(i,k,iwNH4)*pw(i,k,iwO2_)/(pw(i,k,iwO2_)+Ksnit) ! Wijsman
             R(6)=K06*poro(k)*pw(i,k,iwNH4)*pw(i,k,iwO2_) ! Fossing
@@ -738,6 +738,27 @@
             
             F(i,19)=F(i,19)-dz(i,k)*R(6)          !NH4
             F(i,20)=F(i,20)-dz(i,k)*R(6)*2.0d0    !O2
+            
+           !R(7)=K07*cff1*(sm(i,k,iFeOA)+sm(i,k,iFeOB))*pw(i,k,iwPO4) ! (B)
+            R(7)=K07*cff1*sm(i,k,iFeOA)*pw(i,k,iwPO4) ! (A)
+            Rsm(iFeOA)=Rsm(iFeOA)-R(7)
+            Rpw(iwPO4)=Rpw(iwPO4)-R(7)
+            Rsm(iFeOP)=Rsm(iFeOP)+R(7)
+            
+            F(i,21)=F(i,21)-dz(i,k)*R(7)         !FeOA
+            F(i,22)=F(i,22)-dz(i,k)*R(7)         !PO4
+!
+!  - Re-oxydations using MnO2
+!
+           !R(8)=K08*cff1*pw(i,k,iwFe_)*(sm(i,k,iMnOA)+sm(i,k,iMnOB)) ! (B)
+            R(8)=K08*cff1*pw(i,k,iwFe_)*sm(i,k,iMnOA) ! (A)
+            Rpw(iwFe_)=Rpw(iwFe_)-R(8)*2.0d0
+            Rsm(iMnOA)=Rsm(iMnOA)-R(8)
+            Rpw(iwMn_)=Rpw(iwMn_)+R(8)
+            Rsm(iFeOA)=Rsm(iFeOA)-R(8)*2.0d0
+            
+            F(i,23)=F(i,23)-dz(i,k)*R(8)*2.0d0    !Fe
+            F(i,24)=F(i,24)-dz(i,k)*R(8)          !MnOA
 
             R(9)=K09*poro(k)*pw(i,k,iwMn_)*pw(i,k,iwO2_)
             Rpw(iwMn_)=Rpw(iwMn_)-R(9)
@@ -746,7 +767,29 @@
             
             F(i,25)=F(i,25)-dz(i,k)*R(9)          !Mn
             F(i,26)=F(i,26)-dz(i,k)*R(9)*0.5d0    !O2
-
+!
+!  - Re-oxydations using FeOOH (A,B,=PO4)
+!
+           !R(10)=K10*cff1*pw(i,k,iwH2S)*(sm(i,k,iFeOA)+sm(i,k,iFeOB)) ! (B)
+            R(10)=K10*cff1*pw(i,k,iwH2S)*sm(i,k,iFeOA) ! (A)
+            Rpw(iwH2S)=Rpw(iwH2S)-R(10)
+            Rsm(iFeOA)=Rsm(iFeOA)-R(10)*2.0d0
+            Rpw(iwFe_)=Rpw(iwFe_)+R(10)*2.0d0
+            Rsm(iS0__)=Rsm(iS0__)+R(10)
+            
+            F(i,27)=F(i,27)-dz(i,k)*R(10)         !H2S
+            F(i,28)=F(i,28)-dz(i,k)*R(10)*2.0d0   !FeOA
+            
+            R(25)=K25*cff1*pw(i,k,iwH2S)*sm(i,k,iFeOP)
+            Rpw(iwH2S)=Rpw(iwH2S)-R(25)
+            Rsm(iFeOP)=Rsm(iFeOP)-R(25)*2.0d0
+            Rpw(iwFe_)=Rpw(iwFe_)+R(25)*2.0d0
+            Rsm(iS0__)=Rsm(iS0__)+R(25)
+            Rpw(iwPO4)=Rpw(iwPO4)+R(25)*2.0d0
+            
+            F(i,29)=F(i,29)-dz(i,k)*R(25)         !H2S
+            F(i,30)=F(i,30)-dz(i,k)*R(25)*2.0d0   !FeOP
+            
            !R(11)=K11*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwO2_)*OH**2.0d0 !Wijsman
             R(11)=K11*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwO2_) !Fossing
             Rpw(iwFe_)=Rpw(iwFe_)-R(11)
@@ -755,7 +798,46 @@
             
             F(i,31)=F(i,31)-dz(i,k)*R(11)          !Fe
             F(i,32)=F(i,32)-dz(i,k)*R(11)*0.25d0   !O2
-
+            
+           !R(12)=K12*cff1*pw(i,k,iwH2S)*(sm(i,k,iMnOA)+sm(i,k,iMnOB)) ! (B)
+            R(12)=K12*cff1*pw(i,k,iwH2S)*sm(i,k,iMnOA) ! (A)
+            Rpw(iwH2S)=Rpw(iwH2S)-R(12)
+            Rsm(iMnOA)=Rsm(iMnOA)-R(12)
+            Rpw(iwMn_)=Rpw(iwMn_)+R(12)
+            Rsm(iS0__)=Rsm(iS0__)+R(12)
+            
+            F(i,33)=F(i,33)-dz(i,k)*R(12)         !H2S
+            F(i,34)=F(i,34)-dz(i,k)*R(12)         !MnOA
+            
+           !R(13)=K13*poro(k)*pw(i,k,iwFe_)*HS/H1/KsFeS-1.0d0 ! (W)
+            R(13)=K13*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwH2S) ! (F)(A)
+            Rpw(iwFe_)=Rpw(iwFe_)-R(13)
+            Rpw(iwH2S)=Rpw(iwH2S)-R(13)
+            Rsm(iFeS_)=Rsm(iFeS_)+R(13)
+            
+            F(i,35)=F(i,35)-dz(i,k)*R(13)         !Fe 
+            F(i,36)=F(i,36)-dz(i,k)*R(13)         !H2S
+            
+            R(14)=K14*cff1*sm(i,k,iFeS_)*sm(i,k,iS0__)
+            Rsm(iFeS_)=Rsm(iFeS_)-R(14)
+            Rsm(iS0__)=Rsm(iS0__)-R(14)
+            Rsm(iFeS2)=Rsm(iFeS2)+R(14)
+            
+            F(i,37)=F(i,37)-dz(i,k)*R(14)         !FeS
+            F(i,38)=F(i,38)-dz(i,k)*R(14)         !S0  
+            
+            R(15)=K15*cff1*sm(i,k,iFeS_)*pw(i,k,iwH2S)*pw(i,k,iwSO4)
+            Rsm(iFeS_)=Rsm(iFeS_)-R(15)*4.0d0
+            Rpw(iwH2S)=Rpw(iwH2S)-R(15)*3.0d0
+            Rpw(iwSO4)=Rpw(iwSO4)-R(15)
+            Rsm(iFeS2)=Rsm(iFeS2)+R(15)*4.0d0
+            
+            F(i,39)=F(i,39)-dz(i,k)*R(15)*4.0d0   !FeS
+            F(i,40)=F(i,40)-dz(i,k)*R(15)*3.0d0   !H2S
+            F(i,41)=F(i,41)-dz(i,k)*R(15)         !SO4
+!
+!  S + O2 -> SO4
+!
             R(16)=K16*poro(k)*pw(i,k,iwH2S)*pw(i,k,iwO2_)
             Rpw(iwH2S)=Rpw(iwH2S)-R(16)
             Rpw(iwO2_)=Rpw(iwO2_)-R(16)*2.0d0
@@ -780,97 +862,7 @@
             Rpw(iwSO4)=Rpw(iwSO4)+R(18)*2.0d0
             
             F(i,46)=F(i,46)-dz(i,k)*R(18)         !FeS2
-            F(i,47)=F(i,47)-dz(i,k)*R(18)*3.5d0   !O2  
-!
-!  - Re-oxydations using MnO2 (A&B)
-!
-           !R(8)=K08*cff1*pw(i,k,iwFe_)*(sm(i,k,iMnOA)+sm(i,k,iMnOB)) ! (B)
-            R(8)=K08*cff1*pw(i,k,iwFe_)*sm(i,k,iMnOA) ! (A)
-            Rpw(iwFe_)=Rpw(iwFe_)-R(8)*2.0d0
-            Rsm(iMnOA)=Rsm(iMnOA)-R(8)
-            Rpw(iwMn_)=Rpw(iwMn_)+R(8)
-            Rsm(iFeOA)=Rsm(iFeOA)-R(8)*2.0d0
-            
-            F(i,23)=F(i,23)-dz(i,k)*R(8)*2.0d0    !Fe
-            F(i,24)=F(i,24)-dz(i,k)*R(8)          !MnOA
-
-           !R(12)=K12*cff1*pw(i,k,iwH2S)*(sm(i,k,iMnOA)+sm(i,k,iMnOB)) ! (B)
-            R(12)=K12*cff1*pw(i,k,iwH2S)*sm(i,k,iMnOA) ! (A)
-            Rpw(iwH2S)=Rpw(iwH2S)-R(12)
-            Rsm(iMnOA)=Rsm(iMnOA)-R(12)
-            Rpw(iwMn_)=Rpw(iwMn_)+R(12)
-            Rsm(iS0__)=Rsm(iS0__)+R(12)
-            
-            F(i,33)=F(i,33)-dz(i,k)*R(12)         !H2S
-            F(i,34)=F(i,34)-dz(i,k)*R(12)         !MnOA
-!
-!  - Re-oxydations using FeOOH (A,B,=PO4)
-!
-           !R(10)=K10*cff1*pw(i,k,iwH2S)*(sm(i,k,iFeOA)+sm(i,k,iFeOB)) ! (B)
-            R(10)=K10*cff1*pw(i,k,iwH2S)*sm(i,k,iFeOA) ! (A)
-            Rpw(iwH2S)=Rpw(iwH2S)-R(10)
-            Rsm(iFeOA)=Rsm(iFeOA)-R(10)*2.0d0
-            Rpw(iwFe_)=Rpw(iwFe_)+R(10)*2.0d0
-            Rsm(iS0__)=Rsm(iS0__)+R(10)
-            
-            F(i,27)=F(i,27)-dz(i,k)*R(10)         !H2S
-            F(i,28)=F(i,28)-dz(i,k)*R(10)*2.0d0   !FeOA
-
-            R(25)=K25*cff1*pw(i,k,iwH2S)*sm(i,k,iFeOP)
-            Rpw(iwH2S)=Rpw(iwH2S)-R(25)
-            Rsm(iFeOP)=Rsm(iFeOP)-R(25)*2.0d0
-            Rpw(iwFe_)=Rpw(iwFe_)+R(25)*2.0d0
-            Rsm(iS0__)=Rsm(iS0__)+R(25)
-            Rpw(iwPO4)=Rpw(iwPO4)+R(25)*2.0d0
-            
-            F(i,29)=F(i,29)-dz(i,k)*R(25)         !H2S
-            F(i,30)=F(i,30)-dz(i,k)*R(25)*2.0d0   !FeOP
-!
-!  - Re-oxydations using SO4
-!
-           !R(23)=K23*poro(k)*pw(i,k,iwCH4)*pw(i,k,iwSO4)
-!
-!  - Settlings
-!
-           !R(13)=K13*poro(k)*pw(i,k,iwFe_)*HS/H1/KsFeS-1.0d0 ! (W)
-            R(13)=K13*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwH2S) ! (F)(A)
-            Rpw(iwFe_)=Rpw(iwFe_)-R(13)
-            Rpw(iwH2S)=Rpw(iwH2S)-R(13)
-            Rsm(iFeS_)=Rsm(iFeS_)+R(13)
-            
-            F(i,35)=F(i,35)-dz(i,k)*R(13)         !Fe 
-            F(i,36)=F(i,36)-dz(i,k)*R(13)         !H2S
-
-            R(15)=K15*cff1*sm(i,k,iFeS_)*pw(i,k,iwH2S)*pw(i,k,iwSO4)
-            Rsm(iFeS_)=Rsm(iFeS_)-R(15)*4.0d0
-            Rpw(iwH2S)=Rpw(iwH2S)-R(15)*3.0d0
-            Rpw(iwSO4)=Rpw(iwSO4)-R(15)
-            Rsm(iFeS2)=Rsm(iFeS2)+R(15)*4.0d0
-            
-            F(i,39)=F(i,39)-dz(i,k)*R(15)*4.0d0   !FeS
-            F(i,40)=F(i,40)-dz(i,k)*R(15)*3.0d0   !H2S
-            F(i,41)=F(i,41)-dz(i,k)*R(15)         !SO4
-
-            R(14)=K14*cff1*sm(i,k,iFeS_)*sm(i,k,iS0__)
-            Rsm(iFeS_)=Rsm(iFeS_)-R(14)
-            Rsm(iS0__)=Rsm(iS0__)-R(14)
-            Rsm(iFeS2)=Rsm(iFeS2)+R(14)
-            
-            F(i,37)=F(i,37)-dz(i,k)*R(14)         !FeS
-            F(i,38)=F(i,38)-dz(i,k)*R(14)         !S0  
-
-!
-!  - Other reactions
-!
-           !R(7)=K07*cff1*(sm(i,k,iFeOA)+sm(i,k,iFeOB))*pw(i,k,iwPO4) ! (B)
-            R(7)=K07*cff1*sm(i,k,iFeOA)*pw(i,k,iwPO4) ! (A)
-            Rsm(iFeOA)=Rsm(iFeOA)-R(7)
-            Rpw(iwPO4)=Rpw(iwPO4)-R(7)
-            Rsm(iFeOP)=Rsm(iFeOP)+R(7)
-            
-            F(i,21)=F(i,21)-dz(i,k)*R(7)         !FeOA
-            F(i,22)=F(i,22)-dz(i,k)*R(7)         !PO4
-            
+            F(i,47)=F(i,47)-dz(i,k)*R(18)*3.5d0   !O2
             
             R(19)=K19*cff1*sm(i,k,iS0__)
             IF (pw(i,k,iwH2S).lt.H2Sstop) THEN
@@ -883,7 +875,9 @@
             Rpw(iwSO4)=Rpw(iwSO4)+R(19)
             
             F(i,48)=F(i,48)-dz(i,k)*R(19)*4.0d0   !S0 
-
+!
+!  A to B
+!
             R(20)=K20*cff1*sm(i,k,iMnOA)
             Rsm(iMnOA)=Rsm(iMnOA)-R(20)
             Rsm(iMnOB)=Rsm(iMnOB)+R(20)
@@ -895,6 +889,10 @@
             Rsm(iFeOB)=Rsm(iFeOB)+R(21)
             
             F(i,50)=F(i,50)-dz(i,k)*R(21)         !FeOA
+!
+!  - Re-oxydations using SO4
+!
+           !R(23)=K23*poro(k)*pw(i,k,iwCH4)*pw(i,k,iwSO4)         
 !
 !  Add reaction
 !
