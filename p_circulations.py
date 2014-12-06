@@ -41,10 +41,11 @@ for name in df.columns:
     plt.title(name[:3])
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
-#plt.show()
 plt.savefig(pngfile, bbox_inches='tight')
 
 
 
-mean = df[-365:].mean()
+last = df[len(df)-364:]
+
+mean = last.mean()
 mean.to_csv(avgfile)
