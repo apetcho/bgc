@@ -4,7 +4,7 @@
 !------------------------------------------------------------------------------
 !
         i=1
-        IF (mod(dtBgc*Iter,5.0d0*86400.0d0).eq.0.0d0) THEN
+        IF (mod(dtBgc*Iter,86400.0d0).eq.0.0d0) THEN
           cff=dtBgc*Iter/86400.0d0
           WRITE(*,'(i7,9a8)') int(cff),'daysDOMf','DOMs','MnO2','FeOOH',&
      &                        'SO4','Mn','Fe','NH4','PO4'
@@ -25,7 +25,7 @@
 !
           WRITE(*,*) ('-',iter2=1,78)
 !
-          DO k=1,50 !Nbed
+          DO k=1,Nbed
             WRITE (*,1001) depth(i,k),                                  &
      &                  pw(i,k,iwDOMf),                                 &
      &                  pw(i,k,iwDOMs),                                 &

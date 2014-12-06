@@ -1,7 +1,5 @@
       DO i=Istr,Iend
 
-        Hz(i,j,1)=100.0d0 ! cm
-
         omn(i,j)=50000.0d0**2.0d0 ! cm2
 
         Bio_bottom(i,iOxyg)=6.0d0/32.0d0*1000.0d0  ! mgO2/l to uMO2

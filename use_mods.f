@@ -18,7 +18,7 @@
 !
       integer, parameter :: N    = 20
       integer, parameter :: NBT  = 17
-      integer, parameter :: Nbed = 60
+      integer, parameter :: Nbed = 40
 !
 !  USE mod_biology
 !

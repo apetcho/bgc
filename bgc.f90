@@ -182,13 +182,12 @@
 !
 !  Bed thickness (cm)
 !
-        dz(i,0)=Hz(i,j,1)
+        dz(i,0)=DBL
         DO k=1,Nbed
-          dz(i,k)=real(k,8)/100.0d0 !change 10-100
+          dz(i,k)=real(k,8)/50.0d0 !change 10-100
         END DO
 !
-        dzd(i,0)=dz(i,1)
-        DO k=1,Nbed-1
+        DO k=0,Nbed-1
           dzd(i,k)=0.5d0*(dz(i,k)+dz(i,k+1))
         END DO
         dzd(i,Nbed)=dz(i,Nbed)
@@ -320,8 +319,8 @@
             Diff(i,k,iwO2_)=cff1*(D0O2 +aO2*T +bO2*(T**2.0d0))
             Diff(i,k,iwH2S)=cff1*(D0H2S+aH2S*T+bH2S*(T**2.0d0))
             Diff(i,k,iwPO4)=cff1*(D0PO4+aPO4*T)
-            Diff(i,k,iwDOMf)=cff1*(D0DOM+aDOM*T)        !Nchange
-            Diff(i,k,iwDOMs)=cff1*(D0DOM+aDOM*T)        !Nchange
+            Diff(i,k,iwDOMf)=cff1*(D0DOM+aDOM*T)/10.0d0     !Nchange
+            Diff(i,k,iwDOMs)=cff1*(D0DOM+aDOM*T)/1000.0d0   !Nchange
 !
 !  - Wijsman
 !
@@ -546,7 +545,7 @@
      &                   Thomas_d,                                      &
      &                   pw)
 
-            cff=(poro(0)*pw(i,0,itrc)-bw(i,itrc))*dz(i,0)/dtBgc
+            cff=(poro(0)*pw(i,0,itrc)-bw(i,itrc))*dzd(i,0)/dtBgc
             pwflux(i,0,itrc)=pwflux(i,0,itrc)+cff
 
           END DO

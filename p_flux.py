@@ -35,7 +35,7 @@ for name in df.columns:
     v = df[name]
 
     time = v.index.tolist()
-    plt.plot([t/365 for t in time], v.tolist())
+    plt.plot([t/360 for t in time], v.tolist())
 
     plt.title(name)
 
@@ -44,7 +44,7 @@ plt.savefig(pngfile, bbox_inches='tight')
 
 
 
-last = df[len(df)-364:]
+last = df[len(df)-360:]
 
 mean = last.mean()
 mean.to_csv(avgfile)
