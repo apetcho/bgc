@@ -127,10 +127,10 @@
 !
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 !
-      real(8), parameter :: KPOMf = 1.0d-3 ! s-1                  (A)1.0d-3
-      real(8), parameter :: KPOMs = 5.0d-9 ! s-1                  (A)5.0d-9
-      real(8), parameter :: KDOMf = 2.5d-6  ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      real(8), parameter :: KDOMs = 1.2d-10 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
+      real(8), parameter :: KDOMf = 1.0d-3 ! s-1                  (A)1.0d-3
+      real(8), parameter :: KDOMs = 5.0d-9 ! s-1                  (A)5.0d-9
+      real(8), parameter :: KPOMf = 2.5d-6  ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
+      real(8), parameter :: KPOMs = 1.2d-10 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
       real(8), parameter :: K06  = 2.5d-7  ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
       real(8), parameter :: K07  = 5.0d-14 ! s-1       (F)5.0d-11 (A)5.0d-14
       real(8), parameter :: K08  = 1.7d-9  ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9

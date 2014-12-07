@@ -401,8 +401,9 @@
 !
           DO k=1,Nbed
             cff1=bw(i,iwO2_)*32.0d0/1000.0d0
-            cff2=11.5d0*0.748d0**cff1*1.02d0**(tsm(i,k)-20.0d0)
-            Kads(i,k,iwPO4)=poro(k)/(1.0d0-poro(k))/cff2
+            cff2=11.5d0*0.748d0**cff1
+            cff3=cff2*1.02d0**(tsm(i,k)-20.0d0)
+            Kads(i,k,iwPO4)=poro(k)/(1.0d0-poro(k))/cff3
           END DO
 !
           DO itrc=1,NBGCPW
@@ -545,7 +546,7 @@
      &                   Thomas_d,                                      &
      &                   pw)
 
-            cff=(poro(0)*pw(i,0,itrc)-bw(i,itrc))*dzd(i,0)/dtBgc
+            cff=(bw(i,itrc)-poro(0)*pw(i,0,itrc))*dz(i,0)/dtBgc
             pwflux(i,0,itrc)=pwflux(i,0,itrc)+cff
 
           END DO
@@ -718,7 +719,7 @@
             
             F(i,7)=F(i,7)-dz(i,k)*R(1)          !O2
             F(i,8)=F(i,8)-dz(i,k)*R(1)          !dom
-            F(i,9)=F(i,9)-dz(i,k)*R(2)*4.0d0    !NO3
+            F(i,9)=F(i,9)-dz(i,k)*R(2)*0.8d0    !NO3
             F(i,10)=F(i,10)-dz(i,k)*R(2)        !dom
             F(i,11)=F(i,11)-dz(i,k)*R(3)*2.0d0  !MnO2
             F(i,12)=F(i,12)-dz(i,k)*R(3)        !dom
