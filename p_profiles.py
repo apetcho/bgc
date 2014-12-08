@@ -15,7 +15,9 @@ na_values = ['             NaN', '****************']
 
 df = pd.read_csv(csvfile, index_col=['time'], na_values=na_values)
 
-tmax = int(max(df.index)/150)*150
+tmax = int(max(df.index)/30)*30
+#tmax = int(max(df.index))
+print tmax, tmax-360
 
 plt.figure(figsize=(16, 8))
 
@@ -31,17 +33,17 @@ for name in df.columns[1:]:
     a+=1
     ax = plt.subplot(2, 11, a)
 
-    for t in range(0,tmax+1,tmax/5):
+    for t in range(tmax-360,tmax+1,60):
         plt.plot(df[name][t], -df.z[0],
-                 label='{}year'.format(t/365),
-                 c=cm.jet(float(t)/tmax,1))
+                 label='{}days'.format(t-tmax+360),
+                 c=cm.jet(float(t-tmax+360)/360,1))
 
-    vmax = df[name].max()
+    vmax = df[name][tmax-360:].max()
 
     plt.title(name)
     plt.xticks([vmax])
     plt.xlim(-0.1*vmax, 1.1*vmax)
-    plt.ylim(-23, 1.5)
+    plt.ylim(-11, 1)
 
     if not name in ['temp', 'POMs']:
        plt.tick_params(labelleft='off')
