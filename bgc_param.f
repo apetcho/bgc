@@ -10,7 +10,7 @@
 !  Number of iterations
 !
       integer, parameter :: BgcIter = 1
-      real(8), parameter :: ndays   = 30.0d0*360.0d0
+      real(8), parameter :: ndays   = 150.0d0*360.0d0
 !
 !------------------------------------------------------------------------
 !  (F) Fossing et al.(2004) 

@@ -15,8 +15,8 @@
           WRITE(*,1000) 'depth',                                        &
      &                  pw(i,0,iwDOMf),                                 &
      &                  pw(i,0,iwDOMs),                                 &
-     &                  bgcsm(i,j,1,iMnOA)+bgcsm(i,j,1,iMnOB),          &
-     &                  bgcsm(i,j,1,iFeOA)+bgcsm(i,j,1,iFeOB)+bgcsm(i,j,1,iFeOP), &
+     &                  bsm(i,j,1,iMnOA)+bsm(i,j,1,iMnOB),          &
+     &                  bsm(i,j,1,iFeOA)+bsm(i,j,1,iFeOB)+bsm(i,j,1,iFeOP), &
      &                  pw(i,0,iwSO4),                                  &
      &                  pw(i,0,iwMn_),                                  &
      &                  pw(i,0,iwFe_),                                  &
