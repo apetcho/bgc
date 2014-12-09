@@ -275,8 +275,15 @@
           bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
         END DO
 !
-!  (stand-alone) reset smflux
+!  (stand-alone) reset flux
 !
+        DO itrc=1,NBGCPW
+          DO k=0,Nbed
+            DO i=Istr,Iend
+              pwflux(i,k,itrc)=0.0d0
+            END DO
+          END DO
+        END DO
         DO itrc=1,NBGCSM
           DO k=0,Nbed
             DO i=Istr,Iend
