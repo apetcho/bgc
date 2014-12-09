@@ -170,6 +170,8 @@
 !
       include 'bgc_initialize.f'
 !
+      include 'bgc_restart.f'
+!
 !  Delta time
 !
       dtBgc=dtdays*86400.0d0/REAL(BgcIter,8)
