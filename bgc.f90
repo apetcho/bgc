@@ -812,7 +812,7 @@
             Rpw(iwH2S)=Rpw(iwH2S)-R(13)
             Rsm(iFeS_)=Rsm(iFeS_)+R(13)
             
-            F(i,35)=F(i,35)+dz(i,k)*R(13)         !Fe 
+            F(i,35)=F(i,35)+dz(i,k)*R(13)         !Fe
             F(i,36)=F(i,36)+dz(i,k)*R(13)         !H2S
             
             R(14)=K14*cff1*sm(i,k,iFeS_)*sm(i,k,iS0__)
@@ -821,7 +821,7 @@
             Rsm(iFeS2)=Rsm(iFeS2)+R(14)
             
             F(i,37)=F(i,37)+dz(i,k)*R(14)         !FeS
-            F(i,38)=F(i,38)+dz(i,k)*R(14)         !S0  
+            F(i,38)=F(i,38)+dz(i,k)*R(14)         !S0
             
             R(15)=K15*cff1*sm(i,k,iFeS_)*pw(i,k,iwH2S)*pw(i,k,iwSO4)
             Rsm(iFeS_)=Rsm(iFeS_)-R(15)*4.0d0
@@ -850,7 +850,7 @@
             Rpw(iwSO4)=Rpw(iwSO4)+R(17)
             
             F(i,44)=F(i,44)+dz(i,k)*R(17)         !FeS
-            F(i,45)=F(i,45)+dz(i,k)*R(17)*2.0d0   !O2  
+            F(i,45)=F(i,45)+dz(i,k)*R(17)*2.0d0   !O2
 
             R(18)=K18*cff1*sm(i,k,iFeS2)*pw(i,k,iwO2_)
             Rsm(iFeS2)=Rsm(iFeS2)-R(18)
@@ -871,7 +871,7 @@
             Rpw(iwH2S)=Rpw(iwH2S)+R(19)*3.0d0
             Rpw(iwSO4)=Rpw(iwSO4)+R(19)
             
-            F(i,48)=F(i,48)+dz(i,k)*R(19)*4.0d0   !S0 
+            F(i,48)=F(i,48)+dz(i,k)*R(19)*4.0d0   !S0
 !
 !  A to B
 !
