@@ -59,13 +59,13 @@
       integer, intent(in) :: Istr, Iend, j
       real(8), intent(in) :: dtdays
 # ifdef ASSUMED_SHAPE
-      real(8), intent(inout) :: Bio_bottom(IminS:,:)
+      real(8), intent(in) :: Bio_bottom(IminS:,:)
       real(8), intent(inout) :: bpw(LBi:,LBj:,:,:)
       real(8), intent(inout) :: bsm(LBi:,LBj:,:,:)
       real(8), intent(inout) :: bpwflux(LBi:,LBj:,:)
       real(8), intent(inout) :: bsmflux(LBi:,LBj:,:)
 # else
-      real(8), intent(inout) :: Bio_bottom(IminS:ImaxS,UBt)
+      real(8), intent(in) :: Bio_bottom(IminS:ImaxS,UBt)
       real(8), intent(inout) :: bpw(LBi:UBi,LBj:UBj,Nbed,NBGCPW)
       real(8), intent(inout) :: bsm(LBi:UBi,LBj:UBj,Nbed,NBGCSM)
       real(8), intent(inout) :: bpwflux(LBi:UBi,LBj:UBj,NBGCPW)
@@ -192,9 +192,9 @@
         END DO
         dzd(i,Nbed)=dz(i,Nbed)
 
-        depth(i,1)=dz(i,1)
+        depth(i,1)=dz(i,1)*0.5d0
         DO k=2,Nbed
-          depth(i,k)=depth(i,k-1)+dz(i,k)
+          depth(i,k)=depth(i,k-1)+dzd(i,k-1)
         END DO
 !
 !  porosity (nondimensional)
@@ -204,8 +204,11 @@
           poro(k)=a_poro+b_poro*10.0d0**(-c_poro*depth(i,k))
         END DO
 !
-        CALL delta(i, 0, Nbed, dz, dzd,                                 &
-     &             poro(1), poro(Nbed), poro, porod)
+        DO k=0,Nbed-1
+          porod(k)=(poro(k)*dz(i,k+1)+                                &
+     &              poro(k+1)*dz(i,k) )*0.5d0/dzd(i,k)
+        END DO
+        porod(Nbed)=poro(Nbed)
 !
 !  Burial rate (cm year-1 to cm s-1)
 !
@@ -214,8 +217,12 @@
           wsm(i,k)=wsm(i,k)/year2s
         END DO
 !
-        CALL delta(i, 0, Nbed, dz, dzd,                                 &
-     &             wsm(i,1), wsm(i,Nbed), wsm(i,:), wsmd(i,:))
+        DO k=1,Nbed-1
+          wsmd(i,k)=(wsm(i,k)*dz(i,k+1)+                                &
+     &               wsm(i,k+1)*dz(i,k) )*0.5d0/dzd(i,k)
+        END DO
+        wsmd(i,0)   =wsm(i,1)
+        wsmd(i,Nbed)=wsm(i,Nbed)
 !
 !  import water colomn tracer's consentrations (mmol m-3)
 !
@@ -244,6 +251,7 @@
             sm(i,k,itrc)=bsm(i,j,k,itrc) ! nmol g-1
           END DO
         END DO
+
 #ifndef STANDALONE
 !
 !  bed temperature (Celius)
@@ -296,11 +304,7 @@
         DO itrc=1,NBGCSM
           DO k=0,Nbed
             DO i=Istr,Iend
-#ifdef STANDALONE
               smflux(i,k,itrc)=0.0d0
-#else
-              smflux(i,k,itrc)=bsmflux(i,j,itrc)
-#endif
             END DO
           END DO
         END DO
@@ -337,9 +341,12 @@
           END DO
 !
           DO itrc=1,NBGCPW
-            CALL delta(i, 0, Nbed, dz, dzd,                             &
-     &                 Diff(i,1,itrc), 0.0d0,                           &
-     &                 Diff(i,:,itrc), Diffd(i,:,itrc))
+            DO k=1,Nbed-1
+              Diffd(i,k,itrc)=(Diff(i,k,itrc)*dz(i,k+1)+                &
+     &                         Diff(i,k+1,itrc)*dz(i,k))*0.5d0/dzd(i,k)
+            END DO
+            Diffd(i,0,itrc)   =Diff(i,1,itrc)
+            Diffd(i,Nbed,itrc)=0.0d0
           END DO
 !
 !  Biodiffusivity of solutes (cm2 s-1)
@@ -366,9 +373,12 @@
             DBw(i,k)=0.0d0 !*!
           END DO
 !
-          CALL delta(i, 0, Nbed, dz, dzd,                               &
-     &               DBw(i,1), 0.0d0,                                   &
-     &               DBw(i,:), DBwd(i,:))
+          DO k=1,Nbed-1
+            DBwd(i,k)=(DBw(i,k)*dz(i,k+1)+                              &
+     &                 DBw(i,k+1)*dz(i,k) )*0.5d0/dzd(i,k)
+          END DO
+          DBwd(i,0)   =DBw(i,1)
+          DBwd(i,Nbed)=0.0d0
 !
 !  Biodiffusivity of solids (cm2 s-1)
 !
@@ -395,7 +405,7 @@
             Kads(i,k,iwFe_)=KdFe*cff2
             Kads(i,k,iwMn_)=KdMn*cff2
             Kads(i,k,iwNH4)=KdNH4*cff2
-!            Kads(i,k,iwPO4)=KdPO4*cff2
+            Kads(i,k,iwPO4)=KdPO4*cff2
             Kads(i,k,iwSO4)=0.0d0
             Kads(i,k,iwDOMs)=0.0d0                 !Nchange
             Kads(i,k,iwDOMf)=0.0d0                 !Nchange   
@@ -407,13 +417,15 @@
             cff1=bw(i,iwO2_)*32.0d0/1000.0d0
             cff2=11.5d0*0.748d0**cff1
             cff3=cff2*1.02d0**(tsm(i,k)-20.0d0)
-            Kads(i,k,iwPO4)=poro(k)/(1.0d0-poro(k))/cff3
+            !Kads(i,k,iwPO4)=poro(k)/(1.0d0-poro(k))/cff3
           END DO
 !
           DO itrc=1,NBGCPW
-            CALL delta(i, 0, Nbed, dz, dzd,                                   &
-     &                 Kads(i,1,itrc), Kads(i,Nbed,itrc),                     &
-     &                 Kads(i,:,itrc), Kadsd(i,:,itrc))
+            DO k=0,Nbed-1
+              Kadsd(i,k,itrc)=(Kads(i,k,itrc)*dz(i,k+1)+                &
+     &                         Kads(i,k+1,itrc)*dz(i,k))*0.5d0/dzd(i,k)
+            END DO
+            Kadsd(i,Nbed,itrc)=Kads(i,Nbed,itrc)
           END DO
 !
         END DO DIFF_LOOP
@@ -425,8 +437,6 @@
         FLUX_LOOP : DO i=Istr,Iend
 !
 !  External (surface) fluxes (cm2 s-1 * nmol cm-3 / cm = nmol cm-2 s-1)
-!
-          k=0
 !
 !  - pore water including  interaction pelagic and benthic quality
 !
@@ -523,7 +533,6 @@
 !  Pore Water
 !
           DO itrc=1,NBGCPW
-
             Thomas_a(0)=0.0d0
             DO k=1,Nbed
               fac=poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc)
@@ -533,7 +542,7 @@
               cff3=dens*(1.0d0-porod(k-1))*DBsd(i,k-1)*Kadsd(i,k-1,itrc)
               Thomas_a(k)=cff*(cff1+cff3)/dzd(i,k-1)
             END DO
-
+!
             Thomas_c(Nbed)=0.0d0
             DO k=0,Nbed-1
               fac=poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc)
@@ -543,7 +552,7 @@
               cff4=dens*(1.0d0-porod(k))*DBsd(i,k)*Kadsd(i,k,itrc)
               Thomas_c(k)=cff*(cff2+cff4)/dzd(i,k)
             END DO
-
+!
             DO k=0,Nbed
               fac=poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc)
               Thomas_b(k)=1.0d0+Thomas_a(k)+Thomas_c(k)
@@ -551,7 +560,7 @@
     !&                    irrigation(i,k,itrc)*dtBgc/fac
     !&                    (pwflux(i,k,itrc)+irrigation(i,k,itrc))*dtBgc/fac
             END DO
-
+!
             CALL Thomas (IminS, ImaxS, 0, Nbed, NBGCPW, i, itrc,        &
      &                   Thomas_a,                                      &
      &                   Thomas_b,                                      &
@@ -563,13 +572,11 @@
 !
             cff=(bw(i,itrc)-poro(0)*pw(i,0,itrc))*dz(i,0)/dtBgc
             pwflux(i,0,itrc)=pwflux(i,0,itrc)+cff
-
           END DO
 !
 !  Sediment Mud
 !
           DO itrc=1,NBGCSM
-
             Thomas_a(1)=0.0d0
             DO k=2,Nbed
               fac=dens*(1.0d0-poro(k))
@@ -577,7 +584,7 @@
               cff3=dens*(1.0d0-porod(k-1))*DBsd(i,k-1)
               Thomas_a(k)=cff*cff3/dzd(i,k-1)
             END DO
-
+!
             Thomas_c(Nbed)=0.0d0
             DO k=1,Nbed-1
               fac=dens*(1.0d0-poro(k))
@@ -585,7 +592,7 @@
               cff4=dens*(1.0d0-porod(k))*DBsd(i,k)
               Thomas_c(k)=cff*cff4/dzd(i,k)
             END DO
-
+!
             DO k=1,Nbed
               fac=dens*(1.0d0-poro(k))
               Thomas_b(k)=1.0d0+Thomas_a(k)+Thomas_c(k)
@@ -593,16 +600,14 @@
      &                    (smflux(i,k-1,itrc)-smflux(i,k,itrc))*        &
      &                    dtBgc/fac/dz(i,k)
             END DO
-
+!
             CALL Thomas (IminS, ImaxS, 1, Nbed, NBGCSM, i, itrc,        &
      &                   Thomas_a(1:Nbed),                              &
      &                   Thomas_b(1:Nbed),                              &
      &                   Thomas_c(1:Nbed),                              &
      &                   Thomas_d(1:Nbed),                              &
      &                   sm)
-
           END DO
-!
         END DO THOMAS_LOOP
 !
 !------------------------------------------------------------------------
@@ -943,43 +948,44 @@
               IF (sm(i,k,itrc).lt.0.0d0) THEN
                 sm(i,k,itrc)=0.0d0
               ELSE IF ( isnan(sm(i,k,itrc)) ) THEN
-                !print*,'bgc.h check sm',itrc,i,k
-                sm(i,k,itrc)=0.0d0
-                !STOP
+                print*,'bgc.h check sm',itrc,i,k
+                !sm(i,k,itrc)=0.0d0
+                STOP
               END IF
             END DO
 !
           END DO
         END DO BIO_LOOP
-!
-!  output
-!
+
 #ifdef STANDALONE
 # include "bgc_output.h"
 #endif
-!
+
       END DO ITER_LOOP
+
+#ifdef STANDALONE
+      STOP
+      CONTAINS
+#else
 !
 !-----------------------------------------------------------------------
 !  write out global variables
 !-----------------------------------------------------------------------
 !
-      DO i=Istr,Iend
-
-        DO itrc=1,NBGCPW
-          DO k=1,Nbed
+      DO itrc=1,NBGCPW
+        DO k=1,Nbed
+          DO i=Istr,Iend
             bpw(i,j,k,itrc)=pw(i,k,itrc)
           END DO
         END DO
-
-        DO itrc=1,NBGCSM
-          DO k=1,Nbed
+      END DO
+      DO itrc=1,NBGCSM
+        DO k=1,Nbed
+          DO i=Istr,Iend
             bsm(i,j,k,itrc)=sm(i,k,itrc)
           END DO
         END DO
-
       END DO
-#ifndef STANDALONE
 !
 !  bottom elution flux
 !
@@ -997,51 +1003,7 @@
 !
       RETURN
       END SUBROUTINE bgc
-#else
-      STOP
-      CONTAINS
 #endif
-      SUBROUTINE delta(i, kstr, kend, dz, dzd, vstr, vend, var, vard)
-!
-!***********************************************************************
-!  Convert k-point(1:Nbed) variable to w-point(0:Nbed) valiable.     !
-!***********************************************************************
-!
-#ifndef STANDALONE
-      USE mod_kinds
-#endif
-!
-      implicit none
-!
-!  Imported variable declarations.
-!
-      integer, intent(in) :: i, kstr, kend
-      real(8), intent(in) :: vstr, vend
-!
-#if defined ASSUMED_SHAPE || defined STANDALONE
-      real(8), intent(in)    :: dz(:,:)
-      real(8), intent(in)    :: dzd(:,kstr:)
-      real(8), intent(in)    :: var(:)
-      real(8), intent(inout) :: vard(kstr:)
-#else
-      real(8), intent(in)    :: dz(:,kend)
-      real(8), intent(in)    :: dzd(:,kstr:kend)
-      real(8), intent(in)    :: var(kend)
-      real(8), intent(inout) :: vard(kstr:kend)
-#endif
-!
-!  Local variable declarations.
-!
-      integer :: k
-!
-      DO k=kstr+1,kend-1
-        vard(k)=(var(k)*dz(i,k+1)+var(k+1)*dz(i,k))*0.5d0/dzd(i,k)
-      END DO
-      vard(kstr)=vstr
-      vard(kend)=vend
-!
-      RETURN
-      END SUBROUTINE delta
 
       SUBROUTINE Activity (Nbed, dtBgc, O2, act)
 !
@@ -1075,14 +1037,14 @@
 !
       DO k=1,Nbed
         v1(k)=O2(k)
-        v2(k)=0
+        v2(k)=0.0d0
         act(k)=act(k)+dtBgc*( v1(k)+v2(k) )
       END DO
 !
       RETURN
       END SUBROUTINE Activity
 
-      SUBROUTINE Thomas (IminS, ImaxS, Kmin, Kmax, NBGC, i, itrc,             &
+      SUBROUTINE Thomas (IminS, ImaxS, Kmin, Kmax, NBGC, i, itrc,       &
      &                   a, b, c, d, U)
 !
 !***********************************************************************
@@ -1097,19 +1059,19 @@
 !
 !  Imported variable declarations.
 !
-      integer,  intent(in) :: IminS, ImaxS, Kmin, Kmax, NBGC, i, itrc
+      integer, intent(in) :: IminS, ImaxS, Kmin, Kmax, NBGC, i, itrc
 
 #if defined ASSUMED_SHAPE || defined STANDALONE
-      real(8), intent(in)    :: a(Kmin:)
-      real(8), intent(in)    :: b(Kmin:)
-      real(8), intent(in)    :: c(Kmin:)
-      real(8), intent(in)    :: d(Kmin:)
+      real(8), intent(in) :: a(Kmin:)
+      real(8), intent(in) :: b(Kmin:)
+      real(8), intent(in) :: c(Kmin:)
+      real(8), intent(in) :: d(Kmin:)
       real(8), intent(inout) :: U(IminS:,Kmin:,:)
 #else
-      real(8), intent(in)    :: a(Kmin:Kmax)
-      real(8), intent(in)    :: b(Kmin:Kmax)
-      real(8), intent(in)    :: c(Kmin:Kmax)
-      real(8), intent(in)    :: d(Kmin:Kmax)
+      real(8), intent(in) :: a(Kmin:Kmax)
+      real(8), intent(in) :: b(Kmin:Kmax)
+      real(8), intent(in) :: c(Kmin:Kmax)
+      real(8), intent(in) :: d(Kmin:Kmax)
       real(8), intent(inout) :: U(IminS:ImaxS,Kmin:Kmax,NBGC)
 #endif
 !
@@ -1134,7 +1096,7 @@
 !
       RETURN
       END SUBROUTINE Thomas
-!
+
 #ifdef STANDALONE
       END PROGRAM bgc
 #endif

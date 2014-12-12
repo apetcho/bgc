@@ -22,8 +22,8 @@
       real(8), parameter :: bwMn  = 0.0d0     ! (F)(A)
       real(8), parameter :: bwFe  = 0.0d0     ! (F)(A)
       real(8), parameter :: bwCH4 = 0.0d0     ! (F)(A)
-      real(8), parameter :: bwDOMf= 300.0d0   !    (A)
-      real(8), parameter :: bwDOMs= 0.0d0     !    (A)
+      real(8), parameter :: bwDOMf= 118.0d0   !    (A)300
+      real(8), parameter :: bwDOMs= 0.0d0     !    (A)0
 !
 !  Porosity (nondimensional)
 !
@@ -95,7 +95,7 @@
       real(8), parameter :: KdNO3 = 5.4d0   !        (A)5.4
       real(8), parameter :: KdMn  = 13.0d0  ! (F)(A)13
       real(8), parameter :: KdFe  = 500.0d0 ! (F)(A)500
-!      real(8), parameter :: KdPO4 = 2.0d0   ! (F)(A)2
+      real(8), parameter :: KdPO4 = 2.0d0   ! (F)(A)2
 !
 !  Diffusive boundary layer (cm)
 !
@@ -103,8 +103,8 @@
 !
 !  Ratios
 !
-      real(8), parameter :: ratio_n  = 0.2d0  ! FOMn/FOMtotal   (F)0.08 (A)0.2
-      real(8), parameter :: ratio_f  = 0.4d0  ! FOMf/FOMtotal   (F)0.42 (A)0.4
+      real(8), parameter :: ratio_n  = 0.20d0  ! FOMn/FOMtotal   (F)0.08 (A)0.2
+      real(8), parameter :: ratio_f  = 0.42d0  ! FOMf/FOMtotal   (F)0.42 (A)0.4
       real(8), parameter :: ratio_FA = 0.5d0  ! FFeOOHA/FFeOOHB         (A)0.5
       real(8), parameter :: ratio_MA = 0.5d0  ! FMnO2A/FMnO2B           (A)0.5
       real(8), parameter :: ratio_CN = 8.0d0  ! molC/molN of OM (F)10   (A)8
@@ -127,23 +127,23 @@
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 !
       real(8), parameter :: KDOMf = 1.0d-3 ! s-1                  (A)1.0d-3
-      real(8), parameter :: KDOMs = 5.0d-9 ! s-1                  (A)5.0d-9
-      real(8), parameter :: KPOMf = 2.5d-6  ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      real(8), parameter :: KPOMs = 1.2d-10 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
-      real(8), parameter :: K06  = 2.5d-7  ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
-      real(8), parameter :: K07  = 5.0d-14 ! s-1       (F)5.0d-11 (A)5.0d-14
-      real(8), parameter :: K08  = 1.7d-9  ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
-      real(8), parameter :: K09  = 1.5d-5  ! uM-1 s-1  (F)(A)1.5d-5  
-      real(8), parameter :: K10  = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
-      real(8), parameter :: K25  = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
-      real(8), parameter :: K11  = 5.0d-4  ! uM-1 s-1  (F)(A)5.0d-4  
+      real(8), parameter :: KDOMs = 5.0d-8 ! s-1                  (A)5.0d-9
+      real(8), parameter :: KPOMf = 2.5d-6 ! s-1       (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
+      real(8), parameter :: KPOMs = 1.2d-9 ! s-1       (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
+      real(8), parameter :: K06  = 2.5d-6  ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
+      real(8), parameter :: K07  = 5.0d-11 ! s-1       (F)5.0d-11 (A)5.0d-14
+      real(8), parameter :: K08  = 1.7d-8  ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
+      real(8), parameter :: K09  = 1.5d-5  ! uM-1 s-1  (F)(A)1.5d-5
+      real(8), parameter :: K10  = 2.0d-8  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
+      real(8), parameter :: K25  = 2.0d-8  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
+      real(8), parameter :: K11  = 5.0d-4  ! uM-1 s-1  (F)(A)5.0d-4
       real(8), parameter :: K12  = 3.0d-9  ! uM-1 s-1  (F)(A)3.0d-9
-      real(8), parameter :: K13  = 3.75d-5 ! uM-1 s-1  (F)7.5d-7  (A)3.75d-5
-      real(8), parameter :: K14  = 3.0d-10 ! cm3/nmols (F)3.0d-12 (A)3.0d-10
-      real(8), parameter :: K15  = 7.5d-12 ! s-1       (F)2.5d-11 (A)7.5d-12
+      real(8), parameter :: K13  = 7.5d-5  ! uM-1 s-1  (F)7.5d-7  (A)3.75d-5
+      real(8), parameter :: K14  = 3.0d-12 ! cm3/nmols (F)3.0d-12 (A)3.0d-10
+      real(8), parameter :: K15  = 2.5d-11 ! s-1       (F)2.5d-11 (A)7.5d-12
       real(8), parameter :: K16  = 5.0d-5  ! uM-1 s-1  (F)(A)5.0d-5
       real(8), parameter :: K17  = 6.0d-7  ! uM-1 s-1  (F)(A)6.0d-7
-      real(8), parameter :: K18  = 3.0d-10 ! uM-1 s-1  (F)1.6d-8  (B)(A)3.0d-10
+      real(8), parameter :: K18  = 1.6d-8  ! uM-1 s-1  (F)1.6d-8  (B)(A)3.0d-10
       real(8), parameter :: K19  = 7.0d-7  ! s-1       (F)(A)7.0d-7
       real(8), parameter :: K20  = 1.3d-9  ! s-1       (F)(A)1.3d-9
       real(8), parameter :: K21  = 9.0d-10 ! s-1       (F)(A)9.0d-10
