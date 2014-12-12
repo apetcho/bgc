@@ -6,23 +6,21 @@ import matplotlib.cm as cm
 
 
 
-csvfile = 'out.csv'
+outfile = 'out.csv'
+obsfile = 'obs.csv'
 pngfile = 'out_profiles.png'
 
 
 
-na_values = ['             NaN', '****************']
+out = pd.read_csv(outfile, index_col=['time'])
+obs = pd.read_csv(obsfile)
 
-df = pd.read_csv(csvfile, index_col=['time'], na_values=na_values)
-
-tmax = int(max(df.index)/30)*30
-#tmax = int(max(df.index))
-print tmax, tmax-360
+tmax = int(max(out.index)/30)*30
 
 plt.figure(figsize=(16, 8))
 
 a=0
-for name in df.columns[1:]:
+for name in out.columns[1:]:
 
     print a, name
     if name == 'CH4':
@@ -34,16 +32,20 @@ for name in df.columns[1:]:
     ax = plt.subplot(2, 11, a)
 
     for t in range(tmax-360,tmax+1,60):
-        plt.plot(df[name][t], -df.z[0],
+        plt.plot(out[name][t], -out.z[0],
                  label='{}days'.format(t-tmax+360),
                  c=cm.jet(float(t-tmax+360)/360,1))
 
-    vmax = df[name][tmax-360:].max()
+    if name in obs.columns:
+        print a, name, 'obs'
+        plt.plot(obs[name], obs['depth'], 'o')
+
+    vmax = out[name][tmax-360:].max()
 
     plt.title(name)
     plt.xticks([vmax])
     plt.xlim(-0.1*vmax, 1.1*vmax)
-    plt.ylim(-11, 1)
+    plt.ylim(-17, 1)
 
     if not name in ['temp', 'POMs']:
        plt.tick_params(labelleft='off')

@@ -12,12 +12,11 @@ avgfile = 'avg_flux.csv'
 
 
 
-na_values = ['             NaN', '****************']
 df = pd.read_csv(csvfile, index_col=['time'], na_values=na_values)
 
 
 
-plt.figure(figsize=(14, 9))
+plt.figure(figsize=(16, 11))
 a = 0
 
 for name in df.columns:
@@ -30,7 +29,7 @@ for name in df.columns:
         break
 
     a += 1
-    ax = plt.subplot(5, 5, a)
+    ax = plt.subplot(6, 6, a)
 
     v = df[name]
 

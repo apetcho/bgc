@@ -11,8 +11,7 @@ pngfile = 'out_time.png'
 
 
 
-na_values = ['             NaN', '****************']
-df = pd.read_csv(csvfile, index_col=['time', 'z'], na_values=na_values)
+df = pd.read_csv(csvfile, index_col=['time', 'z'])
 
 
 
