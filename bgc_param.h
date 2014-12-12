@@ -10,11 +10,10 @@
 !  Number of iterations
 !
       integer, parameter :: BgcIter = 1
-      real(8), parameter :: ndays   = 150.0d0*360.0d0
 !
 !------------------------------------------------------------------------
-!  (F) Fossing et al.(2004) 
-!  (B) Berg et al.(2003) 
+!  (F) Fossing et al.(2004)
+!  (B) Berg et al.(2003)
 !  (A) Angara et al.(2009)
 !  (W) Wijsman et al.(2002)
 !------------------------------------------------------------------------
@@ -38,7 +37,7 @@
 !
 !  Burial rate (cm year-1)
 !
-     !real(8), parameter :: c_wsm = 0.22d0 ! (F)0.064 (B)0.12
+!      real(8), parameter :: c_wsm = 0.22d0 ! (F)0.064 (B)0.12
       real(8), parameter :: a_wsm = 0.22d0 ! (A)0.22
       real(8), parameter :: b_wsm = 0.26d0 ! (A)0.26
       real(8), parameter :: c_wsm = 0.3d0  ! (A)0.3
@@ -96,7 +95,7 @@
       real(8), parameter :: KdNO3 = 5.4d0   !        (A)5.4
       real(8), parameter :: KdMn  = 13.0d0  ! (F)(A)13
       real(8), parameter :: KdFe  = 500.0d0 ! (F)(A)500
-     !real(8), parameter :: KdPO4 = 2.0d0   ! (F)(A)2
+!      real(8), parameter :: KdPO4 = 2.0d0   ! (F)(A)2
 !
 !  Diffusive boundary layer (cm)
 !
@@ -122,7 +121,7 @@
 !
       real(8), parameter :: KO2    = 20.0d0     ! (F)(A)20
       real(8), parameter :: KNO3   = 5.0d0      ! (F)(A)5
-      real(8), parameter :: KMnO2  = 50000.0d0  ! (F)(A)5.0d4 
+      real(8), parameter :: KMnO2  = 50000.0d0  ! (F)(A)5.0d4
       real(8), parameter :: KFeOOH = 100000.0d0 ! (F)(A)1.0d5
 !
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
@@ -148,8 +147,8 @@
       real(8), parameter :: K19  = 7.0d-7  ! s-1       (F)(A)7.0d-7
       real(8), parameter :: K20  = 1.3d-9  ! s-1       (F)(A)1.3d-9
       real(8), parameter :: K21  = 9.0d-10 ! s-1       (F)(A)9.0d-10
-     !real(8), parameter :: K22  = 3.2d-4  ! uM-1 s-1  (W)3.2d-4
-     !real(8), parameter :: K23  = 3.2d-10 ! uM-1 s-1  (W)3.2d-10
+!      real(8), parameter :: K22  = 3.2d-4  ! uM-1 s-1  (W)3.2d-4
+!      real(8), parameter :: K23  = 3.2d-10 ! uM-1 s-1  (W)3.2d-10
 !
 !  Inhibiting concentration (uM)
 !

@@ -13,6 +13,7 @@
       integer, parameter :: Iend  = 1
       integer, parameter :: j     = 1
       real(8), parameter :: dtdays = 30.0d0/86400.0d0
+      real(8), parameter :: ndays  = 1.0d0*360.0d0
 !
 !  USE mod_
 !
@@ -51,14 +52,14 @@
       integer, parameter :: NBGCSM = 11        ! Bgc variables
       integer, parameter :: NBGCF = 9          ! Bgc variables
 !
-      integer, parameter :: iwO2_ = 1          ! O2 in pore water 
-      integer, parameter :: iwNH4 = 2          ! NH4 in pore water 
-      integer, parameter :: iwNO3 = 3          ! NO3 in pore water 
-      integer, parameter :: iwPO4 = 4          ! PO4 in pore water 
-      integer, parameter :: iwSO4 = 5          ! SO4 in pore water 
-      integer, parameter :: iwH2S = 6          ! H2S in pore water 
-      integer, parameter :: iwMn_ = 7          ! Mn in pore water 
-      integer, parameter :: iwFe_ = 8          ! Fe in pore water 
+      integer, parameter :: iwO2_ = 1          ! O2 in pore water
+      integer, parameter :: iwNH4 = 2          ! NH4 in pore water
+      integer, parameter :: iwNO3 = 3          ! NO3 in pore water
+      integer, parameter :: iwPO4 = 4          ! PO4 in pore water
+      integer, parameter :: iwSO4 = 5          ! SO4 in pore water
+      integer, parameter :: iwH2S = 6          ! H2S in pore water
+      integer, parameter :: iwMn_ = 7          ! Mn in pore water
+      integer, parameter :: iwFe_ = 8          ! Fe in pore water
       integer, parameter :: iwCH4 = 9          ! CH4 in pore water
       integer, parameter :: iwDOMf = 10        ! DOMfast in pore water !Nchange
       integer, parameter :: iwDOMs = 11        ! DOMslow in pore water !Nchange
@@ -66,11 +67,11 @@
       integer, parameter :: iPOMf = 1          ! Perticle Organic Mater fast
       integer, parameter :: iPOMs = 2          ! Perticle Organic Mater slow
       integer, parameter :: iPOMn = 3          ! Perticle Organic Mater non
-      integer, parameter :: iFeOA = 4          ! FeOOHA in sediment 
-      integer, parameter :: iFeOB = 5          ! FeOOHB in sediment 
-      integer, parameter :: iFeOP = 6          ! FeOOH-PO4 in sediment 
-      integer, parameter :: iMnOA = 7          ! MnO2A in sediment 
-      integer, parameter :: iMnOB = 8          ! MnO2B in sediment 
-      integer, parameter :: iS0__ = 9          ! S0 in sediment 
-      integer, parameter :: iFeS_ = 10         ! FeS in sediment 
+      integer, parameter :: iFeOA = 4          ! FeOOHA in sediment
+      integer, parameter :: iFeOB = 5          ! FeOOHB in sediment
+      integer, parameter :: iFeOP = 6          ! FeOOH-PO4 in sediment
+      integer, parameter :: iMnOA = 7          ! MnO2A in sediment
+      integer, parameter :: iMnOB = 8          ! MnO2B in sediment
+      integer, parameter :: iS0__ = 9          ! S0 in sediment
+      integer, parameter :: iFeS_ = 10         ! FeS in sediment
       integer, parameter :: iFes2 = 11         ! FeS2 in sediment

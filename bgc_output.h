@@ -15,8 +15,9 @@
           WRITE(*,1000) 'depth',                                        &
      &                  pw(i,0,iwDOMf),                                 &
      &                  pw(i,0,iwDOMs),                                 &
-     &                  bsm(i,j,1,iMnOA)+bsm(i,j,1,iMnOB),          &
-     &                  bsm(i,j,1,iFeOA)+bsm(i,j,1,iFeOB)+bsm(i,j,1,iFeOP), &
+     &                  bsm(i,j,1,iMnOA)+bsm(i,j,1,iMnOB),              &
+     &                  bsm(i,j,1,iFeOA)+bsm(i,j,1,iFeOB)+              &
+     &                  bsm(i,j,1,iFeOP),                               &
      &                  pw(i,0,iwSO4),                                  &
      &                  pw(i,0,iwMn_),                                  &
      &                  pw(i,0,iwFe_),                                  &
@@ -49,7 +50,7 @@
         IF (Iter.eq.0) THEN
           OPEN (10,file='out.csv')
           WRITE (10,1010) 'time','z','temp',                            &
-     &      'DO','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
+     &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
      &      'DOMf','DOMs','POMf','POMs','POMn','FeOOHA','FeOOHB',       &
      &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2'
         END IF
@@ -73,7 +74,7 @@
         IF (mod(dtBgc*Iter,360.0d0*86400.0d0).eq.0.0d0) THEN
           OPEN (11,file='rst.csv')
           WRITE (11,1012)                                               &
-     &      'DO','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
+     &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
      &      'DOMf','DOMs','POMf','POMs','POMn','FeOOHA','FeOOHB',       &
      &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2'
           t=dtBgc*Iter/86400.0d0
@@ -93,9 +94,11 @@
         IF (Iter.eq.0) THEN
           OPEN (20,file='out_flux.csv')
           WRITE (20,1020) 'time','temp',                                &
-     &      'DO','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
+     &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
      &      'DOMf','DOMs','POMf','POMs','POMn','FeOOHA','FeOOHB',       &
-     &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2'
+     &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2',                 &
+     &      'bPOMf','bPOMs','bPOMn','bFeOOHA','bFeOOHB',                &
+     &      'bFeOOHP','bMnO2A','bMnO2B','bS0','bFeS','bFeS2'
         END IF
 !
         IF (mod(dtBgc*Iter,86400.0d0).eq.0.0d0.and.Iter.ne.0) THEN
@@ -103,11 +106,12 @@
           cff=(m2cm*m2cm*day2s)/1.0d6
           WRITE (20,1021) t,tsm(i,1),                                   &
      &                    (pwflux(i,0,itrc)*cff,itrc=1,NBGCPW),         &
-     &                    (smflux(i,0,itrc)*cff,itrc=1,NBGCSM)
+     &                    (smflux(i,0,itrc)*cff,itrc=1,NBGCSM),         &
+     &                    (smflux(i,Nbed,itrc)*cff,itrc=1,NBGCSM)
         END IF
 
-1020    FORMAT (2(a,','), 22(a,','))
-1021    FORMAT (24(f16.8,','))
+1020    FORMAT (2(a,','), 33(a,','))
+1021    FORMAT (35(f16.8,','))
 !
 !------------------------------------------------------------------------------
 !  circulations output to csv (nmol/cm2/s -> mmol/m2/day)
