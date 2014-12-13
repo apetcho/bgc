@@ -1,4 +1,6 @@
-*.csv
+out*
+avg*
+
 *.out
 *.png
 *~
