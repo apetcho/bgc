@@ -61,7 +61,11 @@
 !  restart from rst.csv
 !-----------------------------------------------------------------------
 !
+#ifdef GREEN
+      OPEN(10,file='green_ini.csv')
+#else
       OPEN(10,file='rst.csv')
+#endif
       READ(10,'()',end=99)
       DO i=Istr,Iend
         DO k=1,Nbed

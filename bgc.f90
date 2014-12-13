@@ -168,6 +168,9 @@
 !-----------------------------------------------------------------------
 !  Initial conditions.
 !-----------------------------------------------------------------------
+#ifdef GREEN
+# include "green_param.h"
+#endif
 #ifdef STANDALONE
 # include "bgc_initialize.h"
 #endif
