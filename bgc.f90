@@ -110,8 +110,8 @@
 !
 !  porosity (nondimensional)
 !
-      real(8), dimension(0:Nbed) :: poro
-      real(8), dimension(0:Nbed) :: porod
+      real(8), dimension(IminS:ImaxS,0:Nbed) :: poro
+      real(8), dimension(IminS:ImaxS,0:Nbed) :: porod
 !
 !  Burial rate (cm year-1 to cm s-1)
 !
@@ -199,16 +199,16 @@
 !
 !  porosity (nondimensional)
 !
-        poro(0)=1.0d0
+        poro(i,0)=1.0d0
         DO k=1,Nbed
-          poro(k)=a_poro+b_poro*10.0d0**(-c_poro*depth(i,k))
+          poro(i,k)=a_poro+b_poro*10.0d0**(-c_poro*depth(i,k))
         END DO
 !
         DO k=0,Nbed-1
-          porod(k)=(poro(k)*dz(i,k+1)+                                &
-     &              poro(k+1)*dz(i,k) )*0.5d0/dzd(i,k)
+          porod(i,k)=(poro(i,k)*dz(i,k+1)+                                &
+     &                poro(i,k+1)*dz(i,k) )*0.5d0/dzd(i,k)
         END DO
-        porod(Nbed)=poro(Nbed)
+        porod(i,Nbed)=poro(i,Nbed)
 !
 !  Burial rate (cm year-1 to cm s-1)
 !
@@ -268,7 +268,7 @@
 !=======================================================================
 !
 #ifdef STANDALONE
-      ITER_LOOP : DO Iter=0,ndays/dtdays*BgcIter
+      ITER_LOOP : DO Iter=0,int(ndays/dtdays*BgcIter)
 #else
       ITER_LOOP : DO Iter=1,BgcIter
 #endif
@@ -313,7 +313,7 @@
 !
         DO itrc=1,NBGCPW
           DO i=Istr,Iend
-            pw(i,0,itrc)=bw(i,itrc)/poro(0)
+            pw(i,0,itrc)=bw(i,itrc)/poro(i,0)
           END DO
         END DO
 !
@@ -417,7 +417,7 @@
             cff1=bw(i,iwO2_)*32.0d0/1000.0d0
             cff2=11.5d0*0.748d0**cff1
             cff3=cff2*1.02d0**(tsm(i,k)-20.0d0)
-            !Kads(i,k,iwPO4)=poro(k)/(1.0d0-poro(k))/cff3
+            !Kads(i,k,iwPO4)=poro(i,k)/(1.0d0-poro(i,k))/cff3
           END DO
 !
           DO itrc=1,NBGCPW
@@ -442,8 +442,8 @@
 !
 !          cff1=DBwd(i,k)
 !          DO itrc=1,NBGCPW
-!            cff2=Diffd(i,k,itrc)/(1.0d0-3.0d0*(1.0d0-porod(k)))
-!            pwflux(i,k,itrc)=porod(k)*(cff1+cff2)*(bw(i,itrc)-pw(i,1,itrc))/dzd(i,k)
+!            cff2=Diffd(i,k,itrc)/(1.0d0-3.0d0*(1.0d0-porod(i,k)))
+!            pwflux(i,k,itrc)=porod(i,k)*(cff1+cff2)*(bw(i,itrc)-pw(i,1,itrc))/dzd(i,k)
 !          END DO
 !
 !  - sediment flux (F) (nmol/cm2s)
@@ -486,8 +486,8 @@
 !
 !          DO itrc=1,NBGCPW
 !            DO k=1,Nbed-1
-!              cff1=porod(k)*usmd(i,k)
-!              cff2=dens*(1.0d0-porod(k))*usmd(i,k)*Kads(i,k,itrc)
+!              cff1=porod(i,k)*usmd(i,k)
+!              cff2=dens*(1.0d0-porod(i,k))*usmd(i,k)*Kads(i,k,itrc)
 !              pwflux(i,k,itrc)=(cff1+cff2)*(pw(i,k,itrc)-pw(i,k+1,itrc))/dzd(i,k)
 !            END DO
 !            pwflux(i,Nbed,itrc)=pwflux(i,Nbed-1,itrc)
@@ -495,7 +495,7 @@
 !
           DO itrc=1,NBGCSM
             DO k=1,Nbed
-              fac=dens*(1.0d0-porod(k))*wsmd(i,k)
+              fac=dens*(1.0d0-porod(i,k))*wsmd(i,k)
               smflux(i,k,itrc)=fac*sm(i,k,itrc)
             END DO
           END DO
@@ -516,7 +516,7 @@
           DO itrc=1,NBGCPW
             irrigation(i,0,itrc)=0.0d0
             DO k=1,Nbed
-              irrigation(i,k,itrc)=poro(k)*irr(i,k)*                    &
+              irrigation(i,k,itrc)=poro(i,k)*irr(i,k)*                  &
      &                             (pw(i,0,itrc)-pw(i,k,itrc))
               irrigation(i,k,itrc)=0.0d0 !*!
             END DO
@@ -535,26 +535,26 @@
           DO itrc=1,NBGCPW
             Thomas_a(0)=0.0d0
             DO k=1,Nbed
-              fac=poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc)
+              fac=poro(i,k)+dens*(1.0d0-poro(i,k))*Kads(i,k,itrc)
               cff=dtBgc/fac/dz(i,k)
-              cff1=porod(k-1)*(Diffd(i,k-1,itrc)/                       &
-     &             (1.0d0+3.0d0*(1.0d0-porod(k-1)))+DBwd(i,k-1))
-              cff3=dens*(1.0d0-porod(k-1))*DBsd(i,k-1)*Kadsd(i,k-1,itrc)
+              cff1=porod(i,k-1)*(Diffd(i,k-1,itrc)/                     &
+     &             (1.0d0+3.0d0*(1.0d0-porod(i,k-1)))+DBwd(i,k-1))
+              cff3=dens*(1.0d0-porod(i,k-1))*DBsd(i,k-1)*Kadsd(i,k-1,itrc)
               Thomas_a(k)=cff*(cff1+cff3)/dzd(i,k-1)
             END DO
 !
             Thomas_c(Nbed)=0.0d0
             DO k=0,Nbed-1
-              fac=poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc)
+              fac=poro(i,k)+dens*(1.0d0-poro(i,k))*Kads(i,k,itrc)
               cff=dtBgc/fac/dz(i,k)
-              cff2=porod(k)*(Diffd(i,k,itrc)/                           &
-     &             (1.0d0+3.0d0*(1.0d0-porod(k)))+DBwd(i,k))
-              cff4=dens*(1.0d0-porod(k))*DBsd(i,k)*Kadsd(i,k,itrc)
+              cff2=porod(i,k)*(Diffd(i,k,itrc)/                         &
+     &             (1.0d0+3.0d0*(1.0d0-porod(i,k)))+DBwd(i,k))
+              cff4=dens*(1.0d0-porod(i,k))*DBsd(i,k)*Kadsd(i,k,itrc)
               Thomas_c(k)=cff*(cff2+cff4)/dzd(i,k)
             END DO
 !
             DO k=0,Nbed
-              fac=poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc)
+              fac=poro(i,k)+dens*(1.0d0-poro(i,k))*Kads(i,k,itrc)
               Thomas_b(k)=1.0d0+Thomas_a(k)+Thomas_c(k)
               Thomas_d(k)=pw(i,k,itrc)!+                                 &
     !&                    irrigation(i,k,itrc)*dtBgc/fac
@@ -570,7 +570,7 @@
 !
 !  compute pwflux by diffusion (inflow is positive)
 !
-            cff=(bw(i,itrc)-poro(0)*pw(i,0,itrc))*dz(i,0)/dtBgc
+            cff=(bw(i,itrc)-poro(i,0)*pw(i,0,itrc))*dz(i,0)/dtBgc
             pwflux(i,0,itrc)=pwflux(i,0,itrc)+cff
           END DO
 !
@@ -579,22 +579,22 @@
           DO itrc=1,NBGCSM
             Thomas_a(1)=0.0d0
             DO k=2,Nbed
-              fac=dens*(1.0d0-poro(k))
+              fac=dens*(1.0d0-poro(i,k))
               cff=dtBgc/fac/dz(i,k)
-              cff3=dens*(1.0d0-porod(k-1))*DBsd(i,k-1)
+              cff3=dens*(1.0d0-porod(i,k-1))*DBsd(i,k-1)
               Thomas_a(k)=cff*cff3/dzd(i,k-1)
             END DO
 !
             Thomas_c(Nbed)=0.0d0
             DO k=1,Nbed-1
-              fac=dens*(1.0d0-poro(k))
+              fac=dens*(1.0d0-poro(i,k))
               cff=dtBgc/fac/dz(i,k)
-              cff4=dens*(1.0d0-porod(k))*DBsd(i,k)
+              cff4=dens*(1.0d0-porod(i,k))*DBsd(i,k)
               Thomas_c(k)=cff*cff4/dzd(i,k)
             END DO
 !
             DO k=1,Nbed
-              fac=dens*(1.0d0-poro(k))
+              fac=dens*(1.0d0-poro(i,k))
               Thomas_b(k)=1.0d0+Thomas_a(k)+Thomas_c(k)
               Thomas_d(k)=sm(i,k,itrc)+                                 &
      &                    (smflux(i,k-1,itrc)-smflux(i,k,itrc))*        &
@@ -631,7 +631,7 @@
 !
 !  Decomposition of POM (nmol s-1 cm-3)                         !Nchange             
 !
-            cff1=(1.0d0-poro(k))*dens
+            cff1=(1.0d0-poro(i,k))*dens
             
             Rpomff=cff1*KPOMf*sm(i,k,iPOMf)*ratio_DOMf          !fast to fast
             Rpomfs=cff1*KPOMf*sm(i,k,iPOMf)*(1-ratio_DOMf)      !fast to slow
@@ -650,7 +650,7 @@
 !
 !  First order reaction (nmol s-1 cm-3)
 !
-            cff=1.03d0**(tsm(i,k)-20.0d0)*poro(k)                !Nchange
+            cff=1.03d0**(tsm(i,k)-20.0d0)*poro(i,k)                !Nchange
             Rdomf=KDOMf*cff*pw(i,k,iwDOMf)                       !Nchange
             Rdoms=KDOMs*cff*pw(i,k,iwDOMs)
              
@@ -754,12 +754,12 @@
 !
 !  Secondary reactions (nmol cm-3 s-1)
 !
-            cff1=(1.0d0-poro(k))*dens
+            cff1=(1.0d0-poro(i,k))*dens
 !
 !  - Re-oxydations of 
 !
-           !R(6)=K06*poro(k)*pw(i,k,iwNH4)*pw(i,k,iwO2_)/(pw(i,k,iwO2_)+Ksnit) ! Wijsman
-            R(6)=K06*poro(k)*pw(i,k,iwNH4)*pw(i,k,iwO2_) ! Fossing
+           !R(6)=K06*poro(i,k)*pw(i,k,iwNH4)*pw(i,k,iwO2_)/(pw(i,k,iwO2_)+Ksnit) ! Wijsman
+            R(6)=K06*poro(i,k)*pw(i,k,iwNH4)*pw(i,k,iwO2_) ! Fossing
             Rpw(iwNH4)=Rpw(iwNH4)-R(6)
             Rpw(iwO2_)=Rpw(iwO2_)-R(6)*2.0d0
             Rpw(iwNO3)=Rpw(iwNO3)+R(6)
@@ -788,7 +788,7 @@
             F(i,23)=F(i,23)+dz(i,k)*R(8)*2.0d0    !Fe
             F(i,24)=F(i,24)+dz(i,k)*R(8)          !MnOA
 
-            R(9)=K09*poro(k)*pw(i,k,iwMn_)*pw(i,k,iwO2_)
+            R(9)=K09*poro(i,k)*pw(i,k,iwMn_)*pw(i,k,iwO2_)
             Rpw(iwMn_)=Rpw(iwMn_)-R(9)
             Rpw(iwO2_)=Rpw(iwO2_)-R(9)*0.5d0
             Rsm(iMnOA)=Rsm(iMnOA)+R(9)
@@ -818,8 +818,8 @@
             F(i,29)=F(i,29)+dz(i,k)*R(25)         !H2S
             F(i,30)=F(i,30)+dz(i,k)*R(25)*2.0d0   !FeOP
             
-           !R(11)=K11*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwO2_)*OH**2.0d0 !Wijsman
-            R(11)=K11*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwO2_) !Fossing
+           !R(11)=K11*poro(i,k)*pw(i,k,iwFe_)*pw(i,k,iwO2_)*OH**2.0d0 !Wijsman
+            R(11)=K11*poro(i,k)*pw(i,k,iwFe_)*pw(i,k,iwO2_) !Fossing
             Rpw(iwFe_)=Rpw(iwFe_)-R(11)
             Rpw(iwO2_)=Rpw(iwO2_)-R(11)*0.25d0
             Rsm(iFeOA)=Rsm(iFeOA)+R(11)
@@ -837,8 +837,8 @@
             F(i,33)=F(i,33)+dz(i,k)*R(12)         !H2S
             F(i,34)=F(i,34)+dz(i,k)*R(12)         !MnOA
             
-           !R(13)=K13*poro(k)*pw(i,k,iwFe_)*HS/H1/KsFeS-1.0d0 ! (W)
-            R(13)=K13*poro(k)*pw(i,k,iwFe_)*pw(i,k,iwH2S) ! (F)(A)
+           !R(13)=K13*poro(i,k)*pw(i,k,iwFe_)*HS/H1/KsFeS-1.0d0 ! (W)
+            R(13)=K13*poro(i,k)*pw(i,k,iwFe_)*pw(i,k,iwH2S) ! (F)(A)
             Rpw(iwFe_)=Rpw(iwFe_)-R(13)
             Rpw(iwH2S)=Rpw(iwH2S)-R(13)
             Rsm(iFeS_)=Rsm(iFeS_)+R(13)
@@ -866,7 +866,7 @@
 !
 !  S + O2 -> SO4
 !
-            R(16)=K16*poro(k)*pw(i,k,iwH2S)*pw(i,k,iwO2_)
+            R(16)=K16*poro(i,k)*pw(i,k,iwH2S)*pw(i,k,iwO2_)
             Rpw(iwH2S)=Rpw(iwH2S)-R(16)
             Rpw(iwO2_)=Rpw(iwO2_)-R(16)*2.0d0
             Rpw(iwSO4)=Rpw(iwSO4)+R(16)
@@ -920,17 +920,17 @@
 !
 !  - Re-oxydations using SO4
 !
-            !R(23)=K23*poro(k)*pw(i,k,iwCH4)*pw(i,k,iwSO4)
+            !R(23)=K23*poro(i,k)*pw(i,k,iwCH4)*pw(i,k,iwSO4)
 !
 !  Add reaction
 !
             DO itrc=1,NBGCPW
-              cff=dtBgc/(poro(k)+dens*(1.0d0-poro(k))*Kads(i,k,itrc))
+              cff=dtBgc/(poro(i,k)+dens*(1.0d0-poro(i,k))*Kads(i,k,itrc))
               pw(i,k,itrc)=pw(i,k,itrc)+Rpw(itrc)*cff
             END DO
 
             DO itrc=1,NBGCSM
-              cff=dtBgc/(dens*(1.0d0-poro(k)))
+              cff=dtBgc/(dens*(1.0d0-poro(i,k)))
               sm(i,k,itrc)=sm(i,k,itrc)+Rsm(itrc)*cff
             END DO
 !
