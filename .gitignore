@@ -1,6 +1,6 @@
-out*
-avg*
-
+*.csv
 *.out
 *.png
 *~
+
+!green_param.csv
