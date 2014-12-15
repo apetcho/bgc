@@ -207,7 +207,7 @@
 !
         poro(i,0)=1.0d0
         DO k=1,Nbed
-          poro(i,k)=a_poro+b_poro*10.0d0**(-c_poro*depth(i,k))
+          poro(i,k)=a_poro(i)+b_poro(i)*10.0d0**(-c_poro(i)*depth(i,k))
         END DO
 !
         DO k=0,Nbed-1

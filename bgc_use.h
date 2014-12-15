@@ -8,9 +8,9 @@
       integer, parameter :: UBk   = 20
       integer, parameter :: UBt   = 17
       integer, parameter :: IminS = 1
-      integer, parameter :: ImaxS = 1
+      integer, parameter :: ImaxS = 2
       integer, parameter :: Istr  = 1
-      integer, parameter :: Iend  = 1
+      integer, parameter :: Iend  = 2
       integer, parameter :: j     = 1
       real(8), parameter :: dtdays = 30.0d0/86400.0d0
 #ifdef GREEN

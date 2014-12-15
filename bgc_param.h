@@ -27,18 +27,17 @@
 !
 !  Porosity (nondimensional)
 !
-      real(8), parameter :: a_poro = 0.69d0  ! (F)0.763 (A)0.69
-      real(8), parameter :: b_poro = 0.21d0  ! (F)0.086 (A)0.21
-      real(8), parameter :: c_poro = 0.088d0  ! (F)0.216 (A)0.088
+      real(8), parameter :: a_poro(IminS:ImaxS) = (/ 0.78d0,0.71d0 /) ! (F)0.763 (A)0.69
+      real(8), parameter :: b_poro(IminS:ImaxS) = (/ 0.10d0,0.0d0 /)  ! (F)0.086 (A)0.21
+      real(8), parameter :: c_poro(IminS:ImaxS) = (/ 0.35d0,0.0d0 /)  ! (F)0.216 (A)0.088
 !
 !  Density (g cm-3)
 !
-      real(8), parameter :: dens = 2.5d0 ! (F)2.04 (B)2.41 (A)2.5
+      real(8), parameter :: dens = 2.6d0 ! (F)2.04 (B)2.41 (A)2.5
 !
 !  Burial rate (cm year-1)
 !
-!      real(8), parameter :: c_wsm = 0.22d0 ! (F)0.064 (B)0.12
-      real(8), parameter :: a_wsm = 0.22d0 ! (A)0.22
+      real(8), parameter :: a_wsm = 0.22d0 ! (A)0.22 (F)0.064 (B)0.12
       real(8), parameter :: b_wsm = 0.26d0 ! (A)0.26
       real(8), parameter :: c_wsm = 0.3d0  ! (A)0.3
 !
