@@ -3,4 +3,5 @@
 *.png
 *~
 
-!green_param.csv
+!green_params.csv
+green_param.h

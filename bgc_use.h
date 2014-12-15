@@ -54,7 +54,7 @@
 !
       integer, parameter :: NBGCPW = 11        ! Bgc variables !Nchange9-11!
       integer, parameter :: NBGCSM = 11        ! Bgc variables
-      integer, parameter :: NBGCF = 9          ! Bgc variables
+      integer, parameter :: NBGCF  = 50        ! Bgc variables
 !
       integer, parameter :: iwO2_ = 1          ! O2 in pore water
       integer, parameter :: iwNH4 = 2          ! NH4 in pore water

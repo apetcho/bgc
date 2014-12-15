@@ -56,16 +56,17 @@
           bsmflux(i,j,itrc)=0.0d0
         END DO
       END DO
+#ifdef RST
 !
 !-----------------------------------------------------------------------
 !  restart from rst.csv
 !-----------------------------------------------------------------------
 !
-#ifdef GREEN
+# ifdef GREEN
       OPEN(10,file='green_ini.csv')
-#else
+# else
       OPEN(10,file='rst.csv')
-#endif
+# endif
       READ(10,'()',end=99)
       DO i=Istr,Iend
         DO k=1,Nbed
@@ -74,3 +75,4 @@
         END DO
       END DO
    99 CLOSE(10)
+#endif

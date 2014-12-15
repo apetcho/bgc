@@ -154,7 +154,7 @@
       real(8) :: Rdomf  = 0.0d0
       real(8) :: Rdoms  = 0.0d0
 
-      real(8), dimension(IminS:ImaxS,50) :: F
+      real(8), dimension(IminS:ImaxS,NBGCF) :: F
 !
 !  Thomas algorism input data
 !
@@ -163,14 +163,17 @@
       real(8), dimension(0:Nbed) :: Thomas_c
       real(8), dimension(0:Nbed) :: Thomas_d
 
-#include "bgc_param.h"
+#ifdef GREEN
+# include "green_bgc_param.h"
+# include "green_param.h"
+#else
+# include "bgc_param.h"
+#endif
 !
 !-----------------------------------------------------------------------
 !  Initial conditions.
 !-----------------------------------------------------------------------
-#ifdef GREEN
-# include "green_param.h"
-#endif
+
 #ifdef STANDALONE
 # include "bgc_initialize.h"
 #endif
@@ -610,6 +613,7 @@
      &                   Thomas_c(1:Nbed),                              &
      &                   Thomas_d(1:Nbed),                              &
      &                   sm)
+
           END DO
         END DO THOMAS_LOOP
 !
@@ -618,7 +622,7 @@
 !------------------------------------------------------------------------
 !
         DO i=Istr,Iend
-          DO itrc=1,50
+          DO itrc=1,NBGCF
             F(i,itrc)=0.0d0
           END DO
         END DO
@@ -1103,3 +1107,4 @@
 #ifdef STANDALONE
       END PROGRAM bgc
 #endif
+

@@ -6,8 +6,9 @@ import matplotlib.cm as cm
 
 
 
-outfile = 'out.csv'
-obsfile = 'obs.csv'
+#outfile = 'out.csv'
+outfile = 'green/green_out2/ratio_CN_6.54899999482.csv'
+obsfile = 'green/obs.csv'
 pngfile = 'out_profiles.png'
 
 
@@ -53,5 +54,5 @@ for name in out.columns[1:]:
     if name == 'DOMs':
     	plt.legend(loc=3)
 
-#plt.show()
-plt.savefig(pngfile, bbox_inches='tight')
+plt.show()
+#plt.savefig(pngfile, bbox_inches='tight')

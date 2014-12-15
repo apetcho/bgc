@@ -6,13 +6,13 @@ import matplotlib.cm as cm
 
 
 
-csvfile = 'out_flux.csv'
+csvfile = 'green/green_flux/KPOMs_max.csv'
 pngfile = 'out_flux.png'
 avgfile = 'avg_flux.csv'
 
 
 
-df = pd.read_csv(csvfile, index_col=['time'], na_values=na_values)
+df = pd.read_csv(csvfile, index_col=['time'])
 
 
 
@@ -39,7 +39,8 @@ for name in df.columns:
     plt.title(name)
 
 plt.subplots_adjust(hspace=0.4, wspace=0.3)
-plt.savefig(pngfile, bbox_inches='tight')
+#plt.savefig(pngfile, bbox_inches='tight')
+plt.show()
 
 
 
