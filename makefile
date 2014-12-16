@@ -1,7 +1,7 @@
 all:
 	ifort -DSTANDALONE -DRST bgc.f90 -fpp
 
-norst:
+first:
 	ifort -DSTANDALONE bgc.f90 -fpp
 
 green:

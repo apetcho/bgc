@@ -79,3 +79,7 @@
       integer, parameter :: iS0__ = 9          ! S0 in sediment
       integer, parameter :: iFeS_ = 10         ! FeS in sediment
       integer, parameter :: iFes2 = 11         ! FeS2 in sediment
+!
+!  original
+!
+      character*100 :: filename

@@ -241,8 +241,8 @@
         bw(i,iwMn_)=bwMn
         bw(i,iwFe_)=bwFe
         bw(i,iwCH4)=bwCH4
-        bw(i,iwDOMf)=bwDOMf                                  !Nchange
-        bw(i,iwDOMs)=bwDOMs                                  !Nchange
+        bw(i,iwDOMf)=bwDOMf(i)                               !Nchange
+        bw(i,iwDOMs)=bwDOMs(i)                               !Nchange
 !
 !  state variables
 !
@@ -293,9 +293,9 @@
 !
 !  DO by temperature
 !
-        DO i=Istr,Iend
-          bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
-        END DO
+!        DO i=Istr,Iend
+!          bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
+!        END DO
 #endif
 !
 !  reset flux
@@ -815,7 +815,7 @@
             F(i,27)=F(i,27)+dz(i,k)*R(10)         !H2S
             F(i,28)=F(i,28)+dz(i,k)*R(10)*2.0d0   !FeOA
             
-            R(25)=K25*cff1*pw(i,k,iwH2S)*sm(i,k,iFeOP)
+            R(25)=K10*cff1*pw(i,k,iwH2S)*sm(i,k,iFeOP)
             Rpw(iwH2S)=Rpw(iwH2S)-R(25)
             Rsm(iFeOP)=Rsm(iFeOP)-R(25)*2.0d0
             Rpw(iwFe_)=Rpw(iwFe_)+R(25)*2.0d0

@@ -4,13 +4,13 @@
 !-----------------------------------------------------------------------
 !
       DO i=Istr,Iend
-        Bio_bottom(i,iOxyg)=6.0d0/32.0d0*1000.0d0  ! mgO2/l to uMO2
-        Bio_bottom(i,iNO3_)=0.02d0/14.0d0*1000.0d0
-        Bio_bottom(i,iNH4_)=0.02d0/14.0d0*1000.0d0
-        Bio_bottom(i,iPO4_)=0.01d0/31.0d0*1000.0d0
-        Bio_bottom(i,iH2S_)=0.0d0
-        Bio_bottom(i,iLDeC)=15.0d0
-        Bio_bottom(i,iSDeC)=15.0d0
+        Bio_bottom(i,iOxyg)=bwO2(i)
+        Bio_bottom(i,iNO3_)=bwNO3(i)
+        Bio_bottom(i,iNH4_)=bwNH4(i)
+        Bio_bottom(i,iPO4_)=bwPO4(i)
+        Bio_bottom(i,iH2S_)=bwH2S(i)
+        Bio_bottom(i,iLDeC)=bwPOM(i)
+        Bio_bottom(i,iSDeC)=bwPOM(i)
       END DO
 
       DO k=1,Nbed
@@ -62,17 +62,18 @@
 !  restart from rst.csv
 !-----------------------------------------------------------------------
 !
-# ifdef GREEN
-      OPEN(10,file='green_ini.csv')
-# else
-      OPEN(10,file='rst.csv')
-# endif
-      READ(10,'()',end=99)
       DO i=Istr,Iend
+# ifdef GREEN
+        OPEN(10+i,file='green_ini.csv')
+# else
+        WRITE(filename,'("rst",i1,".csv")') i
+        OPEN(10+i,file=filename)
+# endif
+        READ(10+i,'()',end=99)
         DO k=1,Nbed
-          READ(10,*) (bpw(i,j,k,itrc),itrc=1,NBGCPW),                   &
-     &               (bsm(i,j,k,itrc),itrc=1,NBGCSM)
+          READ(10+i,*) (bpw(i,j,k,itrc),itrc=1,NBGCPW),                 &
+     &                 (bsm(i,j,k,itrc),itrc=1,NBGCSM)
         END DO
       END DO
-   99 CLOSE(10)
+   99 CLOSE(10+i)
 #endif
