@@ -17,7 +17,6 @@ out = pd.read_csv(outfile, index_col=['time'])
 obs = pd.read_csv(obsfile)
 depths = {1:1.0, 2:2.89, 3:4.84, 4:7.29, 5:12.25, 6:16.0}
 obs['depth'] = obs['layer'].map(depths)
-obs = obs[obs.station<=2]
 
 
 tmax = int(max(out.index)/360)*360
@@ -42,9 +41,14 @@ for name in out.columns[1:]:
                  label='{}years'.format(t/360),
                  c=cm.jet(float(t)/tmax,1))
 
-    if name in obs.columns:
+    if point == 1:
+        pobs = obs[obs.station<=2]
+    elif point == 2:
+        pobs = obs[obs.station>=4]
+
+    if name in pobs.columns:
         print a, name, 'obs'
-        plt.plot(obs[name], -obs['depth'], 'o')
+        plt.plot(pobs[name], -pobs['depth'], 'o')
 
 
     vmax = out[name][tmax/2:].max()
