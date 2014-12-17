@@ -23,14 +23,14 @@
       real(8), parameter :: bwFe  = 0.0d0     ! (F)(A)
       real(8), parameter :: bwCH4 = 0.0d0     ! (F)(A)
 
-      real(8) :: bwO2(IminS:ImaxS)   = (/ 187.5d0, 187.5d0 /) ! 6.0 mg/l
-      real(8) :: bwNO3(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
-      real(8) :: bwNH4(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
-      real(8) :: bwPO4(IminS:ImaxS)  = (/ 0.323d0, 0.323d0 /) ! 0.01mg/l
-      real(8) :: bwH2S(IminS:ImaxS)  = (/ 0.000d0, 0.000d0 /) ! 0.0 mg/l
-      real(8) :: bwPOM(IminS:ImaxS)  = (/ 20.00d0, 10.00d0 /) ! 240 mg/m2/day
-      real(8) :: bwDOMf(IminS:ImaxS) = (/ 118.0d0, 118.0d0 /) ! (A)300
-      real(8) :: bwDOMs(IminS:ImaxS) = (/ 0.000d0, 0.000d0 /) ! (A)0
+      real(8), parameter :: bwO2(IminS:ImaxS)   = (/ 187.5d0, 187.5d0 /) ! 6.0 mg/l
+      real(8), parameter :: bwNO3(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
+      real(8), parameter :: bwNH4(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
+      real(8), parameter :: bwPO4(IminS:ImaxS)  = (/ 0.323d0, 0.323d0 /) ! 0.01mg/l
+      real(8), parameter :: bwH2S(IminS:ImaxS)  = (/ 0.000d0, 0.000d0 /) ! 0.0 mg/l
+      real(8), parameter :: bwPOM(IminS:ImaxS)  = (/ 20.00d0, 10.00d0 /) ! 240 mg/m2/day
+      real(8), parameter :: bwDOMf(IminS:ImaxS) = (/ 118.0d0, 118.0d0 /) ! (A)300
+      real(8), parameter :: bwDOMs(IminS:ImaxS) = (/ 0.000d0, 0.000d0 /) ! (A)0
 !
 !  Porosity (nondimensional)
 !
@@ -44,9 +44,9 @@
 !
 !  Burial rate (cm year-1)
 !
-      real(8), parameter :: a_wsm = 0.22d0 ! (A)0.22 (F)0.064 (B)0.12
-      real(8), parameter :: b_wsm = 0.26d0 ! (A)0.26
-      real(8), parameter :: c_wsm = 0.3d0  ! (A)0.3
+      real(8), parameter :: a_wsm(IminS:ImaxS) = (/ 0.22d0, 0.20d0 /) ! (A)0.22 (F)0.064 (B)0.12
+      real(8), parameter :: b_wsm(IminS:ImaxS) = (/ 0.26d0, 0.06d0 /) ! (A)0.26
+      real(8), parameter :: c_wsm(IminS:ImaxS) = (/ 0.30d0, 0.30d0 /) ! (A)0.3
 !
 !  difusivity i free water (cm2 s-1)
 !
@@ -133,7 +133,7 @@
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 !
       real(8), parameter :: KDOMf = 1.0d-3 ! s-1                 (A)1.0d-3
-      real(8), parameter :: KDOMs = 1.0d-8 ! s-1                 (A)5.0d-9
+      real(8), parameter :: KDOMs = 5.0d-8 ! s-1                 (A)5.0d-9
       real(8), parameter :: KPOMf = 2.5d-6 ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
       real(8), parameter :: KPOMs = 1.2d-9 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
 

@@ -219,7 +219,7 @@
 !  Burial rate (cm year-1 to cm s-1)
 !
         DO k=1,Nbed
-          wsm(i,k)=a_wsm+b_wsm*10.0d0**(-c_wsm*depth(i,k))
+          wsm(i,k)=a_wsm(i)+b_wsm(i)*10.0d0**(-c_wsm(i)*depth(i,k))
           wsm(i,k)=wsm(i,k)/year2s
         END DO
 !
