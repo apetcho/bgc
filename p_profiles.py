@@ -37,7 +37,7 @@ for name in out.columns[1:]:
     a+=1
     ax = plt.subplot(2, 11, a)
 
-    for t in range(0,tmax+1,tmax/6):
+    for t in range(tmax/2,tmax+1,tmax/6):
         plt.plot(out[name][t], -out.z[0],
                  label='{}years'.format(t/360),
                  c=cm.jet(float(t)/tmax,1))
@@ -47,7 +47,7 @@ for name in out.columns[1:]:
         plt.plot(obs[name], -obs['depth'], 'o')
 
 
-    vmax = out[name].max()
+    vmax = out[name][tmax/2:].max()
 
     plt.title(name)
     plt.xticks([vmax])

@@ -293,6 +293,8 @@
 !
 !  DO by temperature
 !
+        i=1
+        bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
 !        DO i=Istr,Iend
 !          bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
 !        END DO

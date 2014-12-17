@@ -1,7 +1,9 @@
 !
-!-----------------------------------------------------------------------
-!  initialize variables
-!-----------------------------------------------------------------------
+!=======================================================================
+!  initialize conditions
+!=======================================================================
+!
+!  bottom water tracers
 !
       DO i=Istr,Iend
         Bio_bottom(i,iOxyg)=bwO2(i)
@@ -12,7 +14,48 @@
         Bio_bottom(i,iLDeC)=bwPOM(i)
         Bio_bottom(i,iSDeC)=bwPOM(i)
       END DO
+!
+!  fluxes
+!
+      DO itrc=1,NBGCPW
+        DO i=Istr,Iend
+          bpwflux(i,j,itrc)=0.0d0
+        END DO
+      END DO
+      DO itrc=1,NBGCSM
+        DO i=Istr,Iend
+          bsmflux(i,j,itrc)=0.0d0
+        END DO
+      END DO
 
+#ifdef RST
+!
+!-----------------------------------------------------------------------
+!  If you "make", bpw & bsm restart from "rst.csv".
+!-----------------------------------------------------------------------
+!
+      DO i=Istr,Iend
+# ifdef GREEN
+        WRITE(filename,'("ini",i1,".csv")') i
+        OPEN(10+i,file=filename)
+# else
+        WRITE(filename,'("rst",i1,".csv")') i
+        OPEN(10+i,file=filename)
+# endif
+        READ(10+i,'()',end=99)
+        DO k=1,Nbed
+          READ(10+i,*) (bpw(i,j,k,itrc),itrc=1,NBGCPW),                 &
+     &                 (bsm(i,j,k,itrc),itrc=1,NBGCSM)
+        END DO
+      END DO
+   99 CLOSE(10+i)
+
+#else
+!
+!-----------------------------------------------------------------------
+!  If you "make first", bpw & bsm start from following.
+!-----------------------------------------------------------------------
+!
       DO k=1,Nbed
         DO i=Istr,Iend
 !
@@ -43,37 +86,4 @@
           bsm(i,j,k,iFeS2)=0.0d0
         END DO
       END DO
-!
-!  fluxes
-!
-      DO itrc=1,NBGCPW
-        DO i=Istr,Iend
-          bpwflux(i,j,itrc)=0.0d0
-        END DO
-      END DO
-      DO itrc=1,NBGCSM
-        DO i=Istr,Iend
-          bsmflux(i,j,itrc)=0.0d0
-        END DO
-      END DO
-#ifdef RST
-!
-!-----------------------------------------------------------------------
-!  restart from rst.csv
-!-----------------------------------------------------------------------
-!
-      DO i=Istr,Iend
-# ifdef GREEN
-        OPEN(10+i,file='green_ini.csv')
-# else
-        WRITE(filename,'("rst",i1,".csv")') i
-        OPEN(10+i,file=filename)
-# endif
-        READ(10+i,'()',end=99)
-        DO k=1,Nbed
-          READ(10+i,*) (bpw(i,j,k,itrc),itrc=1,NBGCPW),                 &
-     &                 (bsm(i,j,k,itrc),itrc=1,NBGCSM)
-        END DO
-      END DO
-   99 CLOSE(10+i)
 #endif
