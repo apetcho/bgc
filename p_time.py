@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 
-point = 1
+point = 2
 
 
 csvfile = 'out{}.csv'.format(point)

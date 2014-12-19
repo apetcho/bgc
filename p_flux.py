@@ -8,12 +8,13 @@ import matplotlib.cm as cm
 point = 1
 
 
-csvfile = 'out{}.csv'.format(point)
+csvfile = 'out_flux{}.csv'.format(point)
 pngfile = 'out_flux{}.png'.format(point)
 avgfile = 'avg_flux{}.csv'.format(point)
 
 
 df = pd.read_csv(csvfile, index_col=['time'])
+print df.describe()
 
 
 plt.figure(figsize=(16, 11))
@@ -41,7 +42,8 @@ plt.savefig(pngfile, bbox_inches='tight')
 #plt.show()
 
 
-last = df[len(df)-360:]
+last = df.ix[df.index[-360:-1], :]
+print last.describe()
 mean = last.mean()
 
 mean.to_csv(avgfile)

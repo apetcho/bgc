@@ -41,10 +41,6 @@ for point in [1, 2]:
         plt.plot(out[name][tmax], -out.z[0],
                      colors[point],
                      label='point{}'.format(point))
-        #for t in range(tmax/2,tmax+1,tmax/6):
-        #    plt.plot(out[name][t], -out.z[0],
-        #             label='{}years'.format(t/360),
-        #             c=cm.jet(float(t)/tmax,1))
 
         if point == 1: 
             pobs = obs[obs.station<=2]
