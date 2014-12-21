@@ -164,8 +164,7 @@
       real(8), dimension(0:Nbed) :: Thomas_d
 
 #ifdef GREEN
-# include "green_bgc_param.h"
-# include "green_param.h"
+# include "bgc_param4g.h"
 #else
 # include "bgc_param.h"
 #endif
