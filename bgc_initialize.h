@@ -6,13 +6,15 @@
 !  bottom water tracers
 !
       DO i=Istr,Iend
-        Bio_bottom(i,iOxyg)=bwO2(i)
         Bio_bottom(i,iNO3_)=bwNO3(i)
         Bio_bottom(i,iNH4_)=bwNH4(i)
         Bio_bottom(i,iPO4_)=bwPO4(i)
         Bio_bottom(i,iH2S_)=bwH2S(i)
-        Bio_bottom(i,iLDeC)=bwPOM(i)
-        Bio_bottom(i,iSDeC)=bwPOM(i)
+
+!       Bio_bottom(i,iOxyg)=bwO2(i)
+!       Bio_bottom(i,iLDeC)=bwPOM(i)
+!       Bio_bottom(i,iSDeC)=bwPOM(i)
+
       END DO
 !
 !  fluxes

@@ -231,7 +231,7 @@
 !
 !  import water colomn tracer's consentrations (mmol m-3)
 !
-        bw(i,iwO2_)=MAX(Bio_bottom(i,iOxyg),0.0d0)
+!       bw(i,iwO2_)=MAX(Bio_bottom(i,iOxyg),0.0d0)
         bw(i,iwNO3)=MAX(Bio_bottom(i,iNO3_),0.0d0)
         bw(i,iwNH4)=MAX(Bio_bottom(i,iNH4_),0.0d0)
         bw(i,iwPO4)=MAX(Bio_bottom(i,iPO4_),0.0d0)
@@ -292,11 +292,9 @@
 !
 !  DO by temperature
 !
-        i=1
-        bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
-!        DO i=Istr,Iend
-!          bw(i,iwO2_)=-12.0d0*tsm(i,1)+300.0d0
-!        END DO
+        DO i=Istr,Iend
+          bw(i,iwO2_)=DO20(i)*facDO(i)**(tsm(i,1)-20.0d0)
+        END DO
 #endif
 !
 !  reset flux
@@ -464,9 +462,9 @@
 !         m/day -> cm/s
 !
 #ifdef STANDALONE
-          cff=m2cm/day2s*1.05d0**(tsm(i,1)-20.0d0)
-          cff1=cff*wLDet*Bio_bottom(i,iLDeC)
-          cff2=cff*wSDet*Bio_bottom(i,iSDeC)
+          cff=m2cm/day2s*facPOM(i)**(tsm(i,1)-20.0d0)
+          cff1=cff*wLDet*POM20(i) !Bio_bottom(i,iLDeC)
+          cff2=cff*wSDet*POM20(i) !Bio_bottom(i,iSDeC)
           smflux(i,0,iPOMf)=(cff1+cff2)*ratio_f
           smflux(i,0,iPOMs)=(cff1+cff2)*(1.0d0-ratio_n-ratio_f)
           smflux(i,0,iPOMn)=(cff1+cff2)*ratio_n

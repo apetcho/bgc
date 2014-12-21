@@ -23,14 +23,20 @@
       real(8), parameter :: bwFe  = 0.0d0     ! (F)(A)
       real(8), parameter :: bwCH4 = 0.0d0     ! (F)(A)
 
-      real(8), parameter :: bwO2(IminS:ImaxS)   = (/ 187.5d0, 187.5d0 /) ! 6.0 mg/l
       real(8), parameter :: bwNO3(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
       real(8), parameter :: bwNH4(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
       real(8), parameter :: bwPO4(IminS:ImaxS)  = (/ 0.323d0, 0.323d0 /) ! 0.01mg/l
       real(8), parameter :: bwH2S(IminS:ImaxS)  = (/ 0.000d0, 0.000d0 /) ! 0.0 mg/l
-      real(8), parameter :: bwPOM(IminS:ImaxS)  = (/ 20.00d0, 10.00d0 /) ! 240 mg/m2/day
       real(8), parameter :: bwDOMf(IminS:ImaxS) = (/ 118.0d0, 118.0d0 /) ! (A)300
       real(8), parameter :: bwDOMs(IminS:ImaxS) = (/ 0.000d0, 0.000d0 /) ! (A)0
+
+!     real(8), parameter :: bwO2(IminS:ImaxS)   = (/ 187.5d0, 187.5d0 /) ! 6.0 mg/l
+!     real(8), parameter :: bwPOM(IminS:ImaxS)  = (/ 20.00d0, 10.00d0 /) ! 240 mg/m2/day
+
+      real(8), parameter :: DO20(IminS:ImaxS)   = (/ 50.00d0, 180.0d0 /) ! DO at 20C
+      real(8), parameter :: facDO(IminS:ImaxS)  = (/ 0.860d0, 0.980d0 /) ! DO correction factor of temperature
+      real(8), parameter :: POM20(IminS:ImaxS)  = (/ 25.00d0, 15.00d0 /) ! POM at 20C
+      real(8), parameter :: facPOM(IminS:ImaxS) = (/ 1.050d0, 1.050d0 /) ! POM correction factor of temperature
 !
 !  Porosity (nondimensional)
 !
@@ -121,7 +127,9 @@
 !
       real(8), parameter :: FMnO2  = 2.0d-2  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
       real(8), parameter :: FFeOOH = 1.0d0   ! (F)2.05d-4 (W)3.2d-6 (A)1.8
-      real(8), parameter :: FPOM   = 22.5d0  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
+
+!     real(8), parameter :: FPOM   = 22.5d0  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
+
 !
 !  Limiting concentrations (uM, nmol g-1)
 !
