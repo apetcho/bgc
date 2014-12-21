@@ -18,7 +18,7 @@ outfile = 'out/out1.csv'
 
 pname  = np.array(['KDOMs', 'KPOMs'])
 param  = np.array([5.0e-08, 1.2e-09])
-eparam = np.array([5.0e-08, 1.2e-09])
+eparam = np.array([5.0e-09, 1.2e-10])
 delta  = np.array([5.0e-09, 1.2e-10])
 
 eobs   = {'NH4':50,'PO4':5}
@@ -32,8 +32,9 @@ def get_obs():
     """ return observations dataframe """
 
     data = pd.read_csv(obsfile)
+    data = data[data.station <= 2]
     obs  = {'time':[], 'depth':[], 'name':[], 'value':[], 'error':[]}
-    for i in range(len(data)-1):
+    for i in data.index:
         for name in ['NH4','PO4']:
             obs['time' ].append( data.time[i] )
             obs['depth'].append( l2d[data.layer[i]] )
@@ -64,7 +65,7 @@ def run(param):
             #param_str = '{} = {}\n'.format(pname[i], param[i])
             param_str = '{}\n'.format(param[i])
             f.write(param_str)
-    os.system("./a.out < {} > log.txt".format(parfile))
+    os.system("./a.out < {} > log.txt".format(newfile))
     x = pd.read_csv(outfile)
     return H(x)
 

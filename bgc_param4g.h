@@ -128,7 +128,7 @@
       real(8), parameter :: FMnO2  = 2.0d-2  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
       real(8), parameter :: FFeOOH = 1.0d0   ! (F)2.05d-4 (W)3.2d-6 (A)1.8
       
-!      real(8), parameter :: FPOM   = 22.5d0  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
+!     real(8), parameter :: FPOM   = 22.5d0  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
 !
 !  Limiting concentrations (uM, nmol g-1)
 !
@@ -140,9 +140,9 @@
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 !
       real(8), parameter :: KDOMf = 1.0d-3 ! s-1                 (A)1.0d-3
-      real(8), parameter :: KDOMs = 5.0d-8 ! s-1                 (A)5.0d-9
+      real(8) :: KDOMs = 5.0d-8 ! s-1                 (A)5.0d-9
       real(8), parameter :: KPOMf = 2.5d-6 ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      real(8), parameter :: KPOMs = 1.2d-9 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
+      real(8) :: KPOMs = 1.2d-9 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-8
 
       real(8), parameter :: K06 = 2.5d-7  ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
       real(8), parameter :: K07 = 5.0d-14 ! s-1       (F)5.0d-11 (A)5.0d-14
