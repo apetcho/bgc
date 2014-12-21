@@ -34,9 +34,7 @@
 !***********************************************************************
 !
 #ifdef STANDALONE
-
 # include "bgc_use.h"
-
       real(8) :: Bio_bottom(IminS:ImaxS,UBt)
       real(8) :: bpw(LBi:UBi,LBj:UBj,Nbed,NBGCPW)
       real(8) :: bsm(LBi:UBi,LBj:UBj,Nbed,NBGCSM)
@@ -91,8 +89,10 @@
       real(8), dimension(NBGCPW) :: cff_pw
       real(8), dimension(NBGCPW) :: Rpw
       real(8), dimension(NBGCSM) :: Rsm
+
       real(8), dimension(IminS:ImaxS,NBGCPW) :: bw            ! uM = mmol m-3 = nmol cm-3
       real(8), dimension(IminS:ImaxS,Nbed)   :: tsm           ! Celius
+
       real(8), dimension(IminS:ImaxS,0:Nbed,NBGCPW) :: pw     ! uM = mmol m-3 = nmol cm-3
       real(8), dimension(IminS:ImaxS,  Nbed,NBGCSM) :: sm     ! nmol g-1
       real(8), dimension(IminS:ImaxS,0:Nbed,NBGCPW) :: pwflux ! nmol cm-2 s-1
