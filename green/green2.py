@@ -4,50 +4,74 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import pandas as pd
 import numpy as np
+import os
 
 """ parameters """
 
 NLOOP  = 5
 nparam = 2
 
-obsfile = 'obs.csv'
-parfile = 'green_param.h'
-outfile = 'out.csv'
+obsfile = 'obs2.csv'
+parfile = 'params.csv'
+newfile = 'new_param.tmp'
+outfile = 'out/out1.csv'
 
-pname  = ['KDOMs', 'KPOMs']
-param  = [5.0e-08, 1.2e-09]
-eparam = [5.0e-09, 1.2e-10]
-delta  = [5.0e-09, 1.2e-10]
+pname  = np.array(['KDOMs', 'KPOMs'])
+param  = np.array([5.0e-08, 1.2e-09])
+eparam = np.array([5.0e-08, 1.2e-09])
+delta  = np.array([5.0e-09, 1.2e-10])
 
 eobs   = {'NH4':50,'PO4':5}
 
 """ functions """
 
+l2d = {1:1.0, 2:2.89, 3:4.84, 4:7.29, 5:12.25, 6:16.0}
+
+def get_obs():
+
+    """ return observations dataframe """
+
+    data = pd.read_csv(obsfile)
+    obs  = {'time':[], 'depth':[], 'name':[], 'value':[], 'error':[]}
+    for i in range(len(data)-1):
+        for name in ['NH4','PO4']:
+            obs['time' ].append( data.time[i] )
+            obs['depth'].append( l2d[data.layer[i]] )
+            obs['name' ].append( name )
+            obs['value'].append( data[name][i] )
+            obs['error'].append( eobs[name] )
+    return pd.DataFrame(obs)
+
 def H(x):
+
+    """ return interpolated model x into observations space """
+
     y = np.zeros(nobs)
     for iobs in range(nobs):
         time  = obs.time[iobs]
         depth = obs.depth[iobs]
-        varid = obs.varid[iobs]
-        y[iobs] = x[time, depth, varid]
+        name  = obs.name[iobs]
+        y[iobs] = x[name][x.depth == depth].tolist()[-1]
     return y
 
 def run(param):
-    with open(parfile, 'w') as f:
+
+    """ run model with parameters in argument """
+
+    print param
+    with open(newfile, 'w') as f:
         for i in range(nparam):
-            param_str = '{} = {}'.format(pname[i], param[i])
+            #param_str = '{} = {}\n'.format(pname[i], param[i])
+            param_str = '{}\n'.format(param[i])
             f.write(param_str)
-
-    os.system("make green")
-    print 'model running...'
-    os.system("./a.out > log.txt")
-
+    os.system("./a.out < {} > log.txt".format(parfile))
     x = pd.read_csv(outfile)
     return H(x)
 
-""" prepare """
+""" prepare runs """
 
-obs  = pd.read_csv(obsfile)
+obs  = get_obs()
+y    = obs.value
 nobs = len(obs)
 
 Jb = np.zeros(NLOOP+1)
@@ -59,45 +83,48 @@ R  = np.zeros((nobs, nobs))
 for i in xrange(nparam):
     B[i,i] = 1.0/(eparam[i])**2
 for i in xrange(nobs):
-    R[i,i] = 1.0/(eobs[obs.name[i]])**2
+    R[i,i] = 1.0/(obs.error[i])**2
 
 Bin = np.linalg.inv(B)
 Rin = np.linalg.inv(R)
 
 """ start first run """
 
+os.system("make green")
+
 Ga_0 = run(param)
 Ga_b = Ga_0.copy()
 
 Jb[0] = 0
-Jo[0] = np.dot(np.dot( (Ga_0-obs).T,Rin ),(Ga_0-obs) ) * 0.5
+Jo[0] = np.dot(np.dot( (Ga_0-y).T,Rin ),(Ga_0-y) ) * 0.5
 
 ax1 = plt.subplot(2,1,1)
 ax2 = plt.subplot(2,1,2)
 
-ax1.plot(obs, 'o', label='obs')
+ax1.plot(y, 'o', label='obs')
 ax1.plot(Ga_0, 'k--', label='base')
 
 """ start runs """
 
 for i in range(NLOOP):
-    print i, param
 
     for j in range(nparam):
+        print i, j,
+
         cff    = param.copy()
-        cff[j] += eparam[j]
+        cff[j]+= eparam[j]
         Ga     = run(cff)
         G[:,j] = (Ga - Ga_b) / delta[j]
 
     cff1   = np.linalg.inv( Bin + np.dot( np.dot(G.T,Rin), G) )
-    cff2   = np.dot( np.dot(G.T,Rin), (Ga_b - obs) )
+    cff2   = np.dot( np.dot(G.T,Rin), (Ga_b - y) )
     dparam = np.dot( -cff1,cff2 )
 
     param += dparam
     Ga_b   = run(param)
 
     Jb[i+1] = np.dot(np.dot( dparam.T,Bin ),dparam ) * 0.5
-    Jo[i+1] = np.dot(np.dot( (Ga_b-obs).T,Rin ),(Ga_b-obs) ) * 0.5
+    Jo[i+1] = np.dot(np.dot( (Ga_b-y).T,Rin ),(Ga_b-y) ) * 0.5
 
     ax1.plot(Ga_b, c=cm.jet(float(i)/NLOOP,1), label='iter{}'.format(i+1))
 
