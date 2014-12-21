@@ -3,5 +3,7 @@
 *.png
 *~
 
+*.sublime-*
+
 !green_params.csv
 green_param.h
