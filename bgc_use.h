@@ -2,7 +2,7 @@
 !  argument
 !
       integer, parameter :: LBi   = 1
-      integer, parameter :: UBi   = 1
+      integer, parameter :: UBi   = 2
       integer, parameter :: LBj   = 1
       integer, parameter :: UBj   = 1
       integer, parameter :: UBk   = 20
