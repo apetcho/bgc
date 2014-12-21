@@ -7,7 +7,7 @@ import matplotlib.cm as cm
 
 plt.figure(figsize=(16, 8))
 obsfile = 'obs.csv'
-pngfile = 'out12_profiles.png'
+pngfile = 'out/out12_profiles.png'
 
 
 obs = pd.read_csv(obsfile)
@@ -19,7 +19,7 @@ vmax={}
 for point in [1, 2]:
 
 
-    outfile = 'out{}.csv'.format(point)
+    outfile = 'out/out{}.csv'.format(point)
     out = pd.read_csv(outfile, index_col=['time'])
 
 
@@ -38,7 +38,7 @@ for point in [1, 2]:
         ax = plt.subplot(2, 11, a)
 
         colors = {1:'b', 2:'r'}
-        plt.plot(out[name][tmax], -out.z[0],
+        plt.plot(out[name][tmax], -out.depth[0],
                      colors[point],
                      label='point{}'.format(point))
 
