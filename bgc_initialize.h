@@ -38,19 +38,19 @@
 !
       DO i=Istr,Iend
 # ifdef GREEN
-        WRITE(filename,'("ini",i1,".csv")') i
-        OPEN(10+i,file=filename)
+        WRITE(filename,'("../rst",i1,".csv")') i
+        OPEN(10+i,file=filename,action='read')
 # else
         WRITE(filename,'("rst",i1,".csv")') i
-        OPEN(10+i,file=filename)
+        OPEN(10+i,file=filename,action='read')
 # endif
         READ(10+i,'()',end=99)
         DO k=1,Nbed
           READ(10+i,*) (bpw(i,j,k,itrc),itrc=1,NBGCPW),                 &
      &                 (bsm(i,j,k,itrc),itrc=1,NBGCSM)
         END DO
+   99   CLOSE(10+i)
       END DO
-   99 CLOSE(10+i)
 
 #else
 !
@@ -88,4 +88,11 @@
           bsm(i,j,k,iFeS2)=0.0d0
         END DO
       END DO
+#endif
+#ifdef GREEN
+!
+!  input parameters from new_param.txt
+!
+      read(5,*) KDOMs
+      read(5,*) KPOMs
 #endif
