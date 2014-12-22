@@ -10,8 +10,8 @@ import os
 """ parameters """
 
 NLOOP = 2
-LONG  = 10.0*360.0
-SHORT =  1.0*360.0
+LONG  = 15.0*360.0
+SHORT = 15.0*360.0
 
 obsfile = 'obs2.csv'
 newfile = 'new_param.tmp'
