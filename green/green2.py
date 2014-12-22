@@ -17,6 +17,8 @@ obsfile = 'obs2.csv'
 newfile = 'tmp_param.csv'
 outfile = 'out/out1.csv'
 parfile = 'params.csv'
+newfile = 'out/new_param.csv'
+grnfile = 'out/green2.png'
 
 eobs = {'NH4':50.0,'PO4':5.0,'DOMs':500.0}
 
@@ -118,6 +120,8 @@ ax1.plot(Ga_0, 'k--', label='base')
 
 """ start runs """
 
+params = {0:param[:]}
+
 for i in range(NLOOP):
 
     for j in range(nparam):
@@ -140,10 +144,13 @@ for i in range(NLOOP):
 
     ax1.plot(Ga_b, c=cm.jet(float(i)/NLOOP,1), label='iter{}'.format(i+1))
 
+    params[i+1] = param[:]
+
 
 """ finalize """
 
-param.to_csv('new_param.csv')
+params = pd.DataFrame(params)
+params.to_csv(newfile)
 
 J = Jb + Jo
 ax2.plot(np.log10(J), label='J')
@@ -151,4 +158,4 @@ ax2.plot(np.log10(Jo), label='Jo')
 
 ax1.legend()
 ax2.legend()
-plt.savefig('green2.png')
+plt.savefig(grnfile)

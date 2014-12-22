@@ -80,7 +80,7 @@
 !-----------------------------------------------------------------------
 !
         IF (mod(dtBgc*Iter,360.0d0*86400.0d0).eq.0.0d0) THEN
-          WRITE(filename,'("rst",i1,".csv")') i
+          WRITE(filename,'("out/rst",i1,".csv")') i
           OPEN (15+i,file=filename)
           WRITE (15+i,1012)                                             &
      &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &

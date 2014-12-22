@@ -4,19 +4,22 @@
 !  If GREEN, some parameters are not "parameter"
 !========================================================================
 !
-      real(8) :: KDOMs
+      real(8) :: KPOMf
       real(8) :: KPOMs
+      real(8) :: KDOMf
+      real(8) :: KDOMs
       real(8) :: K06
+      real(8) :: ratio_n
       real(8) :: ratio_f
       real(8) :: ratio_CN
       real(8) :: ratio_CP
       real(8) :: ratio_DOMf
-      real(8) :: FMnO2
-      real(8) :: FFeOOH
       real(8) :: D0DOMf
       real(8) :: aDOMf
       real(8) :: D0DOMs
       real(8) :: aDOMs
+!      real(8) :: FMnO2
+!      real(8) :: FFeOOH
 #endif
 !
 !------------------------------------------------------------------------
@@ -140,10 +143,10 @@
 !
 !  Ratios
 !
-      real(8), parameter :: ratio_n  = 0.20d0   ! FOMn/FOMtotal   (F)0.08 (A)0.2
       real(8), parameter :: ratio_FA = 0.5d0    ! FFeOOHA/FFeOOHB         (A)0.5
       real(8), parameter :: ratio_MA = 0.5d0    ! FMnO2A/FMnO2B           (A)0.5
 #ifndef GREEN
+      real(8), parameter :: ratio_n  = 0.20d0   ! FOMn/FOMtotal   (F)0.08 (A)0.2
       real(8), parameter :: ratio_f  = 0.40d0   ! FOMf/FOMtotal   (F)0.42 (A)0.4
       real(8), parameter :: ratio_CN = 6.625d0  ! molC/molN of OM (F)10   (A)8
       real(8), parameter :: ratio_CP = 80.0d0   ! molC/molP of OM (F)80   (A)70
@@ -152,10 +155,10 @@
 !
 !  External fluxes ((F)(W)nmol/cm2/s, (A)mmol/m2/day)
 !
-#ifndef GREEN
+!#ifndef GREEN
       real(8), parameter :: FMnO2  = 2.0d-2  ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
       real(8), parameter :: FFeOOH = 1.0d0   ! (F)2.05d-4 (W)3.2d-6 (A)1.8
-#endif
+!#endif
 !     real(8), parameter :: FPOM   = 22.5d0  ! (F)1.0d-3  (W)1.0d-4 (A)22.5
 
 !
@@ -168,10 +171,10 @@
 !
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 !
-      real(8), parameter :: KPOMf = 2.5d-6 ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      real(8), parameter :: KDOMf = 1.0d-3 ! s-1                 (A)1.0d-3
 #ifndef GREEN
+      real(8), parameter :: KPOMf = 2.5d-6 ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
       real(8), parameter :: KPOMs = 1.2d-9 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-
+      real(8), parameter :: KDOMf = 1.0d-3 ! s-1                 (A)1.0d-3
       real(8), parameter :: KDOMs = 5.0d-8 ! s-1                 (A)5.0d-9
       real(8), parameter :: K06   = 2.5d-7 ! uM-1 s-1 (F)2.5d-6  (B)(A)2.5d-7
 #endif

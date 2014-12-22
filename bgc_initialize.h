@@ -38,7 +38,7 @@
 !
       DO i=Istr,Iend
 # ifdef GREEN
-        WRITE(filename,'("../rst",i1,".csv")') i
+        WRITE(filename,'("ini",i1,".csv")') i
         OPEN(10+i,file=filename,status='old')
 # else
         WRITE(filename,'("rst",i1,".csv")') i
@@ -94,17 +94,20 @@
 !  input parameters from new_param.tmp
 !
       read(5,*) ndays
+      read(5,*) KPOMf
       read(5,*) KPOMs
+      read(5,*) KDOMf
       read(5,*) KDOMs
       read(5,*) K06
+      read(5,*) ratio_n
       read(5,*) ratio_f
       read(5,*) ratio_CN
       read(5,*) ratio_CP
       read(5,*) ratio_DOMf
-      read(5,*) FMnO2
-      read(5,*) FFeOOH
       read(5,*) D0DOMf
       read(5,*) aDOMf
       read(5,*) D0DOMs
       read(5,*) aDOMs
+!      read(5,*) FMnO2
+!      read(5,*) FFeOOH
 #endif
