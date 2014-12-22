@@ -9,9 +9,9 @@ import os
 
 """ parameters """
 
-NLOOP = 2
-LONG  = 15.0*360.0
-SHORT = 15.0*360.0
+NLOOP = 10
+LONG  = 20.0*360.0
+SHORT = 20.0*360.0
 
 obsfile = 'obs2.csv'
 newfile = 'tmp_param.csv'
@@ -20,7 +20,7 @@ parfile = 'params.csv'
 newfile = 'out/new_param.csv'
 grnfile = 'out/green2.png'
 
-eobs = {'NH4':50.0,'PO4':5.0,'DOMs':500.0}
+eobs = {'NH4':100.0,'PO4':10.0,'DOMs':1000.0}
 
 
 """ functions """
@@ -121,6 +121,7 @@ ax1.plot(Ga_0, 'k--', label='base')
 """ start runs """
 
 params = {0:param[:]}
+delta  = np.zeros(nparam)
 
 for i in range(NLOOP):
 
@@ -129,22 +130,21 @@ for i in range(NLOOP):
 
         p      = param.copy()
         p[j]  += eparam[j]
-        Ga     = model(p, SHORT)
+        Ga     = model(p+delta, SHORT)
         G[:,j] = (Ga - Ga_b) / eparam[j]
 
     cff1   = np.linalg.inv( Bin + np.dot( np.dot(G.T,Rin), G) )
     cff2   = np.dot( np.dot(G.T,Rin), (Ga_b - y) )
-    dparam = np.dot( -cff1,cff2 )
+    delta += np.dot( -cff1,cff2 )
 
-    param += dparam
-    Ga_b   = model(param, LONG)
+    Ga_b   = model(param+delta, LONG)
 
-    Jb[i+1] = np.dot(np.dot( dparam.T,Bin ),dparam ) * 0.5
+    Jb[i+1] = np.dot(np.dot( delta.T,Bin ),delta ) * 0.5
     Jo[i+1] = np.dot(np.dot( (Ga_b-y).T,Rin ),(Ga_b-y) ) * 0.5
 
     ax1.plot(Ga_b, c=cm.jet(float(i)/NLOOP,1), label='iter{}'.format(i+1))
 
-    params[i+1] = param[:]
+    params[i+1] = param + delta
 
 
 """ finalize """
@@ -152,8 +152,13 @@ for i in range(NLOOP):
 params = pd.DataFrame(params)
 params.to_csv(newfile)
 
-J = Jb + Jo
+J    = Jb + Jo
+cost = {'J':J, 'Jb':Jb, 'Jo':Jo}
+cost = pd.DataFrame(cost)
+cost.to_csv()
+
 ax2.plot(np.log10(J), label='J')
+ax2.plot(np.log10(Jb), label='Jb')
 ax2.plot(np.log10(Jo), label='Jo')
 
 ax1.legend()

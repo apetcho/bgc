@@ -3,7 +3,7 @@
 !  standard out
 !-----------------------------------------------------------------------
 !
-        IF (mod(dtBgc*Iter,10.0d0*86400.0d0).eq.0.0d0) THEN
+        IF (mod(dtBgc*Iter,30.0d0*86400.0d0).eq.0.0d0) THEN
           cff=dtBgc*Iter/86400.0d0
 !
           WRITE(*,'(i7,9a8)') int(cff),'daysDOMf','DOMs','MnO2','FeOOH',&

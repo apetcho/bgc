@@ -12,7 +12,7 @@
       integer, parameter :: Istr  = 1
       integer, parameter :: Iend  = 2
       integer, parameter :: j     = 1
-      real(8), parameter :: dtdays = 600.0d0/86400.0d0
+      real(8), parameter :: dtdays = 1200.0d0/86400.0d0
 #ifndef GREEN
       real(8), parameter :: ndays  = 100.0d0*360.0d0
 #endif
