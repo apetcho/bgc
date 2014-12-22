@@ -7,6 +7,3 @@
 *.sublime-*
 
 out/
-
-!green_params.csv
-green_param.h
