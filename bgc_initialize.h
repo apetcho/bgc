@@ -91,11 +91,11 @@
 #endif
 #ifdef GREEN
 !
-!  input parameters from new_param.txt
+!  input parameters from new_param.tmp
 !
       read(5,*) ndays
-      read(5,*) KDOMs
       read(5,*) KPOMs
+      read(5,*) KDOMs
       read(5,*) K06
       read(5,*) ratio_f
       read(5,*) ratio_CN
@@ -103,4 +103,8 @@
       read(5,*) ratio_DOMf
       read(5,*) FMnO2
       read(5,*) FFeOOH
+      read(5,*) D0DOMf
+      read(5,*) aDOMf
+      read(5,*) D0DOMs
+      read(5,*) aDOMs
 #endif

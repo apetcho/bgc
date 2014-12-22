@@ -13,6 +13,10 @@
       real(8) :: ratio_DOMf
       real(8) :: FMnO2
       real(8) :: FFeOOH
+      real(8) :: D0DOMf
+      real(8) :: aDOMf
+      real(8) :: D0DOMs
+      real(8) :: aDOMs
 #endif
 !
 !------------------------------------------------------------------------
@@ -88,10 +92,15 @@
       real(8), parameter :: aMn   = 0.153d0   ! (F)(A)
       real(8), parameter :: D0Fe  = 3.36d0    ! (F)(A)
       real(8), parameter :: aFe   = 0.148d0   ! (F)(A)
-      real(8), parameter :: D0PO4 = 9.76d0    ! (F?)(A)
-      real(8), parameter :: aPO4  = 0.398d0   ! (F?)(A)
-      real(8), parameter :: D0DOM = 9.76d0    !    (A)*
-      real(8), parameter :: aDOM  = 0.398d0   !    (A)*
+      real(8), parameter :: D0PO4 = 9.76d0    !    (A)
+      real(8), parameter :: aPO4  = 0.398d0   !    (A)
+
+#ifndef GREEN
+      real(8), parameter :: D0DOMf = 1.0d0    !
+      real(8), parameter :: aDOMf  = 1.0d-1   !
+      real(8), parameter :: D0DOMs = 1.0d-2   !
+      real(8), parameter :: aDOMs  = 1.0d-3   !
+#endif
 !
 !  Q10 (not to use)
 !

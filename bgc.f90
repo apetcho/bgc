@@ -337,8 +337,8 @@
             Diff(i,k,iwO2_)=cff1*(D0O2 +aO2*T +bO2*(T**2.0d0))
             Diff(i,k,iwH2S)=cff1*(D0H2S+aH2S*T+bH2S*(T**2.0d0))
             Diff(i,k,iwPO4)=cff1*(D0PO4+aPO4*T)
-            Diff(i,k,iwDOMf)=cff1*(D0DOM+aDOM*T)/10.0d0     !Nchange
-            Diff(i,k,iwDOMs)=cff1*(D0DOM+aDOM*T)/1000.0d0   !Nchange
+            Diff(i,k,iwDOMf)=cff1*(D0DOMf+aDOMf*T)
+            Diff(i,k,iwDOMs)=cff1*(D0DOMs+aDOMs*T)
           END DO
 !
           DO itrc=1,NBGCPW
