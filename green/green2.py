@@ -11,17 +11,12 @@ import os
 NLOOP = 2
 LONG  = 10.0*360.0
 SHORT =  1.0*360.0
-nparam = 2
 
 obsfile = 'obs2.csv'
 newfile = 'new_param.tmp'
 outfile = 'out/out1.csv'
 parfile = 'params.csv'
 
-pname  = np.array(['KDOMs', 'KPOMs'])
-param  = np.array([5.0e-08, 1.2e-09])
-eparam = np.array([5.0e-09, 1.2e-10])
-delta  = np.array([5.0e-09, 1.2e-10])
 eobs = {'NH4':50,'PO4':5}
 
 """ functions """
@@ -72,6 +67,13 @@ def model(param, ndays):
     return H(x)
 
 """ prepare runs """
+
+par    = pd.read_csv(parfile,index_col='pname')
+pname  = par.index
+param  = par.param
+eparam = par.eparam
+delta  = par.delta
+nparam = len(param)
 
 obs  = get_obs()
 y    = obs.value

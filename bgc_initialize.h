@@ -93,6 +93,14 @@
 !
 !  input parameters from new_param.txt
 !
+      read(5,*) ndays
       read(5,*) KDOMs
       read(5,*) KPOMs
+      read(5,*) K06
+      read(5,*) ratio_f
+      read(5,*) ratio_CN
+      read(5,*) ratio_CP
+      read(5,*) ratio_DOMf
+      read(5,*) FMnO2
+      read(5,*) FFeOOH
 #endif
