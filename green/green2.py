@@ -14,11 +14,11 @@ LONG  = 15.0*360.0
 SHORT = 15.0*360.0
 
 obsfile = 'obs2.csv'
-newfile = 'new_param.tmp'
+newfile = 'tmp_param.csv'
 outfile = 'out/out1.csv'
 parfile = 'params.csv'
 
-eobs = {'NH4':70.0,'PO4':5.0,'DOMs':100.0}
+eobs = {'NH4':50.0,'PO4':5.0,'DOMs':500.0}
 
 
 """ functions """
@@ -77,7 +77,7 @@ def model(param, ndays):
 par    = pd.read_csv(parfile,index_col='pname')
 pname  = par.index
 param  = par.param
-eparam = par.eparam
+eparam = par.perturb
 nparam = len(param)
 
 obs  = get_obs()
@@ -142,6 +142,8 @@ for i in range(NLOOP):
 
 
 """ finalize """
+
+param.to_csv('new_param.csv')
 
 J = Jb + Jo
 ax2.plot(np.log10(J), label='J')
