@@ -86,9 +86,9 @@ B  = np.zeros((nparam, nparam))
 R  = np.zeros((nobs, nobs))
 
 for i in xrange(nparam):
-    B[i,i] = 1.0/(eparam[i])**2
+    B[i,i] = (eparam[i])**2
 for i in xrange(nobs):
-    R[i,i] = 1.0/(obs.error[i])**2
+    R[i,i] = (obs.error[i])**2
 
 Bin = np.linalg.inv(B)
 Rin = np.linalg.inv(R)
