@@ -5,14 +5,16 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 
-point = 2
+point = 1
 
 
-csvfile = 'out{}.csv'.format(point)
-pngfile = 'out{}_time.png'.format(point)
+#csvfile = 'out{}.csv'.format(point)
+#pngfile = 'out{}_time.png'.format(point)
+csvfile = 'green/out/out{}.csv'.format(point)
+pngfile = 'green/out/out{}_time.png'.format(point)
 
 
-df = pd.read_csv(csvfile, index_col=['time', 'z'])
+df = pd.read_csv(csvfile, index_col=['time', 'depth'])
 
 
 plt.figure(figsize=(14, 9))
@@ -28,7 +30,7 @@ for name in df.columns:
 
     a += 1
     ax = plt.subplot(5, 5, a)
-    v  = df[name].unstack('z')
+    v  = df[name].unstack('depth')
 
     for z in v.columns:
         time = v[z].index.tolist()

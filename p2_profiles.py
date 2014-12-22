@@ -7,7 +7,10 @@ import matplotlib.cm as cm
 
 plt.figure(figsize=(16, 8))
 obsfile = 'obs.csv'
-pngfile = 'out/out12_profiles.png'
+#outfile = 'out/out{}.csv'
+#pngfile = 'out/out12_profiles.png'
+outfile = 'green/out/out{}.csv'
+pngfile = 'green/out/out12_profiles.png'
 
 
 obs = pd.read_csv(obsfile)
@@ -19,8 +22,8 @@ vmax={}
 for point in [1, 2]:
 
 
-    outfile = 'out/out{}.csv'.format(point)
-    out = pd.read_csv(outfile, index_col=['time'])
+    out = outfile.format(point)
+    out = pd.read_csv(out, index_col=['time'])
 
 
     tmax = int(max(out.index)/360)*360
