@@ -17,7 +17,7 @@ newfile = 'new_param.tmp'
 outfile = 'out/out1.csv'
 parfile = 'params.csv'
 
-eobs = {'NH4':50,'PO4':5}
+eobs = {'NH4':70.0,'PO4':5.0,'DOMs':100.0}
 
 """ functions """
 
@@ -31,7 +31,7 @@ def get_obs():
     data = data[data.station <= 2]
     obs  = {'time':[], 'depth':[], 'name':[], 'value':[], 'error':[]}
     for i in data.index:
-        for name in ['NH4','PO4']:
+        for name in ['NH4','PO4','DOMs']:
             obs['time' ].append( data.time[i] )
             obs['depth'].append( l2d[data.layer[i]] )
             obs['name' ].append( name )
