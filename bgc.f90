@@ -163,11 +163,7 @@
       real(8), dimension(0:Nbed) :: Thomas_c
       real(8), dimension(0:Nbed) :: Thomas_d
 
-#ifdef GREEN
-# include "bgc_param4g.h"
-#else
-# include "bgc_param.h"
-#endif
+#include "bgc_param.h"
 !
 !-----------------------------------------------------------------------
 !  Initial conditions.

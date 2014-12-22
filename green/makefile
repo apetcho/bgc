@@ -1,2 +1,2 @@
 green:
-	ifort -DSTANDALONE -DRST -DGREEN -I../green ../bgc.f90 -fpp
+	ifort -DSTANDALONE -DRST -DGREEN ../bgc.f90 -fpp

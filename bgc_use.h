@@ -13,9 +13,7 @@
       integer, parameter :: Iend  = 2
       integer, parameter :: j     = 1
       real(8), parameter :: dtdays = 60.0d0/86400.0d0
-#ifdef GREEN
-      real(8), parameter :: ndays  = 10.0d0*360.0d0
-#else
+#ifndef GREEN
       real(8), parameter :: ndays  = 100.0d0*360.0d0
 #endif
 !
