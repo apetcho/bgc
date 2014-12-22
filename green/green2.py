@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import os
 
+
 """ parameters """
 
 NLOOP = 2
@@ -19,9 +20,11 @@ parfile = 'params.csv'
 
 eobs = {'NH4':70.0,'PO4':5.0,'DOMs':100.0}
 
+
 """ functions """
 
 l2d = {1:1.0, 2:2.89, 3:4.84, 4:7.29, 5:12.25, 6:16.0}
+
 
 def get_obs():
 
@@ -39,6 +42,7 @@ def get_obs():
             obs['error'].append( eobs[name] )
     return pd.DataFrame(obs)
 
+
 def H(x):
 
     """ return interpolated model x into observations space """
@@ -50,6 +54,7 @@ def H(x):
         name  = obs.name[iobs]
         y[iobs] = x[name][x.depth == depth].tolist()[-1]
     return y
+
 
 def model(param, ndays):
 
@@ -65,6 +70,7 @@ def model(param, ndays):
     os.system("./a.out < {} > log.txt".format(newfile))
     x = pd.read_csv(outfile)
     return H(x)
+
 
 """ prepare runs """
 
@@ -93,6 +99,7 @@ for i in xrange(nobs):
 Bin = np.linalg.inv(B)
 Rin = np.linalg.inv(R)
 
+
 """ start first run """
 
 os.system("make green")
@@ -108,6 +115,7 @@ ax2 = plt.subplot(2,1,2)
 
 ax1.plot(y, 'o', label='obs')
 ax1.plot(Ga_0, 'k--', label='base')
+
 
 """ start runs """
 
@@ -132,6 +140,7 @@ for i in range(NLOOP):
     Jo[i+1] = np.dot(np.dot( (Ga_b-y).T,Rin ),(Ga_b-y) ) * 0.5
 
     ax1.plot(Ga_b, c=cm.jet(float(i)/NLOOP,1), label='iter{}'.format(i+1))
+
 
 """ finalize """
 
