@@ -39,10 +39,10 @@
       DO i=Istr,Iend
 # ifdef GREEN
         WRITE(filename,'("../rst",i1,".csv")') i
-        OPEN(10+i,file=filename,action='read')
+        OPEN(10+i,file=filename,status='old')
 # else
         WRITE(filename,'("rst",i1,".csv")') i
-        OPEN(10+i,file=filename,action='read')
+        OPEN(10+i,file=filename,status='old')
 # endif
         READ(10+i,'()',end=99)
         DO k=1,Nbed

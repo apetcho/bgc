@@ -8,20 +8,21 @@ import os
 
 """ parameters """
 
-NLOOP  = 5
+NLOOP = 2
+LONG  = 10.0*360.0
+SHORT =  1.0*360.0
 nparam = 2
 
 obsfile = 'obs2.csv'
-parfile = 'params.csv'
 newfile = 'new_param.tmp'
 outfile = 'out/out1.csv'
+parfile = 'params.csv'
 
 pname  = np.array(['KDOMs', 'KPOMs'])
 param  = np.array([5.0e-08, 1.2e-09])
 eparam = np.array([5.0e-09, 1.2e-10])
 delta  = np.array([5.0e-09, 1.2e-10])
-
-eobs   = {'NH4':50,'PO4':5}
+eobs = {'NH4':50,'PO4':5}
 
 """ functions """
 
@@ -55,12 +56,13 @@ def H(x):
         y[iobs] = x[name][x.depth == depth].tolist()[-1]
     return y
 
-def run(param):
+def model(param, ndays):
 
     """ run model with parameters in argument """
 
     print param
     with open(newfile, 'w') as f:
+        f.write('{}\n'.format(ndays))
         for i in range(nparam):
             #param_str = '{} = {}\n'.format(pname[i], param[i])
             param_str = '{}\n'.format(param[i])
@@ -93,7 +95,7 @@ Rin = np.linalg.inv(R)
 
 os.system("make green")
 
-Ga_0 = run(param)
+Ga_0 = model(param, LONG)
 Ga_b = Ga_0.copy()
 
 Jb[0] = 0
@@ -112,9 +114,9 @@ for i in range(NLOOP):
     for j in range(nparam):
         print i, j,
 
-        cff    = param.copy()
-        cff[j]+= eparam[j]
-        Ga     = run(cff)
+        p      = param.copy()
+        p[j]  += eparam[j]
+        Ga     = model(p, SHORT)
         G[:,j] = (Ga - Ga_b) / delta[j]
 
     cff1   = np.linalg.inv( Bin + np.dot( np.dot(G.T,Rin), G) )
@@ -122,7 +124,7 @@ for i in range(NLOOP):
     dparam = np.dot( -cff1,cff2 )
 
     param += dparam
-    Ga_b   = run(param)
+    Ga_b   = model(param, LONG)
 
     Jb[i+1] = np.dot(np.dot( dparam.T,Bin ),dparam ) * 0.5
     Jo[i+1] = np.dot(np.dot( (Ga_b-y).T,Rin ),(Ga_b-y) ) * 0.5
