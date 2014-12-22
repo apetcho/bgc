@@ -78,7 +78,6 @@ par    = pd.read_csv(parfile,index_col='pname')
 pname  = par.index
 param  = par.param
 eparam = par.eparam
-delta  = par.delta
 nparam = len(param)
 
 obs  = get_obs()
@@ -127,7 +126,7 @@ for i in range(NLOOP):
         p      = param.copy()
         p[j]  += eparam[j]
         Ga     = model(p, SHORT)
-        G[:,j] = (Ga - Ga_b) / delta[j]
+        G[:,j] = (Ga - Ga_b) / eparam[j]
 
     cff1   = np.linalg.inv( Bin + np.dot( np.dot(G.T,Rin), G) )
     cff2   = np.dot( np.dot(G.T,Rin), (Ga_b - y) )
