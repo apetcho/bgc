@@ -26,7 +26,7 @@
      &                  pw(i,0,iwPO4)
             WRITE(*,*) ('-',iter2=1,78)
 !
-            DO k=1,Nbed,2
+            DO k=1,Nbed,4
               WRITE (*,1001) depth(i,k),                                &
      &                  pw(i,k,iwDOMf),                                 &
      &                  pw(i,k,iwDOMs),                                 &

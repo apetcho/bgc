@@ -9,18 +9,22 @@ import os
 
 """ parameters """
 
-NLOOP = 10
-LONG  = 20.0*360.0
-SHORT = 20.0*360.0
+NLOOP = 5
+LONG  = 10.0*360.0
+SHORT = 10.0*360.0
 
-obsfile = 'obs2.csv'
-newfile = 'tmp_param.csv'
+tmpfile = 'param.tmp'
+
+parfile = 'in/param.csv'
+obsfile = 'in/obs.csv'
 outfile = 'out/out1.csv'
-parfile = 'params.csv'
-newfile = 'out/new_param.csv'
-grnfile = 'out/green2.png'
 
-eobs = {'NH4':100.0,'PO4':10.0,'DOMs':1000.0}
+newfile = 'out/green_new_param.csv'
+cstfile = 'out/green_cost.csv'
+grnfile = 'out/green.png'
+
+#eobs = {'NH4':100.0,'PO4':1.0,'DOMs':500.0}
+eobs = {'NH4':100.0,'PO4':10.0,'DOMs':500.0}
 
 
 """ functions """
@@ -36,7 +40,7 @@ def get_obs():
     data = data[data.station <= 2]
     obs  = {'time':[], 'depth':[], 'name':[], 'value':[], 'error':[]}
     for i in data.index:
-        for name in ['NH4','PO4','DOMs']:
+        for name in eobs.keys():
             obs['time' ].append( data.time[i] )
             obs['depth'].append( l2d[data.layer[i]] )
             obs['name' ].append( name )
@@ -63,13 +67,12 @@ def model(param, ndays):
     """ run model with parameters in argument """
 
     print param
-    with open(newfile, 'w') as f:
+    with open(tmpfile, 'w') as f:
         f.write('{}\n'.format(ndays))
         for i in range(nparam):
-            #param_str = '{} = {}\n'.format(pname[i], param[i])
             param_str = '{}\n'.format(param[i])
             f.write(param_str)
-    os.system("./a.out < {} > log.txt".format(newfile))
+    os.system("./a.out < {} > out/run.log".format(tmpfile))
     x = pd.read_csv(outfile)
     return H(x)
 
@@ -79,7 +82,7 @@ def model(param, ndays):
 par    = pd.read_csv(parfile,index_col='pname')
 pname  = par.index
 param  = par.param
-eparam = par.perturb
+eparam = param * par.perturb
 nparam = len(param)
 
 obs  = get_obs()
@@ -108,7 +111,7 @@ os.system("make green")
 Ga_0 = model(param, LONG)
 Ga_b = Ga_0.copy()
 
-Jb[0] = 0
+Jb[0] = 1
 Jo[0] = np.dot(np.dot( (Ga_0-y).T,Rin ),(Ga_0-y) ) * 0.5
 
 ax1 = plt.subplot(2,1,1)
@@ -129,9 +132,9 @@ for i in range(NLOOP):
         print i, j,
 
         p      = param.copy()
-        p[j]  += eparam[j]
+        p[j]  += -eparam[j]
         Ga     = model(p+delta, SHORT)
-        G[:,j] = (Ga - Ga_b) / eparam[j]
+        G[:,j] = (Ga - Ga_b) / -eparam[j]
 
     cff1   = np.linalg.inv( Bin + np.dot( np.dot(G.T,Rin), G) )
     cff2   = np.dot( np.dot(G.T,Rin), (Ga_b - y) )
@@ -155,7 +158,7 @@ params.to_csv(newfile)
 J    = Jb + Jo
 cost = {'J':J, 'Jb':Jb, 'Jo':Jo}
 cost = pd.DataFrame(cost)
-cost.to_csv()
+cost.to_csv(cstfile)
 
 ax2.plot(np.log10(J), label='J')
 ax2.plot(np.log10(Jb), label='Jb')
@@ -164,3 +167,5 @@ ax2.plot(np.log10(Jo), label='Jo')
 ax1.legend()
 ax2.legend()
 plt.savefig(grnfile)
+
+os.system('python plot_profiles_ab.py')

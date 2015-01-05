@@ -6,9 +6,9 @@ import matplotlib.cm as cm
 
 
 plt.figure(figsize=(16, 8))
-obsfile = 'obs2.csv'
-outfile = ['ini1.csv', 'out_test5/rst1.csv']
-pngfile = 'out_test5/profiles_ab.png'
+obsfile = 'in/obs2.csv'
+outfile = ['in/bgc_rst1.csv', 'out/rst1.csv']
+pngfile = 'out/profiles_ab.png'
 
 
 obs = pd.read_csv(obsfile)
