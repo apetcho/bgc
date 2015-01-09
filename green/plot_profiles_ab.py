@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 
 
 plt.figure(figsize=(16, 8))
-obsfile = 'in/obs2.csv'
+obsfile = 'in/obs_NH4_PO4.csv'
 outfile = ['in/bgc_rst1.csv', 'out/rst1.csv']
 pngfile = 'out/profiles_ab.png'
 

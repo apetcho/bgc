@@ -55,7 +55,7 @@
 !-----------------------------------------------------------------------
 !
         IF (Iter.eq.0) THEN
-          WRITE(filename,'("out/out",i1,".csv")') i
+          WRITE(filename,'(a,"/out",i1,".csv")') trim(outdir),i
           OPEN (10+i,file=filename)
           WRITE (10+i,1010) 'time','depth','temp',                      &
      &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
@@ -71,7 +71,28 @@
      &                      (sm(i,k,itrc),itrc=1,NBGCSM)
           END DO
         END IF
-
+!
+!  last year output to csv (uM = mmol/m3)
+!
+        IF (Iter.eq.0) THEN
+          WRITE(filename,'(a,"/last",i1,".csv")') trim(outdir),i
+          OPEN (20+i,file=filename)
+          WRITE (20+i,1010) 'time','depth','temp',                      &
+     &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
+     &      'DOMf','DOMs','POMf','POMs','POMn','FeOOHA','FeOOHB',       &
+     &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2'
+        END IF
+!
+        IF ((mod(dtBgc*Iter,1.0d0*86400.0d0).eq.0.0d0) .and.             &
+     &      (dtBgc*Iter.ge.(ndays-360.0d0)*86400.0d0)) THEN
+          t=dtBgc*Iter/86400.0d0-(ndays-360.0d0)
+          DO k=1,Nbed
+            WRITE (20+i,1011) t,depth(i,k),tsm(i,k),                    &
+     &                      (pw(i,k,itrc),itrc=1,NBGCPW),               &
+     &                      (sm(i,k,itrc),itrc=1,NBGCSM)
+          END DO
+        END IF
+!
 1010    FORMAT (25(a,','))
 1011    FORMAT (25(f16.8,','))
 !
@@ -80,18 +101,18 @@
 !-----------------------------------------------------------------------
 !
         IF (mod(dtBgc*Iter,360.0d0*86400.0d0).eq.0.0d0) THEN
-          WRITE(filename,'("out/rst",i1,".csv")') i
-          OPEN (15+i,file=filename)
-          WRITE (15+i,1012)                                             &
+          WRITE(filename,'(a,"/rst",i1,".csv")') trim(outdir),i
+          OPEN (30+i,file=filename)
+          WRITE (30+i,1012)                                             &
      &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
      &      'DOMf','DOMs','POMf','POMs','POMn','FeOOHA','FeOOHB',       &
      &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2'
           t=dtBgc*Iter/86400.0d0
           DO k=1,Nbed
-            WRITE (15+i,1013) (pw(i,k,itrc),itrc=1,NBGCPW),             &
+            WRITE (30+i,1013) (pw(i,k,itrc),itrc=1,NBGCPW),             &
      &                        (sm(i,k,itrc),itrc=1,NBGCSM)
           END DO
-          CLOSE(15+i)
+          CLOSE(30+i)
         END IF
 
 1012    FORMAT (22(a,','))
@@ -102,9 +123,9 @@
 !-----------------------------------------------------------------------
 !
         IF (Iter.eq.0) THEN
-          WRITE(filename,'("out/out_flux",i1,".csv")') i
-          OPEN (20+i,file=filename)
-          WRITE (20+i,1020) 'time','temp',                              &
+          WRITE(filename,'(a,"/out_flux",i1,".csv")') trim(outdir),i
+          OPEN (40+i,file=filename)
+          WRITE (40+i,1020) 'time','temp',                              &
      &      'O2','NH4','NO3','PO4','SO4','H2S','Mn','Fe','CH4',         &
      &      'DOMf','DOMs','POMf','POMs','POMn','FeOOHA','FeOOHB',       &
      &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2',                 &
@@ -115,7 +136,7 @@
         IF (mod(dtBgc*Iter,86400.0d0).eq.0.0d0.and.Iter.ne.0) THEN
           t=dtBgc*Iter/86400.0d0
           cff=(m2cm*m2cm*day2s)/1.0d6
-          WRITE (20+i,1021) t,tsm(i,1),                                 &
+          WRITE (40+i,1021) t,tsm(i,1),                                 &
      &                    (pwflux(i,0,itrc)*cff,itrc=1,NBGCPW),         &
      &                    (smflux(i,0,itrc)*cff,itrc=1,NBGCSM),         &
      &                    (smflux(i,Nbed,itrc)*cff,itrc=1,NBGCSM)
@@ -129,16 +150,16 @@
 !-----------------------------------------------------------------------
 !
         IF (Iter.eq.0) THEN
-          WRITE(filename,'("out/out_circulations",i1,".csv")') i
-          OPEN (30+i,file=filename)
-          WRITE (30+i,1030) 'time','temp',                              &
-     &                    (itrc,itrc=1,50)
+          WRITE(filename,'(a,"/out_circulations",i1,".csv")')           &
+     &      trim(outdir),i
+          OPEN (50+i,file=filename)
+          WRITE (50+i,1030) 'time','temp',(itrc,itrc=1,50)
         END IF
 !
         IF (mod(dtBgc*Iter,86400.0d0).eq.0.0d0.and.Iter.ne.0) THEN
           t=dtBgc*Iter/86400.0d0
           cff=(m2cm*m2cm*day2s)/1.0d6
-          WRITE (30+i,1031) t,tsm(i,1),                                 &
+          WRITE (50+i,1031) t,tsm(i,1),                                 &
      &                    (F(i,itrc)*cff,itrc=1,50)
         END IF
 

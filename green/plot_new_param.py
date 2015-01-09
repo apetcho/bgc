@@ -3,7 +3,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('out/new_param.csv', index_col='pname')
+df = pd.read_csv('out/green_new_param.csv', index_col='pname')
 df = df.T
 
 
@@ -17,4 +17,4 @@ for name in df.columns:
 	plt.plot(df[name])
 	plt.title(name)
 
-plt.savefig('out/new_param.png')
+plt.savefig('out/green_new_param.png')
