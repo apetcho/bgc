@@ -35,11 +35,6 @@
 !
 #ifdef STANDALONE
 # include "bgc_use.h"
-      real(8) :: Bio_bottom(IminS:ImaxS,UBt)
-      real(8) :: bpw(LBi:UBi,LBj:UBj,Nbed,NBGCPW)
-      real(8) :: bsm(LBi:UBi,LBj:UBj,Nbed,NBGCSM)
-      real(8) :: bpwflux(LBi:UBi,LBj:UBj,NBGCPW)
-      real(8) :: bsmflux(LBi:UBi,LBj:UBj,NBGCSM)
 #else
       USE mod_param
       USE mod_biology

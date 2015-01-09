@@ -6,3 +6,6 @@ first:
 
 green:
 	ifort -DSTANDALONE -DRST -DGREEN bgc.f90 -fpp
+
+pce:
+	ifort -DSTANDALONE -DRST -DPCE bgc.f90 -fpp

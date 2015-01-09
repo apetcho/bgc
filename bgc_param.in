@@ -1,4 +1,4 @@
-&bgc_param
+&params
 
 !------------------------------------------------------------------------
 !  Biogeochemical model variables and parameters.
@@ -8,6 +8,14 @@
 !  (A) Angara et al.(2009)
 !  (W) Wijsman et al.(2002)
 !------------------------------------------------------------------------
+!  If you build with option '-DPCE', you need to choice two parameters 
+!  and change the value into $PCE1 (or $PCE2).
+!
+!#    ratio_f = 0.4d0
+!     ratio_f = $PCE1
+!------------------------------------------------------------------------
+
+      outdir = 'out'
 
 !  Number of iterations
 
@@ -17,21 +25,36 @@
 
       DBL = 0.03d0
 
+      bwSO4 = 27300.0d0    ! (F)(A)
+      bwMn  = 0.0d0        ! (F)(A)
+      bwFe  = 0.0d0        ! (F)(A)
+      bwCH4 = 0.0d0        ! (F)(A)
+
+      bwNO3  = 1.429d0, 1.429d0  ! 0.02mg/l
+      bwNH4  = 1.429d0, 1.429d0  ! 0.02mg/l
+      bwPO4  = 0.323d0, 0.323d0  ! 0.01mg/l
+      bwH2S  = 0.000d0, 0.000d0  ! 0.0 mg/l
+      bwDOMf = 118.0d0, 118.0d0  ! (A)300
+      bwDOMs = 0.000d0, 0.000d0  ! (A)0
+      DO20   = 50.00d0, 180.0d0  ! DO at 20C
+      facDO  = 0.860d0, 0.980d0  ! DO correction factor of temperature
+      POM20  = 25.00d0, 5.000d0  ! POM at 20C
+      facPOM = 1.050d0, 1.050d0  ! POM correction factor of temperature
 !  Porosity (nondimensional)
 
-      a_poro(IminS:ImaxS) = (/ 0.78d0, 0.71d0 /) ! (F)0.763 (A)0.69
-      b_poro(IminS:ImaxS) = (/ 0.10d0, 0.00d0 /) ! (F)0.086 (A)0.21
-      c_poro(IminS:ImaxS) = (/ 0.35d0, 0.00d0 /) ! (F)0.216 (A)0.088
+      a_poro = 0.78d0, 0.71d0    ! (F)0.763 (A)0.69
+      b_poro = 0.10d0, 0.00d0    ! (F)0.086 (A)0.21
+      c_poro = 0.35d0, 0.00d0    ! (F)0.216 (A)0.088
 
 !  Density (g cm-3)
 
-      dens = 2.6d0 ! (F)2.04 (B)2.41 (A)2.5
+      dens = 2.6d0         ! (F)2.04 (B)2.41 (A)2.5
 
 !  Burial rate (cm year-1)
 
-      a_wsm(IminS:ImaxS) = (/ 0.22d0, 0.20d0 /) ! (A)0.22 (F)0.064 (B)0.12
-      b_wsm(IminS:ImaxS) = (/ 0.26d0, 0.06d0 /) ! (A)0.26
-      c_wsm(IminS:ImaxS) = (/ 0.30d0, 0.30d0 /) ! (A)0.3
+      a_wsm = 0.22d0, 0.20d0     ! (A)0.22 (F)0.064 (B)0.12
+      b_wsm = 0.26d0, 0.06d0     ! (A)0.26
+      c_wsm = 0.30d0, 0.30d0     ! (A)0.3
 
 !  difusivity i free water (cm2 s-1)
 
@@ -140,3 +163,4 @@
 !  Inhibiting concentration (uM)
 
       H2Sstop = 10.0d0     ! (F)(A)10
+/

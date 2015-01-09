@@ -41,10 +41,8 @@
         WRITE(filename,'("in/bgc_rst",i1,".csv")') i
         OPEN(10+i,file=filename,status='old')
 # else
-print*, outdir,i
         WRITE(filename,'(a,"/rst",i1,".csv")') 'out',i
         OPEN(10+i,file=filename,status='old')
-print*, 'after'
 # endif
         READ(10+i,'()',end=99)
         DO k=1,Nbed

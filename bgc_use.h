@@ -1,5 +1,5 @@
 !
-!  argument
+!  Imported variable declarations.
 !
       integer, parameter :: LBi   = 1
       integer, parameter :: UBi   = 2
@@ -12,11 +12,10 @@
       integer, parameter :: Istr  = 1
       integer, parameter :: Iend  = 2
       integer, parameter :: j     = 1
+
       real(8), parameter :: dtdays = 1200.0d0/86400.0d0
-#ifdef GREEN
+#if defined GREEN
       real(8)            :: ndays  = 100.0d0*360.0d0
-#elif PCE
-      real(8), parameter :: ndays  = 10.0d0*360.0d0
 #else
       real(8), parameter :: ndays  = 10.0d0*360.0d0
 #endif
@@ -81,6 +80,14 @@
       integer, parameter :: iS0__ = 9          ! S0 in sediment
       integer, parameter :: iFeS_ = 10         ! FeS in sediment
       integer, parameter :: iFes2 = 11         ! FeS2 in sediment
+!
+!  Imported variable declarations. (2)
+!
+      real(8) :: Bio_bottom(IminS:ImaxS,UBt)
+      real(8) :: bpw(LBi:UBi,LBj:UBj,Nbed,NBGCPW)
+      real(8) :: bsm(LBi:UBi,LBj:UBj,Nbed,NBGCSM)
+      real(8) :: bpwflux(LBi:UBi,LBj:UBj,NBGCPW)
+      real(8) :: bsmflux(LBi:UBi,LBj:UBj,NBGCSM)
 !
 !  original
 !

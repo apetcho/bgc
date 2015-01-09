@@ -3,238 +3,227 @@
 !  Biogeochemical model variables and parameters.
 !------------------------------------------------------------------------
 !
-!  layer (cm)
+      integer :: BgcIter
+      real(8) :: DBL
+      real(8) :: dens
+      real(8) :: bwMn
+      real(8) :: bwFe
+      real(8) :: bwCH4
+      real(8) :: bwNO3(IminS:ImaxS)
+      real(8) :: bwNH4(IminS:ImaxS)
+      real(8) :: bwPO4(IminS:ImaxS)
+      real(8) :: bwH2S(IminS:ImaxS)
+      real(8) :: bwDOMf(IminS:ImaxS)
+      real(8) :: bwDOMs(IminS:ImaxS)
+      real(8) :: DO20(IminS:ImaxS)
+      real(8) :: facDO(IminS:ImaxS)
+      real(8) :: POM20(IminS:ImaxS)
+      real(8) :: facPOM(IminS:ImaxS)
+      real(8) :: a_poro(IminS:ImaxS)
+      real(8) :: b_poro(IminS:ImaxS)
+      real(8) :: c_poro(IminS:ImaxS)
+      real(8) :: a_wsm(IminS:ImaxS)
+      real(8) :: b_wsm(IminS:ImaxS)
+      real(8) :: c_wsm(IminS:ImaxS)
+      real(8) :: D0O2
+      real(8) :: aO2
+      real(8) :: bO2
+      real(8) :: D0NO3
+      real(8) :: aNO3
+      real(8) :: D0H2S
+      real(8) :: aH2S
+      real(8) :: bH2S
+      real(8) :: D0SO4
+      real(8) :: aSO4
+      real(8) :: D0NH4
+      real(8) :: aNH4
+      real(8) :: D0Mn
+      real(8) :: aMn
+      real(8) :: D0Fe
+      real(8) :: aFe
+      real(8) :: D0PO4
+      real(8) :: aPO4
+      real(8) :: D0DOMf
+      real(8) :: aDOMf
+      real(8) :: D0DOMs
+      real(8) :: aDOMs
+      real(8) :: Q10p
+      real(8) :: Q10s
+      real(8) :: z_DBw
+      real(8) :: u_DBw
+      real(8) :: a_DBw
+      real(8) :: a_DBs
+      real(8) :: a_irr
+      real(8) :: b_irr
+      real(8) :: c_irr
+      real(8) :: d_irr
+      real(8) :: e_irr
+      real(8) :: f_irr
+      real(8) :: KdNH4
+      real(8) :: KdNO3
+      real(8) :: KdMn
+      real(8) :: KdFe
+      real(8) :: KdPO4
+      real(8) :: ratio_n
+      real(8) :: ratio_f
+      real(8) :: ratio_FA
+      real(8) :: ratio_MA
+      real(8) :: ratio_CN
+      real(8) :: ratio_CP
+      real(8) :: ratio_DOMf
+      real(8) :: FMnO2
+      real(8) :: FFeOOH
+      real(8) :: KO2
+      real(8) :: KNO3
+      real(8) :: KMnO2
+      real(8) :: KFeOOH
+      real(8) :: KPOMf
+      real(8) :: KPOMs
+      real(8) :: KDOMf
+      real(8) :: KDOMs
+      real(8) :: K06
+      real(8) :: K07
+      real(8) :: K08
+      real(8) :: K09
+      real(8) :: K10
+      real(8) :: K11
+      real(8) :: K12
+      real(8) :: K13
+      real(8) :: K14
+      real(8) :: K15
+      real(8) :: K16
+      real(8) :: K17
+      real(8) :: K18
+      real(8) :: K19
+      real(8) :: K20
+      real(8) :: K21
+      real(8) :: H2Sstop
 !
-      real(8), parameter :: c_dz = 1.0d0 ! not use
+!  namelists
 !
-!  Number of iterations
+      namelist /params/ outdir,                                         &
+                        BgcIter, DBL, dens, H2Sstop,                    &
+                        bwSO4, bwMn, bwFe, bwCH4,                       &
+                        bwNO3, bwNH4, bwPO4, bwH2S, bwDOMf, bwDOMs,     &
+                        DO20, facDO, POM20, facPOM,                     &
+                        a_poro, b_poro, c_poro,                         &
+                        a_wsm, b_wsm, c_wsm,                            &
+                        D0O2, aO2, bO2, D0NO3, aNO3, D0H2S, aH2S, bH2S, &
+                        D0SO4, aSO4, D0NH4, aNH4, D0Mn, aMn, D0Fe, aFe, &
+                        D0PO4, aPO4, D0DOMf, aDOMf, D0DOMs, aDOMs,      &
+                        Q10p, Q10s,                                     &
+                        z_DBw, u_DBw, a_DBw, a_DBs,                     &
+                        a_irr, b_irr, c_irr, d_irr, e_irr, f_irr,       &
+                        KdNH4, KdNO3, KdMn, KdFe, KdPO4,                &
+                        ratio_n, ratio_f, ratio_FA, ratio_MA,           &
+                        ratio_DOMf, ratio_CN, ratio_CP,                 &
+                        FMnO2, FFeOOH,                                  &
+                        KO2, KNO3, KMnO2, KFeOOH,                       &
+                        KPOMf, KPOMs, KDOMf, KDOMs,                     &
+                        K06, K07, K08, K09, K10, K11, K12, K13, K14,    &
+                        K15, K16, K17, K18, K19, K20, K21
 !
-      integer, parameter :: BgcIter = 1
+!  open input parameter file
 !
-!------------------------------------------------------------------------
-!  (F) Fossing et al.(2004)
-!  (B) Berg et al.(2003)
-!  (A) Angara et al.(2009)
-!  (W) Wijsman et al.(2002)
-!------------------------------------------------------------------------
+      open(6,file='bgc_param.in')
 !
-      real(8), parameter :: bwSO4 = 27300.0d0 ! (F)(A)
-      real(8), parameter :: bwMn  = 0.0d0     ! (F)(A)
-      real(8), parameter :: bwFe  = 0.0d0     ! (F)(A)
-      real(8), parameter :: bwCH4 = 0.0d0     ! (F)(A)
-
-      real(8), parameter :: bwNO3(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
-      real(8), parameter :: bwNH4(IminS:ImaxS)  = (/ 1.429d0, 1.429d0 /) ! 0.02mg/l
-      real(8), parameter :: bwPO4(IminS:ImaxS)  = (/ 0.323d0, 0.323d0 /) ! 0.01mg/l
-      real(8), parameter :: bwH2S(IminS:ImaxS)  = (/ 0.000d0, 0.000d0 /) ! 0.0 mg/l
-      real(8), parameter :: bwDOMf(IminS:ImaxS) = (/ 118.0d0, 118.0d0 /) ! (A)300
-      real(8), parameter :: bwDOMs(IminS:ImaxS) = (/ 0.000d0, 0.000d0 /) ! (A)0
-
-!     real(8), parameter :: bwO2(IminS:ImaxS)   = (/ 187.5d0, 187.5d0 /) ! 6.0 mg/l
-!     real(8), parameter :: bwPOM(IminS:ImaxS)  = (/ 20.00d0, 10.00d0 /) ! 240 mg/m2/day
-
-      real(8), parameter :: DO20(IminS:ImaxS)   = (/ 50.00d0, 180.0d0 /) ! DO at 20C
-      real(8), parameter :: facDO(IminS:ImaxS)  = (/ 0.860d0, 0.980d0 /) ! DO correction factor of temperature
-      real(8), parameter :: POM20(IminS:ImaxS)  = (/ 25.00d0, 5.000d0 /) ! POM at 20C
-      real(8), parameter :: facPOM(IminS:ImaxS) = (/ 1.050d0, 1.050d0 /) ! POM correction factor of temperature
+!  read namelist
 !
-!  Porosity (nondimensional)
-!
-      real(8), parameter :: a_poro(IminS:ImaxS) = (/ 0.78d0, 0.71d0 /) ! (F)0.763 (A)0.69
-      real(8), parameter :: b_poro(IminS:ImaxS) = (/ 0.10d0, 0.00d0 /) ! (F)0.086 (A)0.21
-      real(8), parameter :: c_poro(IminS:ImaxS) = (/ 0.35d0, 0.00d0 /) ! (F)0.216 (A)0.088
-!
-!  Density (g cm-3)
-!
-      real(8), parameter :: dens = 2.6d0 ! (F)2.04 (B)2.41 (A)2.5
-!
-!  Burial rate (cm year-1)
-!
-      real(8), parameter :: a_wsm(IminS:ImaxS) = (/ 0.22d0, 0.20d0 /) ! (A)0.22 (F)0.064 (B)0.12
-      real(8), parameter :: b_wsm(IminS:ImaxS) = (/ 0.26d0, 0.06d0 /) ! (A)0.26
-      real(8), parameter :: c_wsm(IminS:ImaxS) = (/ 0.30d0, 0.30d0 /) ! (A)0.3
-!
-!  difusivity i free water (cm2 s-1)
-!
-      real(8), parameter :: D0O2  = 11.7d0    ! (F)(A)
-      real(8), parameter :: aO2   = 0.344d0   ! (F)(A)
-      real(8), parameter :: bO2   = 0.00505d0 ! (F)(A)
-      real(8), parameter :: D0NO3 = 9.72d0    ! (F)(A)
-      real(8), parameter :: aNO3  = 0.365d0   ! (F)(A)
-      real(8), parameter :: D0H2S = 8.74d0    ! (F)(A)
-      real(8), parameter :: aH2S  = 0.264d0   ! (F)(A)
-      real(8), parameter :: bH2S  = 0.004d0   ! (F)(A)
-      real(8), parameter :: D0SO4 = 4.96d0    ! (F)(A)
-      real(8), parameter :: aSO4  = 0.226d0   ! (F)(A)
-      real(8), parameter :: D0NH4 = 9.76d0    ! (F)(A)
-      real(8), parameter :: aNH4  = 0.398d0   ! (F)(A)
-      real(8), parameter :: D0Mn  = 3.04d0    ! (F)(A)
-      real(8), parameter :: aMn   = 0.153d0   ! (F)(A)
-      real(8), parameter :: D0Fe  = 3.36d0    ! (F)(A)
-      real(8), parameter :: aFe   = 0.148d0   ! (F)(A)
-      real(8), parameter :: D0PO4 = 9.76d0    !    (A)
-      real(8), parameter :: aPO4  = 0.398d0   !    (A)
-
-      real(8) :: D0DOMf = 6.39d-1  ! okada
-      real(8) :: aDOMf  = 2.44d-2  ! okada
-      real(8) :: D0DOMs = 1.32d-2  ! okada
-      real(8) :: aDOMs  = 1.62d-2  ! okada
-!
-!  Q10 (not to use)
-!
-      real(8), parameter :: Q10p = 3.8d0 ! (F)(A)
-      real(8), parameter :: Q10s = 2.0d0 ! (F)(A)
-!
-!  Biodiffusivity of solutes (cm2 s-1)
-!
-      real(8), parameter :: z_DBw = 11.8d0
-      real(8), parameter :: u_DBw = 3.51d-6
-      real(8), parameter :: a_DBw = -0.378d0
-!
-!  Biodiffusivity of solids
-!
-      real(8), parameter :: a_DBs = 9.3d0 ! (F)(A)9.3
-!
-!  Bioirrigation parameter
-!
-      real(8), parameter :: a_irr = 0.885d0 ! (F)0.885
-      real(8), parameter :: b_irr = 0.054d0 ! (F)0.054
-      real(8), parameter :: c_irr = 2.53d0  ! (F)2.53
-      real(8), parameter :: d_irr = 0.352d0 ! (F)0.352
-      real(8), parameter :: e_irr = 6.0d0   ! (A)6
-      real(8), parameter :: f_irr = 0.05d0  ! (A)0.05
-!
-!  Kadsorption constants (cm3 g-1)
-!
-      real(8), parameter :: KdNH4 = 1.5d0   ! (F)2.2 (A)1.5
-      real(8), parameter :: KdNO3 = 5.4d0   !        (A)5.4
-      real(8), parameter :: KdMn  = 13.0d0  ! (F)(A)13
-      real(8), parameter :: KdFe  = 500.0d0 ! (F)(A)500
-      real(8), parameter :: KdPO4 = 2.0d0   ! (F)(A)2
-!
-!  Diffusive boundary layer (cm)
-!
-      real(8), parameter :: DBL = 0.03d0
-!
-!  Ratios
-!
-      real(8) :: ratio_n = 0.20d0  ! FOMn/FOMtotal   (F)0.08 (A)0.2
-      real(8) :: ratio_f = 0.57d0  ! FOMf/FOMtotal   (F)0.42 (A)0.4
-
-      real(8), parameter :: ratio_FA = 0.5d0    ! FFeOOHA/FFeOOHB         (A)0.5
-      real(8), parameter :: ratio_MA = 0.5d0    ! FMnO2A/FMnO2B           (A)0.5
-
-      real(8) :: ratio_CN = 8.00d0   ! molC/molN of OM (F)10   (A)8
-      real(8) :: ratio_CP = 80.0d0   ! molC/molP of OM (F)80   (A)70
-      real(8) :: ratio_DOMf = 0.83d0 ! molFast/molTotal        (A)0.75 !Nchange
-!
-!  External fluxes ((F)(W)nmol/cm2/s, (A)mmol/m2/day)
-!
-      real(8), parameter :: FMnO2  = 2.0d-2     ! (F)3.5d-6  (W)1.2d-6 (A)2.0d-2
-      real(8), parameter :: FFeOOH = 1.0d0      ! (F)2.05d-4 (W)3.2d-6 (A)1.8
-!
-!  - not use parameter
-!
-!     real(8), parameter :: FPOM   = 22.5d0     ! (F)1.0d-3  (W)1.0d-4 (A)22.5
-!
-!  Limiting concentrations (uM, nmol g-1)
-!
-      real(8), parameter :: KO2    = 20.0d0     ! (F)(A)20
-      real(8), parameter :: KNO3   = 5.0d0      ! (F)(A)5
-      real(8), parameter :: KMnO2  = 50000.0d0  ! (F)(A)5.0d4
-      real(8), parameter :: KFeOOH = 100000.0d0 ! (F)(A)1.0d5
-!
-!  Rate constants (uM = mmol m-3 = nmol cm-3)
-!
-      real(8) :: KPOMf = 2.5d-6  ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      real(8) :: KPOMs = 6.0d-10 ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-
-      real(8) :: KDOMf = 1.0d-3  ! s-1                 (A)1.0d-3
-      real(8) :: KDOMs = 5.4d-8  ! s-1                 (A)5.0d-9
-      real(8) :: K06   = 2.5d-7  ! uM-1 s-1 (F)2.5d-6  (B)(A)2.5d-7
-
-      real(8), parameter :: K07 = 5.0d-14 ! s-1       (F)5.0d-11 (A)5.0d-14
-      real(8), parameter :: K08 = 1.7d-9  ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
-      real(8), parameter :: K09 = 1.5d-5  ! uM-1 s-1  (F)(A)1.5d-5
-      real(8), parameter :: K10 = 2.0d-7  ! uM-1 s-1  (F)2.0d-8  (A)2.0d-7
-      real(8), parameter :: K11 = 5.0d-4  ! uM-1 s-1  (F)(A)5.0d-4
-      real(8), parameter :: K12 = 3.0d-9  ! uM-1 s-1  (F)(A)3.0d-9
-      real(8), parameter :: K13 = 3.75d-5 ! uM-1 s-1  (F)7.5d-7  (A)3.75d-5
-      real(8), parameter :: K14 = 3.0d-10 ! cm3/nmols (F)3.0d-12 (A)3.0d-10
-      real(8), parameter :: K15 = 7.5d-12 ! s-1       (F)2.5d-11 (A)7.5d-12
-      real(8), parameter :: K16 = 5.0d-5  ! uM-1 s-1  (F)(A)5.0d-5
-      real(8), parameter :: K17 = 6.0d-7  ! uM-1 s-1  (F)(A)6.0d-7
-      real(8), parameter :: K18 = 3.0d-10 ! uM-1 s-1  (F)1.6d-8  (B)(A)3.0d-10
-      real(8), parameter :: K19 = 7.0d-7  ! s-1       (F)(A)7.0d-7
-      real(8), parameter :: K20 = 1.3d-9  ! s-1       (F)(A)1.3d-9
-      real(8), parameter :: K21 = 9.0d-10 ! s-1       (F)(A)9.0d-10
-!
-!  Inhibiting concentration (uM)
-!
-      real(8), parameter :: H2Sstop = 10.0d0 ! (F)(A)10
-!
-!------------------------------------------------------------------------
-!  Wijsman et al., 2002.
-!------------------------------------------------------------------------
-!
-!  Half-saturation conc. inhabitation (uM)
-!
-      real(8), parameter :: KinO2dn = 10.0d0
-      real(8), parameter :: KinO2   = 8.0d0
-      real(8), parameter :: KinNO3  = 10.0d0
-      real(8), parameter :: KinMnO2 = 5000.0d0  ! umol dm-3 = nmol g-1
-      real(8), parameter :: KinFeOH = 1.25d4    ! umol dm-3 = nmol g-1
-      real(8), parameter :: KinSO4  = 1000.0d0
-!
-!  Half-saturation conc. limitation (uM)
-!
-      real(8), parameter :: KsO2   = 3.1d0
-      real(8), parameter :: Ksnit  = 1.0d0
-      real(8), parameter :: KsNO3  = 5.0d0    ! 30.0d0
-      real(8), parameter :: KsMnO2 = 5000.0d0 ! 5000.0d0
-      real(8), parameter :: KsFeOH = 1.25d4
-      real(8), parameter :: KsSO4  = 1620.0d0
-      real(8), parameter :: KsFeS  = 6.31d3
-!
-!  Methan
-!
-      real(8), parameter :: smu  = 1.002d-3*1000.0d0/100.0d0
-      real(8), parameter :: Vb1  = 37.7d0
-      real(8), parameter :: smph = 7.5d0
-!
-!  Rate constants (uM = mmol m-3 = nmol cm-3)
-!
-      real(8), parameter :: K22  = 3.2d-4  ! uM-1 s-1  (W)3.2d-4
-      real(8), parameter :: K23  = 3.2d-10 ! uM-1 s-1  (W)3.2d-10
-
-#ifdef GREEN
-!
-!------------------------------------------------------------------------
-!  input parameters from param.tmp
-!------------------------------------------------------------------------
-!
-      NAMELIST /control/ ndays, KDOMf, KDOMs, ratio_DOMf, D0DOMf, D0DOMs, aDOMf, aDOMs
-
-      READ(5,nml=control)
-
-      WRITE(6,*) ndays
-      WRITE(6,*) KDOMf
-      WRITE(6,*) KDOMs
-      WRITE(6,*) ratio_DOMf
-      WRITE(6,*) D0DOMf
-      WRITE(6,*) D0DOMs
-      WRITE(6,*) aDOMf
-      WRITE(6,*) aDOMs
-#elif PCE
-!
-!------------------------------------------------------------------------
-!  input parameters from pce_param.in
-!------------------------------------------------------------------------
-!
-      NAMELIST /pce/ outdir, ratio_n, ratio_f
-
-      READ(5,nml=pce)
-
-      WRITE(6,*) outdir
-      WRITE(6,*) ratio_n
-      WRITE(6,*) ratio_f
-#endif
+      read(6,nml=params)
+      
+      write(*,*) outdir
+      write(*,*) BgcIter
+      write(*,*) DBL
+      write(*,*) dens
+      write(*,*) bwMn
+      write(*,*) bwFe
+      write(*,*) bwCH4
+      write(*,*) bwNO3(IminS:ImaxS)
+      write(*,*) bwNH4(IminS:ImaxS)
+      write(*,*) bwPO4(IminS:ImaxS)
+      write(*,*) bwH2S(IminS:ImaxS)
+      write(*,*) bwDOMf(IminS:ImaxS)
+      write(*,*) bwDOMs(IminS:ImaxS)
+      write(*,*) DO20(IminS:ImaxS)
+      write(*,*) facDO(IminS:ImaxS)
+      write(*,*) POM20(IminS:ImaxS)
+      write(*,*) facPOM(IminS:ImaxS)
+      write(*,*) a_poro(IminS:ImaxS)
+      write(*,*) b_poro(IminS:ImaxS)
+      write(*,*) c_poro(IminS:ImaxS)
+      write(*,*) a_wsm(IminS:ImaxS)
+      write(*,*) b_wsm(IminS:ImaxS)
+      write(*,*) c_wsm(IminS:ImaxS)
+      write(*,*) D0O2
+      write(*,*) aO2
+      write(*,*) bO2
+      write(*,*) D0NO3
+      write(*,*) aNO3
+      write(*,*) D0H2S
+      write(*,*) aH2S
+      write(*,*) bH2S
+      write(*,*) D0SO4
+      write(*,*) aSO4
+      write(*,*) D0NH4
+      write(*,*) aNH4
+      write(*,*) D0Mn
+      write(*,*) aMn
+      write(*,*) D0Fe
+      write(*,*) aFe
+      write(*,*) D0PO4
+      write(*,*) aPO4
+      write(*,*) D0DOMf
+      write(*,*) aDOMf
+      write(*,*) D0DOMs
+      write(*,*) aDOMs
+      write(*,*) Q10p
+      write(*,*) Q10s
+      write(*,*) z_DBw
+      write(*,*) u_DBw
+      write(*,*) a_DBw
+      write(*,*) a_DBs
+      write(*,*) a_irr
+      write(*,*) b_irr
+      write(*,*) c_irr
+      write(*,*) d_irr
+      write(*,*) e_irr
+      write(*,*) f_irr
+      write(*,*) KdNH4
+      write(*,*) KdNO3
+      write(*,*) KdMn
+      write(*,*) KdFe
+      write(*,*) KdPO4
+      write(*,*) ratio_n
+      write(*,*) ratio_f
+      write(*,*) ratio_FA
+      write(*,*) ratio_MA
+      write(*,*) ratio_CN
+      write(*,*) ratio_CP
+      write(*,*) ratio_DOMf
+      write(*,*) FMnO2
+      write(*,*) FFeOOH
+      write(*,*) KO2
+      write(*,*) KNO3
+      write(*,*) KMnO2
+      write(*,*) KFeOOH
+      write(*,*) KPOMf
+      write(*,*) KPOMs
+      write(*,*) KDOMf
+      write(*,*) KDOMs
+      write(*,*) K06
+      write(*,*) K07
+      write(*,*) K08
+      write(*,*) K09
+      write(*,*) K10
+      write(*,*) K11
+      write(*,*) K12
+      write(*,*) K13
+      write(*,*) K14
+      write(*,*) K15
+      write(*,*) K16
+      write(*,*) K17
+      write(*,*) K18
+      write(*,*) K19
+      write(*,*) K20
+      write(*,*) K21
+      write(*,*) H2Sstop
