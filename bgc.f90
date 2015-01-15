@@ -413,7 +413,7 @@
             cff1=bw(i,iwO2_)*32.0d0/1000.0d0
             cff2=11.5d0*0.748d0**cff1
             cff3=cff2*1.02d0**(tsm(i,k)-20.0d0)
-            !Kads(i,k,iwPO4)=poro(i,k)/(1.0d0-poro(i,k))/cff3
+            Kads(i,k,iwPO4)=poro(i,k)/(1.0d0-poro(i,k))/cff3
           END DO
 !
           DO itrc=1,NBGCPW

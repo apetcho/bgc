@@ -14,11 +14,7 @@
       integer, parameter :: j     = 1
 
       real(8), parameter :: dtdays = 1200.0d0/86400.0d0
-#if defined GREEN
-      real(8)            :: ndays  = 100.0d0*360.0d0
-#else
-      real(8), parameter :: ndays  = 10.0d0*360.0d0
-#endif
+      real(8), parameter :: ndays  = 100.0d0*360.0d0
 !
 !  USE mod_
 !
@@ -92,4 +88,6 @@
 !  original
 !
       character*100 :: filename
-      character*100 :: outdir = 'out'
+      character*100 :: outdir
+      character*100 :: inifile(IminS:ImaxS)
+

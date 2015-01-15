@@ -1,1 +1,0 @@
-ifort -DSTANDALONE -DRST -DPCE -fpp bgc.f90

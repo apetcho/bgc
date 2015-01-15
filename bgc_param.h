@@ -101,7 +101,7 @@
 !
 !  namelists
 !
-      namelist /params/ outdir,                                         &
+      namelist /params/ outdir, inifile,                                &
                         BgcIter, DBL, dens, H2Sstop,                    &
                         bwSO4, bwMn, bwFe, bwCH4,                       &
                         bwNO3, bwNH4, bwPO4, bwH2S, bwDOMf, bwDOMs,     &
@@ -123,15 +123,12 @@
                         K06, K07, K08, K09, K10, K11, K12, K13, K14,    &
                         K15, K16, K17, K18, K19, K20, K21
 !
-!  open input parameter file
-!
-      open(6,file='bgc_param.in')
-!
 !  read namelist
 !
-      read(6,nml=params)
+      read(5,nml=params)
       
       write(*,*) outdir
+      write(*,*) inifile
       write(*,*) BgcIter
       write(*,*) DBL
       write(*,*) dens
@@ -227,3 +224,4 @@
       write(*,*) K20
       write(*,*) K21
       write(*,*) H2Sstop
+

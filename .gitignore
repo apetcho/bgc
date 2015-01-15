@@ -1,7 +1,9 @@
 *.csv
 *.out
+*.exe
 *.png
 *.tmp
+*.obj
 *~
 
 *.sublime-*

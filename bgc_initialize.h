@@ -38,7 +38,7 @@
 !
       DO i=Istr,Iend
 # ifdef GREEN
-        WRITE(filename,'("in/bgc_rst",i1,".csv")') i
+        filename=trim(inifile(i))
         OPEN(10+i,file=filename,status='old')
 # else
         WRITE(filename,'(a,"/rst",i1,".csv")') 'out',i
