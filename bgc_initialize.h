@@ -37,13 +37,8 @@
 !-----------------------------------------------------------------------
 !
       DO i=Istr,Iend
-# ifdef GREEN
         filename=trim(inifile(i))
         OPEN(10+i,file=filename,status='old')
-# else
-        WRITE(filename,'(a,"/rst",i1,".csv")') 'out',i
-        OPEN(10+i,file=filename,status='old')
-# endif
         READ(10+i,'()',end=99)
         DO k=1,Nbed
           READ(10+i,*) (bpw(i,j,k,itrc),itrc=1,NBGCPW),                 &

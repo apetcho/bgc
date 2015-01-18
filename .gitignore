@@ -10,4 +10,4 @@
 
 out/
 
-!green/out/new_param.csv
+log.txt

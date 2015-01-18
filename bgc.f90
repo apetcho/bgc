@@ -172,6 +172,14 @@
 !
       dtBgc=dtdays*86400.0d0/REAL(BgcIter,8)
 !
+!  Parameter check
+!
+      ratio_f=max(0.0d0,min(ratio_f,1.0d0))
+      ratio_n=max(0.0d0,min(ratio_n,1.0d0-ratio_f))
+      ratio_FA=max(0.0d0,min(ratio_FA,1.0d0))
+      ratio_MA=max(0.0d0,min(ratio_MA,1.0d0))
+      ratio_DOMf=max(0.0d0,min(ratio_DOMf,1.0d0))
+!
 !  i-loop
 !
       INI_LOOP : DO i=Istr,Iend
@@ -629,11 +637,11 @@
 !  Decomposition of POM (nmol s-1 cm-3)                         !Nchange             
 !
             cff1=(1.0d0-poro(i,k))*dens
-            
+
             Rpomff=cff1*KPOMf*sm(i,k,iPOMf)*ratio_DOMf          !fast to fast
-            Rpomfs=cff1*KPOMf*sm(i,k,iPOMf)*(1-ratio_DOMf)      !fast to slow
+            Rpomfs=cff1*KPOMf*sm(i,k,iPOMf)*(1.0d0-ratio_DOMf)  !fast to slow
             Rpomsf=cff1*KPOMs*sm(i,k,iPOMs)*ratio_DOMf          !slow to fast
-            Rpomss=cff1*KPOMs*sm(i,k,iPOMs)*(1-ratio_DOMf)      !slow to slow           
+            Rpomss=cff1*KPOMs*sm(i,k,iPOMs)*(1.0d0-ratio_DOMf)  !slow to slow
             
             Rsm(iPOMf)=Rsm(iPOMf)-(Rpomff+Rpomfs)                          
             Rsm(iPOMs)=Rsm(iPOMs)-(Rpomsf+Rpomss)

@@ -14,8 +14,9 @@
 !     param = $param
 !------------------------------------------------------------------------
 
-      outdir = '$outdir'
-      inifile = '$inifile1','$inifile2'
+      outdir = '/home/work/okada/BGC/output'
+      inifile = '/home/work/okada/BGC/input/rst1.csv',
+                '/home/work/okada/BGC/input/rst2.csv'
 
 !  Number of iterations
 
@@ -79,10 +80,10 @@
       D0PO4 = 9.76d0       !    (A)
       aPO4  = 0.398d0      !    (A)
 
-      D0DOMf = $D0DOMf ! 6.39d-1     ! okada
-      aDOMf  = $aDOMf  ! 2.44d-2     ! okada
-      D0DOMs = $D0DOMs ! 1.32d-2     ! okada
-      aDOMs  = $aDOMs  ! 1.62d-3     ! okada
+      D0DOMf = 3.51908067304 ! 6.39d-1     ! okada
+      aDOMf  = 0.0539848856193  ! 2.44d-2     ! okada
+      D0DOMs = 0.0206907793047 ! 1.32d-2     ! okada
+      aDOMs  = 0.00654111340395  ! 1.62d-3     ! okada
 
 !  Q10 (not to use)
 
@@ -122,9 +123,9 @@
       ratio_f    = 0.54d0  ! FOMf/FOMtotal   (F)0.42 (A)0.4
       ratio_FA   = 0.5d0   ! FFeOOHA/FFeOOHB         (A)0.5
       ratio_MA   = 0.5d0   ! FMnO2A/FMnO2B           (A)0.5
-      ratio_CN   = $ratio_CN !8.00d0  ! molC/molN of OM (F)10   (A)8
-      ratio_CP   = $ratio_CP !80.0d0  ! molC/molP of OM (F)80   (A)70
-      ratio_DOMf = $ratio_DOMf !0.83d0  ! molFast/molTotal        (A)0.75 !Nchange
+      ratio_CN   = 8.00d0  ! molC/molN of OM (F)10   (A)8
+      ratio_CP   = 80.0d0  ! molC/molP of OM (F)80   (A)70
+      ratio_DOMf = 0.83d0  ! molFast/molTotal        (A)0.75 !Nchange
 
 !  External fluxes ((F)(W)nmol/cm2/s, (A)mmol/m2/day)
 
@@ -140,12 +141,12 @@
 
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 
-      KPOMf = $KPOMf !2.5d-6       ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      KPOMs = $KPOMs !6.0d-10      ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-
-      KDOMf = $KDOMf !1.0d-3       ! s-1                 (A)1.0d-3
-      KDOMs = $KDOMs !5.4d-8       ! s-1                 (A)5.0d-9
+      KPOMf = 2.51458650657e-06 !2.5d-6       ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
+      KPOMs = 1.73852374559e-09 !6.0d-10      ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-
+      KDOMf = 0.00136574678701 !1.0d-3       ! s-1                 (A)1.0d-3
+      KDOMs = 6.25500022114e-08 !5.4d-8       ! s-1                 (A)5.0d-9
 
-      K06 = $K06 !2.5d-7         ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
+      K06 = 2.5d-7         ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
       K07 = 5.0d-14        ! s-1       (F)5.0d-11 (A)5.0d-14
       K08 = 1.7d-9         ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
       K09 = 1.5d-5         ! uM-1 s-1  (F)(A)1.5d-5
