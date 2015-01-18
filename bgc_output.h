@@ -67,10 +67,13 @@
           t=dtBgc*Iter/86400.0d0
           DO k=1,Nbed
             WRITE (10+i,1011) t,depth(i,k),tsm(i,k),                    &
-     &                      (pw(i,k,itrc),itrc=1,NBGCPW),               &
-     &                      (sm(i,k,itrc),itrc=1,NBGCSM)
+     &                        (poro(i,k)*pw(i,k,itrc),itrc=1,NBGCPW),   &
+     &                        (sm(i,k,itrc),itrc=1,NBGCSM)
           END DO
         END IF
+!
+1010    FORMAT (25(a,','))
+1011    FORMAT (25(f16.8,','))
 !
 !  last year output to csv (uM = mmol/m3)
 !
@@ -83,18 +86,15 @@
      &      'FeOOHP','MnO2A','MnO2B','S0','FeS','FeS2'
         END IF
 !
-        IF ((mod(dtBgc*Iter,1.0d0*86400.0d0).eq.0.0d0) .and.             &
+        IF ((mod(dtBgc*Iter,1.0d0*86400.0d0).eq.0.0d0) .and.            &
      &      (dtBgc*Iter.ge.(ndays-360.0d0)*86400.0d0)) THEN
           t=dtBgc*Iter/86400.0d0-(ndays-360.0d0)
           DO k=1,Nbed
             WRITE (20+i,1011) t,depth(i,k),tsm(i,k),                    &
-     &                      (pw(i,k,itrc),itrc=1,NBGCPW),               &
-     &                      (sm(i,k,itrc),itrc=1,NBGCSM)
+     &                        (poro(i,k)*pw(i,k,itrc),itrc=1,NBGCPW),   &
+     &                        (sm(i,k,itrc),itrc=1,NBGCSM)
           END DO
         END IF
-!
-1010    FORMAT (25(a,','))
-1011    FORMAT (25(f16.8,','))
 !
 !-----------------------------------------------------------------------
 !  output restart csv file (uM = mmol/m3)
@@ -114,7 +114,7 @@
           END DO
           CLOSE(30+i)
         END IF
-
+!
 1012    FORMAT (22(a,','))
 1013    FORMAT (22(f16.8,','))
 !
@@ -141,7 +141,7 @@
      &                    (smflux(i,0,itrc)*cff,itrc=1,NBGCSM),         &
      &                    (smflux(i,Nbed,itrc)*cff,itrc=1,NBGCSM)
         END IF
-
+!
 1020    FORMAT (2(a,','), 33(a,','))
 1021    FORMAT (35(f16.8,','))
 !
@@ -162,8 +162,8 @@
           WRITE (50+i,1031) t,tsm(i,1),                                 &
      &                    (F(i,itrc)*cff,itrc=1,50)
         END IF
-
+!
         END DO
-
+!
 1030    FORMAT (2(a,','), 50('F',i02,','))
 1031    FORMAT (52(f16.8,','))
