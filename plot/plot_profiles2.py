@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.ticker import MaxNLocator
 import os
+from bgc_userconfig import *
+
 
 def make_fig(outfile):
 
@@ -20,11 +22,13 @@ def make_fig(outfile):
 
     return fig
 
+
 def plot_profile_obs(fig, obsfile):
 
     obs = pd.read_csv(obsfile)
     depths = {1:1.0, 2:2.89, 3:4.84, 4:7.29, 5:12.25, 6:16.0}
     obs['depth'] = obs['layer'].map(depths)
+
 
 def plot_profile_model(fig, outfile, time, color, label):
 
@@ -53,12 +57,15 @@ def plot_profile_model(fig, outfile, time, color, label):
 
     return fig
 
+
 if __name__ == '__main__':
 
-    obsfile = '../input/obs.csv'
-    outdir  = '../output'
+    config = bgc_userconfig()
+
+    obsfile = config.obsfile
+    outdir  = config.outdir
     outfile = os.path.join(outdir, 'last{}.csv')
-    pngfile = os.path.join(outdir, 'out_profiles.png')
+    pngfile = os.path.join(outdir, 'plot_profiles.png')
 
     fig = make_fig(outfile.format(1))
     fig = plot_profile_model(fig, outfile.format(1), time=360, color='r', label='point1')

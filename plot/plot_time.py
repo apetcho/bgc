@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import os
+from bgc_userconfig import *
+
 
 def plot_time(fig, csvfile):
 
@@ -30,18 +32,21 @@ def plot_time(fig, csvfile):
 
     return fig
 
+
 if __name__ == '__main__':
 
-    point = 1
+    config  = bgc_userconfig()
 
-    outdir  = '../output'
-    csvfile = os.path.join(outdir, 'out{}.csv'.format(point))
-    pngfile = os.path.join(outdir, 'out{}_time.png'.format(point))
+    for point in [1, 2]:
 
-    fig = plt.figure(figsize=(14, 9))
-    fig = plot_time(fig, csvfile)
+        outdir  = config.outdir
+        csvfile = os.path.join(outdir, 'out{}.csv'.format(point))
+        pngfile = os.path.join(outdir, 'plot_time{}.png'.format(point))
 
-    print pngfile
-    #plt.subplots_adjust(hspace=0.4, wspace=0.3)
-    fig.tight_layout()
-    plt.savefig(pngfile, bbox_inches='tight')
+        fig = plt.figure(figsize=(14, 9))
+        fig = plot_time(fig, csvfile)
+
+        print pngfile
+        #plt.subplots_adjust(hspace=0.4, wspace=0.3)
+        fig.tight_layout()
+        plt.savefig(pngfile, bbox_inches='tight')

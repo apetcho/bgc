@@ -127,101 +127,110 @@
 !
       read(5,nml=params)
       
-      write(*,*) outdir
-      write(*,*) inifile
-      write(*,*) BgcIter
-      write(*,*) DBL
-      write(*,*) dens
-      write(*,*) bwMn
-      write(*,*) bwFe
-      write(*,*) bwCH4
-      write(*,*) bwNO3(IminS:ImaxS)
-      write(*,*) bwNH4(IminS:ImaxS)
-      write(*,*) bwPO4(IminS:ImaxS)
-      write(*,*) bwH2S(IminS:ImaxS)
-      write(*,*) bwDOMf(IminS:ImaxS)
-      write(*,*) bwDOMs(IminS:ImaxS)
-      write(*,*) DO20(IminS:ImaxS)
-      write(*,*) facDO(IminS:ImaxS)
-      write(*,*) POM20(IminS:ImaxS)
-      write(*,*) facPOM(IminS:ImaxS)
-      write(*,*) a_poro(IminS:ImaxS)
-      write(*,*) b_poro(IminS:ImaxS)
-      write(*,*) c_poro(IminS:ImaxS)
-      write(*,*) a_wsm(IminS:ImaxS)
-      write(*,*) b_wsm(IminS:ImaxS)
-      write(*,*) c_wsm(IminS:ImaxS)
-      write(*,*) D0O2
-      write(*,*) aO2
-      write(*,*) bO2
-      write(*,*) D0NO3
-      write(*,*) aNO3
-      write(*,*) D0H2S
-      write(*,*) aH2S
-      write(*,*) bH2S
-      write(*,*) D0SO4
-      write(*,*) aSO4
-      write(*,*) D0NH4
-      write(*,*) aNH4
-      write(*,*) D0Mn
-      write(*,*) aMn
-      write(*,*) D0Fe
-      write(*,*) aFe
-      write(*,*) D0PO4
-      write(*,*) aPO4
-      write(*,*) D0DOMf
-      write(*,*) aDOMf
-      write(*,*) D0DOMs
-      write(*,*) aDOMs
-      write(*,*) Q10p
-      write(*,*) Q10s
-      write(*,*) z_DBw
-      write(*,*) u_DBw
-      write(*,*) a_DBw
-      write(*,*) a_DBs
-      write(*,*) a_irr
-      write(*,*) b_irr
-      write(*,*) c_irr
-      write(*,*) d_irr
-      write(*,*) e_irr
-      write(*,*) f_irr
-      write(*,*) KdNH4
-      write(*,*) KdNO3
-      write(*,*) KdMn
-      write(*,*) KdFe
-      write(*,*) KdPO4
-      write(*,*) ratio_n
-      write(*,*) ratio_f
-      write(*,*) ratio_FA
-      write(*,*) ratio_MA
-      write(*,*) ratio_CN
-      write(*,*) ratio_CP
-      write(*,*) ratio_DOMf
-      write(*,*) FMnO2
-      write(*,*) FFeOOH
-      write(*,*) KO2
-      write(*,*) KNO3
-      write(*,*) KMnO2
-      write(*,*) KFeOOH
-      write(*,*) KPOMf
-      write(*,*) KPOMs
-      write(*,*) KDOMf
-      write(*,*) KDOMs
-      write(*,*) K06
-      write(*,*) K07
-      write(*,*) K08
-      write(*,*) K09
-      write(*,*) K10
-      write(*,*) K11
-      write(*,*) K12
-      write(*,*) K13
-      write(*,*) K14
-      write(*,*) K15
-      write(*,*) K16
-      write(*,*) K17
-      write(*,*) K18
-      write(*,*) K19
-      write(*,*) K20
-      write(*,*) K21
-      write(*,*) H2Sstop
+      write(*,2000) 'outdir =', trim(outdir)
+      write(*,2000) 'inifile(1) =', trim(inifile(1))
+      write(*,2000) 'inifile(1) =', trim(inifile(2))
+      write(*,2003) 'BgcIter =', BgcIter
+      write(*,2001) 'DBL =', DBL
+      write(*,2001) 'dens =', dens
+      write(*,2001) 'bwMn =', bwMn
+      write(*,2001) 'bwFe =', bwFe
+      write(*,2001) 'bwCH4 =', bwCH4
+      write(*,2002) 'bwNO3 =', bwNO3(IminS:ImaxS)
+      write(*,2002) 'bwNH4 =', bwNH4(IminS:ImaxS)
+      write(*,2002) 'bwPO4 =', bwPO4(IminS:ImaxS)
+      write(*,2002) 'bwH2S =', bwH2S(IminS:ImaxS)
+      write(*,2002) 'bwDOMf =', bwDOMf(IminS:ImaxS)
+      write(*,2002) 'bwDOMs =', bwDOMs(IminS:ImaxS)
+      write(*,2002) 'DO20 =', DO20(IminS:ImaxS)
+      write(*,2002) 'facDO =', facDO(IminS:ImaxS)
+      write(*,2002) 'POM20 =', POM20(IminS:ImaxS)
+      write(*,2002) 'facPOM =', facPOM(IminS:ImaxS)
+      write(*,2002) 'a_poro =', a_poro(IminS:ImaxS)
+      write(*,2002) 'b_poro =', b_poro(IminS:ImaxS)
+      write(*,2002) 'c_poro =', c_poro(IminS:ImaxS)
+      write(*,2002) 'a_wsm =', a_wsm(IminS:ImaxS)
+      write(*,2002) 'b_wsm =', b_wsm(IminS:ImaxS)
+      write(*,2002) 'c_wsm =', c_wsm(IminS:ImaxS)
+      write(*,2001) 'D0O2 =', D0O2
+      write(*,2001) 'aO2 =', aO2
+      write(*,2001) 'bO2 =', bO2
+      write(*,2001) 'D0NO3 =', D0NO3
+      write(*,2001) 'aNO3 =', aNO3
+      write(*,2001) 'D0H2S =', D0H2S
+      write(*,2001) 'aH2S =', aH2S
+      write(*,2001) 'bH2S =', bH2S
+      write(*,2001) 'D0SO4 =', D0SO4
+      write(*,2001) 'aSO4 =', aSO4
+      write(*,2001) 'D0NH4 =', D0NH4
+      write(*,2001) 'aNH4 =', aNH4
+      write(*,2001) 'D0Mn =', D0Mn
+      write(*,2001) 'aMn =', aMn
+      write(*,2001) 'D0Fe =', D0Fe
+      write(*,2001) 'aFe =', aFe
+      write(*,2001) 'D0PO4 =', D0PO4
+      write(*,2001) 'aPO4 =', aPO4
+      write(*,2001) 'D0DOMf =', D0DOMf
+      write(*,2001) 'aDOMf =', aDOMf
+      write(*,2001) 'D0DOMs =', D0DOMs
+      write(*,2001) 'aDOMs =', aDOMs
+      write(*,2001) 'Q10p =', Q10p
+      write(*,2001) 'Q10s =', Q10s
+      write(*,2001) 'z_DBw =', z_DBw
+      write(*,2001) 'u_DBw =', u_DBw
+      write(*,2001) 'a_DBw =', a_DBw
+      write(*,2001) 'a_DBs =', a_DBs
+      write(*,2001) 'a_irr =', a_irr
+      write(*,2001) 'b_irr =', b_irr
+      write(*,2001) 'c_irr =', c_irr
+      write(*,2001) 'd_irr =', d_irr
+      write(*,2001) 'e_irr =', e_irr
+      write(*,2001) 'f_irr =', f_irr
+      write(*,2001) 'KdNH4 =', KdNH4
+      write(*,2001) 'KdNO3 =', KdNO3
+      write(*,2001) 'KdMn =', KdMn
+      write(*,2001) 'KdFe =', KdFe
+      write(*,2001) 'KdPO4 =', KdPO4
+      write(*,2001) 'ratio_n =', ratio_n
+      write(*,2001) 'ratio_f =', ratio_f
+      write(*,2001) 'ratio_FA =', ratio_FA
+      write(*,2001) 'ratio_MA =', ratio_MA
+      write(*,2001) 'ratio_CN =', ratio_CN
+      write(*,2001) 'ratio_CP =', ratio_CP
+      write(*,2001) 'ratio_DOMf =', ratio_DOMf
+      write(*,2001) 'FMnO2 =', FMnO2
+      write(*,2001) 'FFeOOH =', FFeOOH
+      write(*,2001) 'KO2 =', KO2
+      write(*,2001) 'KNO3 =', KNO3
+      write(*,2001) 'KMnO2 =', KMnO2
+      write(*,2001) 'KFeOOH =', KFeOOH
+      write(*,2001) 'KPOMf =', KPOMf
+      write(*,2001) 'KPOMs =', KPOMs
+      write(*,2001) 'KDOMf =', KDOMf
+      write(*,2001) 'KDOMs =', KDOMs
+      write(*,2001) 'K06 =', K06
+      write(*,2001) 'K07 =', K07
+      write(*,2001) 'K08 =', K08
+      write(*,2001) 'K09 =', K09
+      write(*,2001) 'K10 =', K10
+      write(*,2001) 'K11 =', K11
+      write(*,2001) 'K12 =', K12
+      write(*,2001) 'K13 =', K13
+      write(*,2001) 'K14 =', K14
+      write(*,2001) 'K15 =', K15
+      write(*,2001) 'K16 =', K16
+      write(*,2001) 'K17 =', K17
+      write(*,2001) 'K18 =', K18
+      write(*,2001) 'K19 =', K19
+      write(*,2001) 'K20 =', K20
+      write(*,2001) 'K21 =', K21
+      write(*,2001) 'H2Sstop =', H2Sstop
 
+2000  format(a13,a)
+2001  format(a13,f16.8)
+2002  format(a13,2f16.8)
+2003  format(a13,i16)
+
+      !write(6,*) ''
+      !write(6,*) 'Check your upper parameters & ENTER if it is OK.'
+      !read(6,'()')

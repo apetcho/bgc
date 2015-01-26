@@ -4,6 +4,7 @@
 *.png
 *.tmp
 *.obj
+*.pyc
 *~
 
 *.sublime-*

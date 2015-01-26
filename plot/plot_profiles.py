@@ -4,6 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import os
+from bgc_userconfig import *
+
 
 def plot_profiles(outdir, outfile, pngfile, obsfile):
 
@@ -46,9 +48,7 @@ def plot_profiles(outdir, outfile, pngfile, obsfile):
             pobs = obs[obs.station>=4]
 
         if name in pobs.columns:
-            #print a, name, 'obs'
             plt.plot(pobs[name], -pobs['depth'], 'o')
-
 
         vmax = out[name][tmax/2:].max()
 
@@ -67,13 +67,16 @@ def plot_profiles(outdir, outfile, pngfile, obsfile):
     print pngfile
     plt.savefig(pngfile, bbox_inches='tight')
 
+
 if __name__ == '__main__':
-        
-    point = 1
 
-    outdir  = '../output'
-    outfile = 'out{}.csv'.format(point)
-    pngfile = 'out{}_profiles.png'.format(point)
-    obsfile = '../input/obs.csv'
+    config = bgc_userconfig()
 
-    plot_profiles(outdir, outfile, pngfile, obsfile)
+    for point in [1, 2]:
+
+        obsfile = config.obsfile
+        outdir  = config.outdir
+        outfile = 'out{}.csv'.format(point)
+        pngfile = 'plot_profile{}.png'.format(point)
+
+        plot_profiles(outdir, outfile, pngfile, obsfile)

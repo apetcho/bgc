@@ -179,6 +179,11 @@
       ratio_FA=max(0.0d0,min(ratio_FA,1.0d0))
       ratio_MA=max(0.0d0,min(ratio_MA,1.0d0))
       ratio_DOMf=max(0.0d0,min(ratio_DOMf,1.0d0))
+      KPOMf=max(0.0d0,KPOMf)
+      KPOMs=max(0.0d0,KPOMs)
+      KDOMf=max(0.0d0,KDOMf)
+      KDOMs=max(0.0d0,KDOMs)
+      K06=max(0.0d0,K06)
 !
 !  i-loop
 !
