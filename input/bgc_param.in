@@ -14,9 +14,9 @@
 !     param = $param
 !------------------------------------------------------------------------
 
-      outdir = '/home/work/okada/BGC/output'
-      inifile = '/home/work/okada/BGC/input/rst1.csv',
-                '/home/work/okada/BGC/input/rst2.csv'
+      outdir = '/home/work/okada/Green/tests/2.0/ctl'
+      inifile = '/home/work/okada/Green/input/rst1.csv',
+                '/home/work/okada/Green/input/rst2.csv'
 
 !  Number of iterations
 
@@ -80,10 +80,10 @@
       D0PO4 = 9.76d0       !    (A)
       aPO4  = 0.398d0      !    (A)
 
-      D0DOMf = 3.51908067304 ! 6.39d-1     ! okada
-      aDOMf  = 0.0539848856193  ! 2.44d-2     ! okada
-      D0DOMs = 0.0206907793047 ! 1.32d-2     ! okada
-      aDOMs  = 0.00654111340395  ! 1.62d-3     ! okada
+      D0DOMf = 1.0! 6.39d-1     ! okada
+      aDOMf  = 0.1! 2.44d-2     ! okada
+      D0DOMs = 0.1! 1.32d-2     ! okada
+      aDOMs  = 0.01! 1.62d-3     ! okada
 
 !  Q10 (not to use)
 
@@ -141,12 +141,12 @@
 
 !  Rate constants (uM = mmol m-3 = nmol cm-3)
 
-      KPOMf = 2.51458650657e-06 !2.5d-6       ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
-      KPOMs = 1.73852374559e-09 !6.0d-10      ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-
-      KDOMf = 0.00136574678701 !1.0d-3       ! s-1                 (A)1.0d-3
-      KDOMs = 6.25500022114e-08 !5.4d-8       ! s-1                 (A)5.0d-9
+      KPOMf = 2.5e-06! 2.5d-6       ! s-1      (F)9.6d-6  (A)2.5d-6  (B)2.4d-6 (W)8.7d-7
+      KPOMs = 1.2e-10! 6.0d-10      ! s-1      (F)1.2d-8  (A)1.2d-10 (B)3.0d-9 (W)3.5d-
+      KDOMf = 0.001! 1.0d-3       ! s-1                 (A)1.0d-3
+      KDOMs = 5e-09! 5.4d-8       ! s-1                 (A)5.0d-9
 
-      K06 = 2.5d-7         ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
+      K06 = 2.5e-07! 2.5d-7         ! uM-1 s-1  (F)2.5d-6  (B)(A)2.5d-7
       K07 = 5.0d-14        ! s-1       (F)5.0d-11 (A)5.0d-14
       K08 = 1.7d-9         ! uM-1 s-1  (F)1.7d-8  (A)1.7d-9
       K09 = 1.5d-5         ! uM-1 s-1  (F)(A)1.5d-5
